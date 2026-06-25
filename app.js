@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     
-    const texture = new THREE.Data3DTexture(data, size, size, size);
+    const texture = new THREE.DataTexture3D(data, size, size, size);
     texture.format = THREE.RedFormat;
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
