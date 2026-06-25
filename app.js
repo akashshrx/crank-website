@@ -1,6 +1,9 @@
 /* Crank Landing Page JS */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Global reference to Lenis smooth scroll
+  let lenis = null;
+
   // ==========================================
   // 1. Custom Cursor Tracking (with physics lag)
   // ==========================================
@@ -680,13 +683,15 @@ document.addEventListener('DOMContentLoaded', () => {
     executeNextStep();
   }
 
-  // Bind tabs manually
+  // Bind showcase tabs deck clicks to smoothly scroll via Lenis
   demoCards.forEach(card => {
-    card.addEventListener('click', () => {
-      demoCards.forEach(c => c.classList.remove('active'));
-      card.classList.add('active');
-      const selectedDemo = card.getAttribute('data-demo');
-      runDemo(selectedDemo);
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const stepName = card.getAttribute('data-step');
+      const targetStepElement = document.querySelector(`.scrolly-step[data-step="${stepName}"]`);
+      if (targetStepElement) {
+        lenis.scrollTo(targetStepElement);
+      }
     });
   });
 
@@ -782,7 +787,7 @@ document.addEventListener('DOMContentLoaded', () => {
   gsap.registerPlugin(ScrollTrigger);
 
   // Initialize Lenis smooth scroll
-  const lenis = new Lenis({
+  lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
     direction: 'vertical',
@@ -1011,6 +1016,19 @@ document.addEventListener('DOMContentLoaded', () => {
     steps.forEach(s => s.classList.remove('active'));
     stepElement.classList.add('active');
     
+    // Sync the tabs deck active state
+    const tabs = document.querySelectorAll('.showcase-tabs-deck .sim-tab');
+    if (stepName === 'hero') {
+      tabs.forEach(t => t.classList.remove('active'));
+    } else {
+      tabs.forEach(tab => {
+        if (tab.getAttribute('data-step') === stepName) {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+        }
+      });
+    }
+
     if (activeStep !== stepName) {
       activeStep = stepName;
       transitionSimulatorTo(stepName);

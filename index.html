@@ -29,6 +29,13 @@
     </svg>
   </div>
 
+  <!-- Immersive Floating Clouds (Air.inc visual style) -->
+  <div class="clouds-backdrop" aria-hidden="true">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+  </div>
+
   <!-- Background SVG Grid (Wispr Flow Ornaments) -->
   <div class="grid-backdrop" aria-hidden="true">
     <svg width="100%" height="100%">
@@ -82,6 +89,34 @@
       <!-- Step 1: Hero Intro -->
       <section class="scrolly-step active" data-step="hero">
         <div class="step-content">
+          <!-- Giant 3D Glass Eyeball Logo -->
+          <div class="glass-eyeball-container">
+            <div class="glass-eyeball-sphere">
+              <svg viewBox="0 0 100 100" class="glass-eyeball-svg">
+                <defs>
+                  <radialGradient id="glass-grad" cx="40%" cy="30%" r="70%">
+                    <stop offset="0%" stop-color="rgba(255, 255, 255, 0.85)" />
+                    <stop offset="50%" stop-color="rgba(255, 255, 255, 0.25)" />
+                    <stop offset="90%" stop-color="rgba(255, 255, 255, 0.05)" />
+                    <stop offset="100%" stop-color="rgba(255, 255, 255, 0.0)" />
+                  </radialGradient>
+                  <linearGradient id="highlight-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="rgba(255, 255, 255, 0.9)" />
+                    <stop offset="40%" stop-color="rgba(255, 255, 255, 0.1)" />
+                    <stop offset="100%" stop-color="rgba(255, 255, 255, 0.0)" />
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="45" fill="url(#glass-grad)" stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.5" />
+                <line x1="10" y1="50" x2="90" y2="50" stroke="rgba(255, 255, 255, 0.4)" stroke-width="1" />
+                <g class="eyeball-group" style="transform-origin: 75px 50px;">
+                  <path d="M 58 50 A 17 17 0 0 0 92 50 Z" fill="rgba(255, 255, 255, 0.85)" />
+                  <circle cx="75" cy="50" r="5" fill="#307bf2" />
+                </g>
+                <path d="M 15 35 A 40 40 0 0 1 85 35" fill="none" stroke="url(#highlight-grad)" stroke-width="3" stroke-linecap="round" opacity="0.8" />
+              </svg>
+            </div>
+          </div>
+          
           <h1 class="hero-title">
             Don’t type.<br>Just <em>speak</em> to Crank.
           </h1>
@@ -118,14 +153,6 @@
           <span class="badge">Push-To-Talk</span>
           <h2>Summoned in your notch.</h2>
           <p>Crank hides inside your menu bar and notch. Hold <kbd>⌃</kbd> + <kbd>⌥</kbd> to prompt instantly. A fluid waveform pulses around your notch as it catches your screen-aware commands.</p>
-          
-          <!-- Mini selectors to scrub manually if wanted -->
-          <div class="timeline-quick-tabs">
-            <button class="sim-tab active" data-demo="influencers">🔍 LinkedIn Research</button>
-            <button class="sim-tab" data-demo="error">🛠️ Explain Error</button>
-            <button class="sim-tab" data-demo="calendar">📅 Reschedule Meeting</button>
-            <button class="sim-tab" data-demo="email">✉️ Summarize &amp; Draft</button>
-          </div>
         </div>
       </section>
 
@@ -325,6 +352,14 @@
 
           </div>
         </div>
+      </div>
+
+      <!-- Showcase Interactive Control Deck (Inspired by Air.inc bottom tabs) -->
+      <div class="showcase-tabs-deck">
+        <button class="sim-tab active" data-demo="influencers" data-step="notch-wave">🔍 LinkedIn Research</button>
+        <button class="sim-tab" data-demo="error" data-step="memory-ledger">🛠️ Explain Error</button>
+        <button class="sim-tab" data-demo="calendar" data-step="privacy-filter">📅 Reschedule Meeting</button>
+        <button class="sim-tab" data-demo="email" data-step="setup-guide">✉️ Summarize &amp; Draft</button>
       </div>
 
     </div>
