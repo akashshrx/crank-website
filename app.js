@@ -25,12 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     
+    // Create offscreen canvas for 2D character face drawing
+    const canvas2d = document.createElement('canvas');
+    canvas2d.width = 512;
+    canvas2d.height = 512;
+    const ctx = canvas2d.getContext('2d');
+    
+    // Create Three.js texture from canvas
+    const texture = new THREE.CanvasTexture(canvas2d);
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    
     // Overall eye/orb composite group
     const eyeGroup = new THREE.Group();
     scene.add(eyeGroup);
     
     // 1. Outer transmissive glass shell (Sphere)
-    const glassGeometry = new THREE.SphereGeometry(2.05, 32, 32);
+    const glassGeometry = new THREE.SphereGeometry(2.02, 64, 64);
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
       roughness: 0.05,
@@ -46,56 +57,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const glassShell = new THREE.Mesh(glassGeometry, glassMaterial);
     eyeGroup.add(glassShell);
     
-    // 2. Inner character group
-    const characterGroup = new THREE.Group();
-    eyeGroup.add(characterGroup);
+    // 2. Inner character sphere mapped with CanvasTexture
+    const innerGeometry = new THREE.SphereGeometry(2.0, 64, 64);
     
-    // Standard materials for friendly character surfaces (semi-gloss plastic look)
-    const charcoalMat = new THREE.MeshStandardMaterial({
-      color: 0x121210,
+    // Modify UVs for flat planar projection along the local Z-axis.
+    // Maps x and y from sphere space [-2.0, 2.0] to texture space [0.0, 1.0].
+    const pos = innerGeometry.attributes.position;
+    const uv = innerGeometry.attributes.uv;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      const u = x / 4.0 + 0.5;
+      const v = y / 4.0 + 0.5;
+      uv.setXY(i, u, v);
+    }
+    uv.needsUpdate = true;
+
+    const innerMaterial = new THREE.MeshStandardMaterial({
+      map: texture,
       roughness: 0.35,
       metalness: 0.05
     });
+    const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
+    // Rotate sphere so that texture center (U=0.5) faces the camera exactly
+    innerSphere.rotation.y = 0;
+    eyeGroup.add(innerSphere);
     
-    const creamMat = new THREE.MeshStandardMaterial({
-      color: 0xfcfcf9,
-      roughness: 0.35,
-      metalness: 0.05
-    });
-    
-    // Top Half (Black/Charcoal Hemisphere)
-    const topHemGeo = new THREE.SphereGeometry(2.0, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
-    const topHem = new THREE.Mesh(topHemGeo, charcoalMat);
-    characterGroup.add(topHem);
-    
-    // Bottom Half (White/Cream Hemisphere)
-    const bottomHemGeo = new THREE.SphereGeometry(2.0, 32, 32, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
-    const bottomHem = new THREE.Mesh(bottomHemGeo, creamMat);
-    characterGroup.add(bottomHem);
-    
-    // Equator dividing line (Charcoal Torus)
-    const torusGeo = new THREE.TorusGeometry(2.005, 0.022, 8, 64);
-    const dividingRing = new THREE.Mesh(torusGeo, charcoalMat);
-    dividingRing.rotation.x = Math.PI / 2;
-    characterGroup.add(dividingRing);
-    
-    // 3. Eye Pivot Group (handles pupil sliding along the surface)
-    const eyePivot = new THREE.Group();
-    characterGroup.add(eyePivot);
-    window.eyeballGroup = eyePivot; // Save to window for blinking animation
-    
-    // Pupil (circular dome placed on equator at radius 2.01, merges with black top half to look like a crescent)
-    const pupilGeo = new THREE.SphereGeometry(0.48, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-    const pupilMesh = new THREE.Mesh(pupilGeo, charcoalMat);
-    pupilMesh.position.set(0, 0, 2.005);
-    pupilMesh.rotation.x = Math.PI / 2; // Face outward from surface
-    eyePivot.add(pupilMesh);
-    
-    // Highlight (small white semi-circle / bottom-hemisphere nested inside the pupil)
-    const highlightGeo = new THREE.SphereGeometry(0.12, 16, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
-    const highlightMesh = new THREE.Mesh(highlightGeo, creamMat);
-    highlightMesh.position.set(0.15, -0.06, 2.03); // Nested inside pupil, offset right and slightly down
-    eyePivot.add(highlightMesh);
+    // 2D Drawing function for the Crank Orb face
+    function drawCanvasFace(lookX, lookY, blinkScaleY) {
+      // 1. Clear & Fill background with charcoal
+      ctx.fillStyle = '#121210';
+      ctx.fillRect(0, 0, 512, 512);
+      
+      // 2. Draw white bottom semi-circle (the main eye socket)
+      ctx.fillStyle = '#fcfcf9';
+      ctx.beginPath();
+      ctx.arc(256, 256, 180, 0, Math.PI);
+      ctx.fill();
+      
+      // 3. Draw horizontal dividing line
+      ctx.strokeStyle = '#121210';
+      ctx.lineWidth = 14;
+      ctx.beginPath();
+      ctx.moveTo(256 - 180, 256);
+      ctx.lineTo(256 + 180, 256);
+      ctx.stroke();
+      
+      // 4. Draw thick perimeter border on bottom half
+      ctx.beginPath();
+      ctx.arc(256, 256, 180, 0, Math.PI);
+      ctx.stroke();
+      
+      // 5. Draw Pupil (charcoal crescent)
+      const pupilRadius = 60;
+      const pupilX = 256 + 75 + lookX * 55;
+      const pupilY = 256 - lookY * 12; // Slide vertically
+      
+      ctx.fillStyle = '#121210';
+      ctx.beginPath();
+      ctx.ellipse(pupilX, pupilY, pupilRadius, pupilRadius * blinkScaleY, 0, 0, Math.PI);
+      ctx.fill();
+      
+      // 6. Draw Highlight (white crescent nested inside pupil)
+      const highlightRadius = 16;
+      const highlightX = pupilX + 22;
+      const highlightY = pupilY - 4; // Shift up slightly relative to pupil center
+      
+      ctx.fillStyle = '#fcfcf9';
+      ctx.beginPath();
+      ctx.ellipse(highlightX, highlightY, highlightRadius, highlightRadius * blinkScaleY, 0, 0, Math.PI);
+      ctx.fill();
+    }
     
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -124,21 +156,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     window.webglOrbMaterial = glassMaterial;
     
+    // Global eyeball tracking coordinates
+    window.webglOrbLook = {
+      x: 0,
+      y: 0,
+      blinkScaleY: 1.0
+    };
+    
     // Position tracking variables
     let swayX = 0;
     let swayY = 0;
     let targetSwayX = 0;
     let targetSwayY = 0;
     
-    // Look-at rotation settings
-    const neutralRotY = 0.55; // Look right
-    const neutralRotX = -0.12; // Look slightly down
-    
-    let currentRotY = neutralRotY;
-    let currentRotX = neutralRotX;
-    
     // Mouse coords mapper
     const targetLook = new THREE.Vector2(0, 0);
+    const currentLook = new THREE.Vector2(0, 0);
     
     window.addEventListener('mousemove', (e) => {
       const normX = (e.clientX / window.innerWidth) * 2 - 1;
@@ -185,17 +218,14 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Rotate outer elements slowly
       glassShell.rotation.y = time * 0.025;
-      dividingRing.rotation.z = time * 0.015;
       
       // Look-at sliding interpolation (pupil slides smoothly towards cursor)
-      const targetRotY = neutralRotY + targetLook.x * 0.55;
-      const targetRotX = neutralRotX - targetLook.y * 0.35;
+      currentLook.x += (targetLook.x - currentLook.x) * 0.08;
+      currentLook.y += (targetLook.y - currentLook.y) * 0.08;
       
-      currentRotY += (targetRotY - currentRotY) * 0.08;
-      currentRotX += (targetRotX - currentRotX) * 0.08;
-      
-      eyePivot.rotation.y = currentRotY;
-      eyePivot.rotation.x = currentRotX;
+      // Redraw offscreen canvas and notify Three.js texture to update
+      drawCanvasFace(currentLook.x, currentLook.y, window.webglOrbLook.blinkScaleY);
+      texture.needsUpdate = true;
       
       // Orbit light sources
       light1.position.x = Math.sin(time * 0.4) * 6;
@@ -1351,10 +1381,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 250); // Match animation duration
     });
     
-    // Blink the 3D WebGL eyeball in sync
-    if (window.eyeballGroup && typeof gsap !== 'undefined') {
-      gsap.to(window.eyeballGroup.scale, {
-        y: 0.05,
+    // Blink the 3D WebGL eyeball in sync (canvas texture)
+    if (window.webglOrbLook && typeof gsap !== 'undefined') {
+      gsap.to(window.webglOrbLook, {
+        blinkScaleY: 0.05,
         duration: 0.12,
         yoyo: true,
         repeat: 1,
