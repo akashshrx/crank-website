@@ -1051,4 +1051,23 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // ==========================================
+  // 8. Eyeball Blink Animation Controller
+  // ==========================================
+  function triggerBlinks() {
+    const eyeballs = document.querySelectorAll('.eyeball-group');
+    eyeballs.forEach(eye => {
+      eye.classList.add('blink');
+      setTimeout(() => {
+        eye.classList.remove('blink');
+      }, 250); // Match animation duration
+    });
+    
+    // Schedule next blink between 7 and 12 seconds
+    const randomDelay = Math.random() * (12000 - 7000) + 7000;
+    setTimeout(triggerBlinks, randomDelay);
+  }
+  // Start the blink scheduler
+  setTimeout(triggerBlinks, 4000);
 });
