@@ -1,6 +1,6 @@
-# Brand Memory — Wispr Flow & Caret
+# Brand Memory — Wispr Flow & Crank
 
-This document captures the brand assets, design philosophy, and typography hierarchy extracted from `https://wisprflow.ai/` to align Caret's visual presence with modern, premium editorial design standards.
+This document captures the brand assets, design philosophy, and typography hierarchy extracted from `https://wisprflow.ai/` to align Crank's visual presence with modern, premium editorial design standards.
 
 ---
 
@@ -34,8 +34,8 @@ Rather than typical cyber-neon sci-fi glowing colors, the brand focuses on warm,
 
 ---
 
-## 🛠️ Application to Caret Landing Page
-To adapt Caret to this premium brand standard:
+## 🛠️ Application to Crank Landing Page
+To adapt Crank to this premium brand standard:
 1.  **Typography Swap:** Load `EB Garamond` and `Figtree` from Google Fonts. Change headers to EB Garamond and buttons/body text to Figtree.
 2.  **Color Alignment:** Swap neon gradients for warm off-black backdrops and a deep forest-green/teal active highlight color.
 3.  **Visual Asset:** Incorporate a wave curve representing voice translation directly inside the mock desktop screen or hero background.

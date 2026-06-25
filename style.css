@@ -1,4 +1,4 @@
-/* Caret Landing Page Styling */
+/* Crank Landing Page Styling */
 /* Inspired by the brand architecture, serif-sans contrast, and warm cream light-mode palette of Wispr Flow (wisprflow.ai) */
 
 /* Cascade Layers Definition */
@@ -159,7 +159,7 @@
   }
 
   /* Custom Cursor Styling */
-  .caret-cursor {
+  .crank-cursor {
     position: fixed;
     top: 0;
     left: 0;
@@ -174,7 +174,7 @@
     display: none;
   }
 
-  .caret-cursor svg {
+  .crank-cursor svg {
     fill: var(--color-primary);
     stroke: #ffffff;
     stroke-width: 1.5px;
@@ -185,7 +185,7 @@
     body {
       cursor: none;
     }
-    .caret-cursor {
+    .crank-cursor {
       display: block;
     }
     input, textarea, select {
@@ -1519,7 +1519,7 @@
 
 @layer utilities {
   @media (pointer: coarse) {
-    .caret-cursor {
+    .crank-cursor {
       display: none !important;
     }
     body {

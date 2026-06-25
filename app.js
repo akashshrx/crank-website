@@ -1,4 +1,4 @@
-/* Caret Landing Page JS */
+/* Crank Landing Page JS */
 
 document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `,
       steps: [
         {
-          text: "Let's find tech influencers in San Francisco. Hold Control + Option to summon Caret...",
+          text: "Let's find tech influencers in San Francisco. Hold Control + Option to summon Crank...",
           notchState: "Listening...",
           notchActive: true,
           duration: 2500,
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         },
         {
-          text: '"Caret, find me 10 micro-influencers in tech on LinkedIn and summarize them."',
+          text: '"Crank, find me 10 micro-influencers in tech on LinkedIn and summarize them."',
           notchState: "Thinking...",
           duration: 3000,
           action: (resolve) => {
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `,
       steps: [
         {
-          text: "You see an error in the terminal. Let's ask Caret to look at the screen.",
+          text: "You see an error in the terminal. Let's ask Crank to look at the screen.",
           notchState: "Listening...",
           notchActive: true,
           duration: 2500,
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         },
         {
-          text: '"Caret, explain this build error and help me fix it in my editor."',
+          text: '"Crank, explain this build error and help me fix it in my editor."',
           notchState: "Thinking...",
           duration: 3500,
           action: (resolve) => {
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="calendar-event">
             <div style="font-weight: 600;">1:00 PM — Design Review</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Caret Webpage Wireframes</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">Crank Webpage Wireframes</div>
           </div>
         </div>
       `,
@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         },
         {
-          text: '"Caret, look at my day tomorrow and reschedule the 10am to 3pm."',
+          text: '"Crank, look at my day tomorrow and reschedule the 10am to 3pm."',
           notchState: "Thinking...",
           duration: 3000,
           action: (resolve) => {
@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div class="calendar-event modified">
                   <div style="font-weight: 600;">3:00 PM — Sync with Thomas</div>
-                  <div style="font-size: 0.75rem; color: var(--text-muted);">Moved via Caret</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Moved via Crank</div>
                 </div>
               </div>
             `;
@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `,
       steps: [
         {
-          text: "Summoning Caret to summarize and write response drafts...",
+          text: "Summoning Crank to summarize and write response drafts...",
           notchState: "Listening...",
           notchActive: true,
           duration: 2500,
@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         },
         {
-          text: '"Caret, summarize my unread email from Priya and draft replies."',
+          text: '"Crank, summarize my unread email from Priya and draft replies."',
           notchState: "Thinking...",
           duration: 3000,
           action: (resolve) => {
@@ -768,9 +768,9 @@ document.addEventListener('DOMContentLoaded', () => {
       content: "Thomas is the engineering lead for Composio. We need to ping him about calendar OAuth tokens."
     },
     {
-      keywords: ['project', 'caret', 'spec', 'version'],
+      keywords: ['project', 'crank', 'spec', 'version'],
       meta: "Found yesterday in local directory",
-      content: "Project Caret spec version 0.1 draft completed. Needs marketing landing page."
+      content: "Project Crank spec version 0.1 draft completed. Needs marketing landing page."
     },
     {
       keywords: ['clicky', 'competitor', 'pricing'],
@@ -780,7 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       keywords: ['akash', 'author', 'contact'],
       meta: "Found 1 week ago in Contacts",
-      content: "Akash is the product lead for Caret app. Contact him at akash@caret.ai."
+      content: "Akash is the product lead for Crank app. Contact him at akash@crank.ai."
     }
   ];
 
