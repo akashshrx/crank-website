@@ -7,13 +7,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // Three.js WebGL Interactive Background Orb
   // ==========================================
+  // ==========================================
+  // Three.js WebGL Interactive Background Atmosphere (Skybox & Clouds)
+  // ==========================================
   const canvas = document.getElementById('webgl-canvas');
   if (canvas && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
     
     // Camera
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.z = 8;
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 10);
     
     // Renderer
     const renderer = new THREE.WebGLRenderer({
@@ -24,139 +27,234 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.8;
     
-    // Create offscreen canvas for 2D character face drawing
-    const canvas2d = document.createElement('canvas');
-    canvas2d.width = 512;
-    canvas2d.height = 512;
-    const ctx = canvas2d.getContext('2d');
+    // 1. Procedural Skybox (THREE.Sky)
+    let sky = null;
+    if (typeof THREE.Sky !== 'undefined') {
+      sky = new THREE.Sky();
+      sky.scale.setScalar(450000);
+      scene.add(sky);
+      
+      const skyUniforms = sky.material.uniforms;
+      skyUniforms['turbidity'].value = 10;
+      skyUniforms['rayleigh'].value = 3;
+      skyUniforms['mieCoefficient'].value = 0.005;
+      skyUniforms['mieDirectionalG'].value = 0.7;
+      
+      // Luxurious warm golden-hour sun coordinates
+      const sun = new THREE.Vector3();
+      const elevation = 1.8; // low on horizon
+      const azimuth = 180;
+      const phi = THREE.MathUtils.degToRad(90 - elevation);
+      const theta = THREE.MathUtils.degToRad(azimuth);
+      sun.setFromSphericalCoords(1, phi, theta);
+      skyUniforms['sunPosition'].value.copy(sun);
+    }
     
-    // Create Three.js texture from canvas
-    const texture = new THREE.CanvasTexture(canvas2d);
+    // 2. High-Performance 3D Perlin Noise Texture Generation
+    const size = 64;
+    const data = new Uint8Array(size * size * size);
+    let i = 0;
+    const scale = 0.09;
+    const perlin = new THREE.ImprovedNoise();
+    const vector = new THREE.Vector3();
+    
+    for (let z = 0; z < size; z++) {
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          const dx = x - size / 2;
+          const dy = y - size / 2;
+          const dz = z - size / 2;
+          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz) / (size / 2);
+          const falloff = Math.max(0.0, 1.0 - dist);
+          
+          const n = perlin.noise(x * scale, y * scale * 1.5, z * scale);
+          data[i] = Math.floor((n * 128 + 128) * falloff * falloff);
+          i++;
+        }
+      }
+    }
+    
+    const texture = new THREE.Data3DTexture(data, size, size, size);
+    texture.format = THREE.RedFormat;
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.wrapR = THREE.RepeatWrapping;
+    texture.unpackAlignment = 1;
+    texture.needsUpdate = true;
     
-    // Overall eye/orb composite group
-    const eyeGroup = new THREE.Group();
-    scene.add(eyeGroup);
+    // 3. Volumetric Cloud Shaders (WebGL2 GLSL3)
+    const vertexShader = `
+      in vec3 position;
+      uniform mat4 modelMatrix;
+      uniform mat4 modelViewMatrix;
+      uniform mat4 projectionMatrix;
+      uniform vec3 cameraPos;
+      out vec3 vOrigin;
+      out vec3 vDirection;
+      void main() {
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+        vOrigin = vec3(inverse(modelMatrix) * vec4(cameraPos, 1.0)).xyz;
+        vDirection = position - vOrigin;
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `;
     
-    // 1. Outer transmissive glass shell (Sphere)
-    const glassGeometry = new THREE.SphereGeometry(2.02, 64, 64);
-    const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xffffff,
-      roughness: 0.05,
-      metalness: 0.02,
-      transmission: 0.95,
-      thickness: 1.5,
-      ior: 1.5,
-      reflectivity: 0.5,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.05,
-      side: THREE.DoubleSide
+    const fragmentShader = `
+      precision highp float;
+      precision highp sampler3D;
+      uniform mat4 modelViewMatrix;
+      uniform mat4 projectionMatrix;
+      in vec3 vOrigin;
+      in vec3 vDirection;
+      out vec4 color;
+      uniform vec3 base;
+      uniform sampler3D map;
+      uniform float threshold;
+      uniform float range;
+      uniform float opacity;
+      uniform float steps;
+      uniform float frame;
+      uniform vec3 noiseOffset;
+      
+      uint wang_hash(uint seed) {
+        seed = (seed ^ 61u) ^ (seed >> 16u);
+        seed *= 9u;
+        seed = seed ^ (seed >> 4u);
+        seed *= 0x27d4eb2du;
+        seed = seed ^ (seed >> 15u);
+        return seed;
+      }
+      
+      float randomFloat(inout uint seed) {
+        return float(wang_hash(seed)) / 4294967296.;
+      }
+      
+      vec2 hitBox(vec3 orig, vec3 dir) {
+        const vec3 box_min = vec3(-0.5);
+        const vec3 box_max = vec3(0.5);
+        vec3 inv_dir = 1.0 / dir;
+        vec3 tmin_tmp = (box_min - orig) * inv_dir;
+        vec3 tmax_tmp = (box_max - orig) * inv_dir;
+        vec3 tmin = min(tmin_tmp, tmax_tmp);
+        vec3 tmax = max(tmin_tmp, tmax_tmp);
+        float t0 = max(tmin.x, max(tmin.y, tmin.z));
+        float t1 = min(tmax.x, min(tmax.y, tmax.z));
+        return vec2(t0, t1);
+      }
+      
+      float sample1(vec3 p) {
+        return texture(map, p).r;
+      }
+      
+      float shading(vec3 coord) {
+        float step = 0.01;
+        return sample1(coord + vec3(-step)) - sample1(coord + vec3(step));
+      }
+      
+      vec4 linearToSRGB(in vec4 value) {
+        return vec4(mix(pow(value.rgb, vec3(0.41666)) * 1.055 - vec3(0.055), value.rgb * 12.92, vec3(lessThanEqual(value.rgb, vec3(0.0031308)))), value.a);
+      }
+      
+      void main() {
+        vec3 rayDir = normalize(vDirection);
+        vec2 bounds = hitBox(vOrigin, rayDir);
+        if (bounds.x > bounds.y) discard;
+        bounds.x = max(bounds.x, 0.0);
+        float stepSize = (bounds.y - bounds.x) / steps;
+        
+        uint seed = uint(gl_FragCoord.x) * uint(1973) + uint(gl_FragCoord.y) * uint(9277) + uint(frame) * uint(26699);
+        vec3 size = vec3(textureSize(map, 0));
+        float randNum = randomFloat(seed) * 2.0 - 1.0;
+        vec3 p = vOrigin + bounds.x * rayDir;
+        p += rayDir * randNum * (1.0 / size);
+        
+        vec4 ac = vec4(base, 0.0);
+        for (float i = 0.0; i < steps; i += 1.0) {
+          float t = bounds.x + i * stepSize;
+          float d = sample1(p + 0.5 + noiseOffset);
+          d = smoothstep(threshold - range, threshold + range, d) * opacity;
+          float col = shading(p + 0.5 + noiseOffset) * 3.0 + ((p.x + p.y) * 0.25) + 0.2;
+          ac.rgb += (1.0 - ac.a) * d * col;
+          ac.a += (1.0 - ac.a) * d;
+          if (ac.a >= 0.95) break;
+          p += rayDir * stepSize;
+        }
+        color = linearToSRGB(ac);
+        if (color.a == 0.0) discard;
+      }
+    `;
+    
+    // 4. Create Cloud Group and Cloud Instances
+    const cloudGroup = new THREE.Group();
+    scene.add(cloudGroup);
+    
+    const cloudConfigs = [
+      { pos: [3.5, 1.5, -2], scale: [7, 1.2, 3], driftSpeed: 0.012, opacity: 0.16 },
+      { pos: [-4.5, -0.8, 1], scale: [6, 1.0, 2.5], driftSpeed: 0.008, opacity: 0.18 },
+      { pos: [2.0, -2.5, -1], scale: [8, 1.4, 3.5], driftSpeed: 0.015, opacity: 0.14 },
+      { pos: [-3.0, 2.5, -3], scale: [5, 0.9, 2], driftSpeed: 0.010, opacity: 0.15 }
+    ];
+    
+    const cloudMeshes = [];
+    const cloudGeometry = new THREE.BoxGeometry(1, 1, 1);
+    
+    cloudConfigs.forEach((config) => {
+      const material = new THREE.RawShaderMaterial({
+        glslVersion: THREE.GLSL3,
+        uniforms: {
+          base: { value: new THREE.Color(0xfcfcf9) }, // matching warm cream
+          map: { value: texture },
+          cameraPos: { value: new THREE.Vector3() },
+          threshold: { value: 0.25 },
+          opacity: { value: config.opacity },
+          range: { value: 0.15 },
+          steps: { value: 25.0 }, // optimized 25 steps for buttery smooth experience
+          frame: { value: 0 },
+          noiseOffset: { value: new THREE.Vector3(Math.random() * 10, Math.random() * 10, Math.random() * 10) }
+        },
+        vertexShader,
+        fragmentShader,
+        side: THREE.BackSide,
+        transparent: true,
+        depthWrite: false
+      });
+      
+      const mesh = new THREE.Mesh(cloudGeometry, material);
+      mesh.position.set(config.pos[0], config.pos[1], config.pos[2]);
+      mesh.scale.set(config.scale[0], config.scale[1], config.scale[2]);
+      cloudGroup.add(mesh);
+      
+      cloudMeshes.push({
+        mesh: mesh,
+        material: material,
+        driftSpeed: config.driftSpeed,
+        baseOpacity: config.opacity
+      });
     });
-    const glassShell = new THREE.Mesh(glassGeometry, glassMaterial);
-    eyeGroup.add(glassShell);
-    
-    // 2. Inner character sphere mapped with CanvasTexture
-    const innerGeometry = new THREE.SphereGeometry(2.0, 64, 64);
-    
-    // Modify UVs for flat planar projection along the local Z-axis.
-    // Maps x and y from sphere space [-2.0, 2.0] to texture space [0.0, 1.0].
-    const pos = innerGeometry.attributes.position;
-    const uv = innerGeometry.attributes.uv;
-    for (let i = 0; i < pos.count; i++) {
-      const x = pos.getX(i);
-      const y = pos.getY(i);
-      const u = x / 4.0 + 0.5;
-      const v = y / 4.0 + 0.5;
-      uv.setXY(i, u, v);
-    }
-    uv.needsUpdate = true;
-
-    const innerMaterial = new THREE.MeshStandardMaterial({
-      map: texture,
-      roughness: 0.35,
-      metalness: 0.05
-    });
-    const innerSphere = new THREE.Mesh(innerGeometry, innerMaterial);
-    // Rotate sphere so that texture center (U=0.5) faces the camera exactly
-    innerSphere.rotation.y = 0;
-    eyeGroup.add(innerSphere);
-    
-    // 2D Drawing function for the Crank Orb face
-    function drawCanvasFace(lookX, lookY, blinkScaleY) {
-      // 1. Clear & Fill background with charcoal
-      ctx.fillStyle = '#121210';
-      ctx.fillRect(0, 0, 512, 512);
-      
-      // 2. Draw white bottom semi-circle (the main eye socket)
-      ctx.fillStyle = '#fcfcf9';
-      ctx.beginPath();
-      ctx.arc(256, 256, 180, 0, Math.PI);
-      ctx.fill();
-      
-      // 3. Draw horizontal dividing line
-      ctx.strokeStyle = '#121210';
-      ctx.lineWidth = 14;
-      ctx.beginPath();
-      ctx.moveTo(256 - 180, 256);
-      ctx.lineTo(256 + 180, 256);
-      ctx.stroke();
-      
-      // 4. Draw thick perimeter border on bottom half
-      ctx.beginPath();
-      ctx.arc(256, 256, 180, 0, Math.PI);
-      ctx.stroke();
-      
-      // 5. Draw Pupil (charcoal crescent)
-      const pupilRadius = 60;
-      const pupilX = 256 + 75 + lookX * 55;
-      const pupilY = 256 - lookY * 12; // Slide vertically
-      
-      ctx.fillStyle = '#121210';
-      ctx.beginPath();
-      ctx.ellipse(pupilX, pupilY, pupilRadius, pupilRadius * blinkScaleY, 0, 0, Math.PI);
-      ctx.fill();
-      
-      // 6. Draw Highlight (white crescent nested inside pupil)
-      const highlightRadius = 16;
-      const highlightX = pupilX + 22;
-      const highlightY = pupilY - 4; // Shift up slightly relative to pupil center
-      
-      ctx.fillStyle = '#fcfcf9';
-      ctx.beginPath();
-      ctx.ellipse(highlightX, highlightY, highlightRadius, highlightRadius * blinkScaleY, 0, 0, Math.PI);
-      ctx.fill();
-    }
-    
-    // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
-    dirLight.position.set(0, 10, 5);
-    scene.add(dirLight);
-    
-    const light1 = new THREE.PointLight(0x2a7f76, 3, 20); // Emerald green
-    light1.position.set(5, 5, 5);
-    scene.add(light1);
-    
-    const light2 = new THREE.PointLight(0xa87920, 2.5, 20); // Ochre gold
-    light2.position.set(-5, -5, 5);
-    scene.add(light2);
     
     // Global properties that we animate via GSAP on transitions
     window.webglOrb = {
-      baseX: 2.0,
-      baseY: 0.2,
+      baseX: 0.0,
+      baseY: 0.0,
       baseZ: 0.0,
       scaleX: 1.0,
       scaleY: 1.0,
       scaleZ: 1.0
     };
-    window.webglOrbMaterial = glassMaterial;
     
-    // Global eyeball tracking coordinates
+    // Dummy reference to avoid GSAP errors in transitionSimulatorTo
+    window.webglOrbMaterial = {
+      roughness: 0.15,
+      thickness: 1.5,
+      transmission: 0.9
+    };
+    
+    // Eyeball blink tracking object (repurposed for subtle sunset brightness pulsing)
     window.webglOrbLook = {
       x: 0,
       y: 0,
@@ -169,21 +267,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let targetSwayX = 0;
     let targetSwayY = 0;
     
-    // Mouse coords mapper
-    const targetLook = new THREE.Vector2(0, 0);
-    const currentLook = new THREE.Vector2(0, 0);
-    
     window.addEventListener('mousemove', (e) => {
       const normX = (e.clientX / window.innerWidth) * 2 - 1;
       const normY = -(e.clientY / window.innerHeight) * 2 + 1;
       
-      // Target position for overall group sway
-      targetSwayX = normX * 1.2;
+      // Target position for camera sway
+      targetSwayX = normX * 1.5;
       targetSwayY = normY * 1.2;
-      
-      // Target offset for eyeball look-at
-      targetLook.x = normX;
-      targetLook.y = normY;
     });
     
     // Window Resize handler
@@ -200,41 +290,51 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const time = Date.now() * 0.001;
       
-      // Interpolate general mesh sway
-      swayX += (targetSwayX - swayX) * 0.07;
-      swayY += (targetSwayY - swayY) * 0.07;
+      // Interpolate camera sway
+      swayX += (targetSwayX - swayX) * 0.05;
+      swayY += (targetSwayY - swayY) * 0.05;
       
-      // Slow organic float cycle
-      const floatX = Math.cos(time * 1.0) * 0.08;
-      const floatY = Math.sin(time * 1.5) * 0.12;
+      camera.position.x = swayX;
+      camera.position.y = swayY;
+      camera.lookAt(0, 0, 0);
       
-      // Apply base coordinates + sway + float
-      eyeGroup.position.x = window.webglOrb.baseX + swayX + floatX;
-      eyeGroup.position.y = window.webglOrb.baseY + swayY + floatY;
-      eyeGroup.position.z = window.webglOrb.baseZ;
+      // Apply scroll-linked Y parallax translation to cloud group
+      const scrollY = window.scrollY || window.pageYOffset;
+      const targetGroupY = window.webglOrb.baseY + scrollY * 0.004;
+      cloudGroup.position.y += (targetGroupY - cloudGroup.position.y) * 0.1;
       
-      // Apply base scale
-      eyeGroup.scale.set(window.webglOrb.scaleX, window.webglOrb.scaleY, window.webglOrb.scaleZ);
+      // Apply GSAP transition coordinates (from window.webglOrb) to cloudGroup
+      cloudGroup.position.x += (window.webglOrb.baseX - cloudGroup.position.x) * 0.1;
+      cloudGroup.scale.set(window.webglOrb.scaleX, window.webglOrb.scaleY, window.webglOrb.scaleZ);
       
-      // Rotate outer elements slowly
-      glassShell.rotation.y = time * 0.025;
+      // Subtle sun/sky blink pulse (reduces exposure slightly when winking)
+      renderer.toneMappingExposure = 0.8 * (0.85 + 0.15 * window.webglOrbLook.blinkScaleY);
       
-      // Look-at sliding interpolation (pupil slides smoothly towards cursor)
-      currentLook.x += (targetLook.x - currentLook.x) * 0.08;
-      currentLook.y += (targetLook.y - currentLook.y) * 0.08;
-      
-      // Redraw offscreen canvas and notify Three.js texture to update
-      drawCanvasFace(currentLook.x, currentLook.y, window.webglOrbLook.blinkScaleY);
-      texture.needsUpdate = true;
-      
-      // Orbit light sources
-      light1.position.x = Math.sin(time * 0.4) * 6;
-      light1.position.y = Math.cos(time * 0.5) * 6;
-      light1.position.z = Math.sin(time * 0.3) * 6;
-      
-      light2.position.x = Math.cos(time * 0.3) * 6;
-      light2.position.y = Math.sin(time * 0.4) * 6;
-      light2.position.z = Math.cos(time * 0.5) * 6;
+      // Animate cloud drift and dynamic morphing
+      cloudMeshes.forEach((cloud) => {
+        // Horizontal drift
+        cloud.mesh.position.x += cloud.driftSpeed * 0.2;
+        if (cloud.mesh.position.x > 12.0) {
+          cloud.mesh.position.x = -12.0;
+        }
+        
+        // Dynamic noise morphing over time
+        cloud.material.uniforms.noiseOffset.value.x += 0.0002;
+        cloud.material.uniforms.noiseOffset.value.y += 0.0001;
+        
+        // Update model-view matrix uniforms
+        cloud.material.uniforms.cameraPos.value.copy(camera.position);
+        cloud.material.uniforms.frame.value++;
+        
+        // Apply GSAP transition factors to each cloud material dynamically
+        if (window.webglOrbMaterial) {
+          const transFactor = window.webglOrbMaterial.transmission / 0.9;
+          cloud.material.uniforms.opacity.value = cloud.baseOpacity * transFactor;
+          
+          const roughFactor = (window.webglOrbMaterial.roughness - 0.15) * 0.2;
+          cloud.material.uniforms.threshold.value = 0.25 + roughFactor;
+        }
+      });
       
       renderer.render(scene, camera);
     }
