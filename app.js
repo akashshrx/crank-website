@@ -776,8 +776,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 6. SCROLL-LINKED NARRATIVE CONTROLLER
+  // 6. SCROLL-LINKED NARRATIVE CONTROLLER (GSAP + Lenis)
   // ==========================================
+  // Register GSAP ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Initialize Lenis smooth scroll
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    mouseMultiplier: 1,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    infinite: false,
+  });
+
+  // Link Lenis scroll to ScrollTrigger
+  lenis.on('scroll', ScrollTrigger.update);
+
+  // Hook Lenis into GSAP ticker
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+
+  // Turn off GSAP lag smoothing to keep scrolling locked
+  gsap.ticker.lagSmoothing(0);
+
   const steps = document.querySelectorAll('.scrolly-step');
   
   let activeStep = 'hero';
@@ -963,29 +990,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Setup step observer to bind scroll intersections to simulator steps
-  const observerOptions = {
-    root: null,
-    rootMargin: '-30% 0px -40% 0px', // focused viewport zone
-    threshold: 0
-  };
-
-  const stepObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const stepName = entry.target.getAttribute('data-step');
-        steps.forEach(s => s.classList.remove('active'));
-        entry.target.classList.add('active');
-        
-        if (activeStep !== stepName) {
-          activeStep = stepName;
-          transitionSimulatorTo(stepName);
-        }
+  // Setup GSAP ScrollTrigger for each scrolly step
+  steps.forEach((stepElement) => {
+    const stepName = stepElement.getAttribute('data-step');
+    
+    ScrollTrigger.create({
+      trigger: stepElement,
+      start: 'top 50%',
+      end: 'bottom 50%',
+      onEnter: () => {
+        activateStep(stepName, stepElement);
+      },
+      onEnterBack: () => {
+        activateStep(stepName, stepElement);
       }
     });
-  }, observerOptions);
+  });
 
-  steps.forEach(step => stepObserver.observe(step));
+  function activateStep(stepName, stepElement) {
+    steps.forEach(s => s.classList.remove('active'));
+    stepElement.classList.add('active');
+    
+    if (activeStep !== stepName) {
+      activeStep = stepName;
+      transitionSimulatorTo(stepName);
+    }
+  }
 
   // ==========================================
   // 7. Download Trigger & Scroll Setup Guide
@@ -995,6 +1025,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   downloadLinks.forEach(link => {
     link.addEventListener('click', (e) => {
+      e.preventDefault();
       // Show download started toast
       downloadToast.classList.add('show');
       
@@ -1003,12 +1034,20 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadToast.classList.remove('show');
       }, 5000);
 
-      // Smoothly scroll to the setup step section
-      const setupSection = document.getElementById('setup');
-      if (setupSection) {
-        setTimeout(() => {
-          setupSection.scrollIntoView({ behavior: 'smooth' });
-        }, 300);
+      // Smoothly scroll to the setup step section using Lenis
+      setTimeout(() => {
+        lenis.scrollTo('#setup');
+      }, 300);
+    });
+  });
+
+  // Smooth scroll for nav links using Lenis
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = this.getAttribute('href');
+      if (target && target !== '#') {
+        lenis.scrollTo(target);
       }
     });
   });
