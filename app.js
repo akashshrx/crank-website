@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.add(eyeGroup);
     
     // 1. Outer transmissive glass shell (Sphere)
-    const glassGeometry = new THREE.SphereGeometry(2, 32, 32);
+    const glassGeometry = new THREE.SphereGeometry(2.05, 32, 32);
     const glassMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
-      roughness: 0.1,
+      roughness: 0.05,
       metalness: 0.02,
       transmission: 0.95,
       thickness: 1.5,
@@ -46,30 +46,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const glassShell = new THREE.Mesh(glassGeometry, glassMaterial);
     eyeGroup.add(glassShell);
     
-    // 2. Horizontal dividing ring (the eye line)
-    const torusGeometry = new THREE.TorusGeometry(2.015, 0.035, 8, 64);
-    const darkMaterial = new THREE.MeshBasicMaterial({ color: 0x121210 });
-    const dividingRing = new THREE.Mesh(torusGeometry, darkMaterial);
-    dividingRing.rotation.x = Math.PI / 2; // Lay flat horizontally
-    eyeGroup.add(dividingRing);
+    // 2. Inner character group
+    const characterGroup = new THREE.Group();
+    eyeGroup.add(characterGroup);
     
-    // 3. Inner eyeball group (pupil + highlight) that will track cursor
-    const eyeballGroup = new THREE.Group();
-    eyeGroup.add(eyeballGroup);
-    window.eyeballGroup = eyeballGroup; // Save to window for blinking sync
+    // Standard materials for friendly character surfaces (semi-gloss plastic look)
+    const charcoalMat = new THREE.MeshStandardMaterial({
+      color: 0x121210,
+      roughness: 0.35,
+      metalness: 0.05
+    });
     
-    // The pupil (dark sphere inside, pushed slightly forward)
-    const pupilGeometry = new THREE.SphereGeometry(0.68, 32, 32);
-    const pupilMesh = new THREE.Mesh(pupilGeometry, darkMaterial);
-    pupilMesh.position.set(0, 0, 0.5);
-    eyeballGroup.add(pupilMesh);
+    const creamMat = new THREE.MeshStandardMaterial({
+      color: 0xfcfcf9,
+      roughness: 0.35,
+      metalness: 0.05
+    });
     
-    // The highlight (small white sphere on the pupil, offset to the right and top)
-    const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xfcfcf9 });
-    const highlightGeometry = new THREE.SphereGeometry(0.13, 16, 16);
-    const highlightMesh = new THREE.Mesh(highlightGeometry, whiteMaterial);
-    highlightMesh.position.set(0.24, 0.24, 1.1);
-    eyeballGroup.add(highlightMesh);
+    // Top Half (Black/Charcoal Hemisphere)
+    const topHemGeo = new THREE.SphereGeometry(2.0, 32, 32, 0, Math.PI * 2, 0, Math.PI / 2);
+    const topHem = new THREE.Mesh(topHemGeo, charcoalMat);
+    characterGroup.add(topHem);
+    
+    // Bottom Half (White/Cream Hemisphere)
+    const bottomHemGeo = new THREE.SphereGeometry(2.0, 32, 32, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+    const bottomHem = new THREE.Mesh(bottomHemGeo, creamMat);
+    characterGroup.add(bottomHem);
+    
+    // Equator dividing line (Charcoal Torus)
+    const torusGeo = new THREE.TorusGeometry(2.005, 0.022, 8, 64);
+    const dividingRing = new THREE.Mesh(torusGeo, charcoalMat);
+    dividingRing.rotation.x = Math.PI / 2;
+    characterGroup.add(dividingRing);
+    
+    // 3. Eye Pivot Group (handles pupil sliding along the surface)
+    const eyePivot = new THREE.Group();
+    characterGroup.add(eyePivot);
+    window.eyeballGroup = eyePivot; // Save to window for blinking animation
+    
+    // Pupil (circular dome placed on equator at radius 2.01, merges with black top half to look like a crescent)
+    const pupilGeo = new THREE.SphereGeometry(0.48, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+    const pupilMesh = new THREE.Mesh(pupilGeo, charcoalMat);
+    pupilMesh.position.set(0, 0, 2.005);
+    pupilMesh.rotation.x = Math.PI / 2; // Face outward from surface
+    eyePivot.add(pupilMesh);
+    
+    // Highlight (small white semi-circle / bottom-hemisphere nested inside the pupil)
+    const highlightGeo = new THREE.SphereGeometry(0.12, 16, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
+    const highlightMesh = new THREE.Mesh(highlightGeo, creamMat);
+    highlightMesh.position.set(0.15, -0.06, 2.03); // Nested inside pupil, offset right and slightly down
+    eyePivot.add(highlightMesh);
     
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -104,9 +130,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let targetSwayX = 0;
     let targetSwayY = 0;
     
-    // Normalized 3D eyeball tracking coordinates
-    const currentLook = new THREE.Vector3(0, 0, 3);
-    const targetLook = new THREE.Vector3(0, 0, 3);
+    // Look-at rotation settings
+    const neutralRotY = 0.55; // Look right
+    const neutralRotX = -0.12; // Look slightly down
+    
+    let currentRotY = neutralRotY;
+    let currentRotX = neutralRotX;
+    
+    // Mouse coords mapper
+    const targetLook = new THREE.Vector2(0, 0);
     
     window.addEventListener('mousemove', (e) => {
       const normX = (e.clientX / window.innerWidth) * 2 - 1;
@@ -116,10 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
       targetSwayX = normX * 1.2;
       targetSwayY = normY * 1.2;
       
-      // Target position for 3D look-at tracking
-      targetLook.x = normX * 3.5;
-      targetLook.y = normY * 3.5;
-      targetLook.z = 3.5;
+      // Target offset for eyeball look-at
+      targetLook.x = normX;
+      targetLook.y = normY;
     });
     
     // Window Resize handler
@@ -153,16 +184,18 @@ document.addEventListener('DOMContentLoaded', () => {
       eyeGroup.scale.set(window.webglOrb.scaleX, window.webglOrb.scaleY, window.webglOrb.scaleZ);
       
       // Rotate outer elements slowly
-      glassShell.rotation.y = time * 0.02;
+      glassShell.rotation.y = time * 0.025;
       dividingRing.rotation.z = time * 0.015;
       
-      // Interpolate pupil look-at coordinates (fun springy glance lag)
-      currentLook.lerp(targetLook, 0.08);
-      eyeballGroup.lookAt(currentLook);
+      // Look-at sliding interpolation (pupil slides smoothly towards cursor)
+      const targetRotY = neutralRotY + targetLook.x * 0.55;
+      const targetRotX = neutralRotX - targetLook.y * 0.35;
       
-      // Slanted glance slide (pupil moves slightly in look direction for physical depth)
-      const slideTarget = new THREE.Vector3().copy(currentLook).normalize().multiplyScalar(0.22);
-      eyeballGroup.position.lerp(slideTarget, 0.08);
+      currentRotY += (targetRotY - currentRotY) * 0.08;
+      currentRotX += (targetRotX - currentRotX) * 0.08;
+      
+      eyePivot.rotation.y = currentRotY;
+      eyePivot.rotation.x = currentRotX;
       
       // Orbit light sources
       light1.position.x = Math.sin(time * 0.4) * 6;
