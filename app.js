@@ -5,6 +5,161 @@ document.addEventListener('DOMContentLoaded', () => {
   let lenis = null;
 
   // ==========================================
+  // Three.js WebGL Interactive Background Orb
+  // ==========================================
+  const canvas = document.getElementById('webgl-canvas');
+  if (canvas && typeof THREE !== 'undefined') {
+    const scene = new THREE.Scene();
+    
+    // Camera
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.z = 8;
+    
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    // Geometry & Material (Glassmorphic Physical Material)
+    const geometry = new THREE.IcosahedronGeometry(2, 28);
+    const material = new THREE.MeshPhysicalMaterial({
+      color: 0xffffff,
+      roughness: 0.15,
+      metalness: 0.05,
+      transmission: 0.9,
+      thickness: 1.5,
+      ior: 1.5,
+      reflectivity: 0.5,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.1,
+      side: THREE.DoubleSide
+    });
+    
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+    
+    // Copy original vertices for displacement calculations
+    const positionAttribute = geometry.attributes.position;
+    const originalPositions = positionAttribute.array.slice();
+    
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
+    scene.add(ambientLight);
+    
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    dirLight.position.set(0, 10, 5);
+    scene.add(dirLight);
+    
+    const light1 = new THREE.PointLight(0x2a7f76, 3, 20); // Emerald green
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
+    
+    const light2 = new THREE.PointLight(0xa87920, 2.5, 20); // Ochre gold
+    light2.position.set(-5, -5, 5);
+    scene.add(light2);
+    
+    // Global properties that we animate via GSAP on transitions
+    window.webglOrb = {
+      baseX: 2.0,
+      baseY: 0.2,
+      baseZ: 0.0,
+      scaleX: 1.0,
+      scaleY: 1.0,
+      scaleZ: 1.0,
+      waveAmplitude: 0.25,
+      waveSpeed: 0.6,
+      waveFrequency: 1.5
+    };
+    window.webglOrbMaterial = material;
+    
+    // Position tracking (baseline + mouse attraction offset)
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetX = 0;
+    let targetY = 0;
+    
+    window.addEventListener('mousemove', (e) => {
+      const normX = (e.clientX / window.innerWidth) * 2 - 1;
+      const normY = -(e.clientY / window.innerHeight) * 2 + 1;
+      targetX = normX * 1.5;
+      targetY = normY * 1.5;
+    });
+    
+    // Window Resize handler
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+    
+    // Render loop
+    function animateWebgl() {
+      requestAnimationFrame(animateWebgl);
+      
+      const time = Date.now() * 0.001;
+      
+      // Interpolate mouse coordinates (smooth attraction lag)
+      mouseX += (targetX - mouseX) * 0.08;
+      mouseY += (targetY - mouseY) * 0.08;
+      
+      // Apply base position (GSAP animated) + cursor offset
+      mesh.position.x = window.webglOrb.baseX + mouseX;
+      mesh.position.y = window.webglOrb.baseY + mouseY;
+      mesh.position.z = window.webglOrb.baseZ;
+      
+      // Apply base scale (GSAP animated)
+      mesh.scale.set(window.webglOrb.scaleX, window.webglOrb.scaleY, window.webglOrb.scaleZ);
+      
+      // Rotate mesh gently
+      mesh.rotation.y = time * 0.05;
+      mesh.rotation.x = time * 0.03;
+      
+      // Orbit point lights to cast moving highlights
+      light1.position.x = Math.sin(time * 0.4) * 6;
+      light1.position.y = Math.cos(time * 0.5) * 6;
+      light1.position.z = Math.sin(time * 0.3) * 6;
+      
+      light2.position.x = Math.cos(time * 0.3) * 6;
+      light2.position.y = Math.sin(time * 0.4) * 6;
+      light2.position.z = Math.cos(time * 0.5) * 6;
+      
+      // Deform mesh vertices (fluid ripple morph)
+      const speed = window.webglOrb.waveSpeed;
+      const freq = window.webglOrb.waveFrequency;
+      const amp = window.webglOrb.waveAmplitude;
+      
+      for (let i = 0; i < positionAttribute.count; i++) {
+        const vx = originalPositions[i * 3];
+        const vy = originalPositions[i * 3 + 1];
+        const vz = originalPositions[i * 3 + 2];
+        
+        const len = Math.sqrt(vx*vx + vy*vy + vz*vz);
+        
+        // Simulating organic blob displacement using overlapping sin/cos coordinates
+        const offset = Math.sin(vx * freq + time * speed) * 
+                       Math.cos(vy * freq + time * speed) * 
+                       Math.sin(vz * freq + time * speed) * amp;
+                       
+        const ratio = (len + offset) / len;
+        positionAttribute.setXYZ(i, vx * ratio, vy * ratio, vz * ratio);
+      }
+      positionAttribute.needsUpdate = true;
+      geometry.computeVertexNormals();
+      
+      renderer.render(scene, camera);
+    }
+    
+    // Start animation loop
+    animateWebgl();
+  }
+
+  // ==========================================
   // 1. Custom Cursor Tracking (with physics lag)
   // ==========================================
   const cursor = document.getElementById('custom-cursor');
@@ -832,6 +987,65 @@ document.addEventListener('DOMContentLoaded', () => {
     appWindow.style.opacity = '1';
     agentWindow.style.opacity = '1';
     finderWindow.classList.remove('active');
+
+    // Trigger WebGL Orb transition state
+    if (window.webglOrb && window.webglOrbMaterial && typeof gsap !== 'undefined') {
+      let targetX = 2.0, targetY = 0.2, targetZ = 0.0;
+      let targetScale = 1.0;
+      let targetAmp = 0.25;
+      let targetRoughness = 0.15;
+      let targetThickness = 1.5;
+      let targetTransmission = 0.9;
+      
+      if (stepName === 'hero') {
+        targetX = 2.0; targetY = 0.2; targetZ = 0.0;
+        targetScale = 1.0;
+        targetAmp = 0.25;
+        targetRoughness = 0.15; targetThickness = 1.5; targetTransmission = 0.9;
+      } else if (stepName === 'notch-wave') {
+        targetX = 0.0; targetY = 3.2; targetZ = 0.0;
+        targetScale = 0.45;
+        targetAmp = 0.20;
+        targetRoughness = 0.1; targetThickness = 0.8; targetTransmission = 0.8;
+      } else if (stepName === 'memory-ledger') {
+        targetX = -2.2; targetY = -0.5; targetZ = 0.0;
+        targetScale = 0.9;
+        targetAmp = 0.35;
+        targetRoughness = 0.25; targetThickness = 2.0; targetTransmission = 0.8;
+      } else if (stepName === 'privacy-filter') {
+        targetX = 0.0; targetY = 0.0; targetZ = -1.0;
+        targetScale = 1.8;
+        targetAmp = 0.10;
+        targetRoughness = 0.65; targetThickness = 5.0; targetTransmission = 0.95;
+      } else if (stepName === 'setup-guide') {
+        targetX = 2.0; targetY = -1.2; targetZ = 0.0;
+        targetScale = 1.1;
+        targetAmp = 0.20;
+        targetRoughness = 0.2; targetThickness = 1.2; targetTransmission = 0.9;
+      }
+      
+      gsap.to(window.webglOrb, {
+        baseX: targetX,
+        baseY: targetY,
+        baseZ: targetZ,
+        scaleX: targetScale,
+        scaleY: targetScale,
+        scaleZ: targetScale,
+        waveAmplitude: targetAmp,
+        duration: 1.5,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+      
+      gsap.to(window.webglOrbMaterial, {
+        roughness: targetRoughness,
+        thickness: targetThickness,
+        transmission: targetTransmission,
+        duration: 1.5,
+        ease: "power2.out",
+        overwrite: "auto"
+      });
+    }
 
     if (stepName === 'hero') {
       // Clean home state

@@ -38,75 +38,23 @@
   }
 
   body {
-    background: radial-gradient(circle at 50% 30%, #76b5ff 0%, #307bf2 50%, #1754c2 100%);
-    background-attachment: fixed;
-    color: #ffffff;
+    background: var(--bg-base);
+    color: var(--text-main);
     font-family: var(--font-sans);
     overflow-x: hidden;
     line-height: 1.5;
     position: relative;
   }
 
-  /* Immersive Floating Clouds (Air.inc visual style) */
-  .clouds-backdrop {
+  /* WebGL Background Canvas */
+  #webgl-canvas {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
     pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .cloud {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.45);
-    filter: blur(80px);
-    border-radius: 50%;
-    will-change: transform;
-  }
-
-  .cloud-1 {
-    width: 600px;
-    height: 400px;
-    top: 10%;
-    left: -10%;
-    animation: float-cloud-horizontal 60s infinite linear;
-  }
-
-  .cloud-2 {
-    width: 800px;
-    height: 500px;
-    bottom: 10%;
-    right: -20%;
-    animation: float-cloud-horizontal-reverse 80s infinite linear;
-  }
-
-  .cloud-3 {
-    width: 400px;
-    height: 300px;
-    top: 40%;
-    left: 50%;
-    animation: float-cloud-vertical 40s infinite ease-in-out;
-  }
-
-  @keyframes float-cloud-horizontal {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(150px, 50px, 0); }
-    100% { transform: translate3d(0, 0, 0); }
-  }
-
-  @keyframes float-cloud-horizontal-reverse {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(-200px, -60px, 0); }
-    100% { transform: translate3d(0, 0, 0); }
-  }
-
-  @keyframes float-cloud-vertical {
-    0% { transform: translate3d(0, 0, 0); }
-    50% { transform: translate3d(-30px, 80px, 0); }
-    100% { transform: translate3d(0, 0, 0); }
   }
 
   img, svg {
@@ -254,8 +202,7 @@
   .crank-cursor svg {
     width: 100%;
     height: 100%;
-    color: var(--color-primary);
-    transition: color var(--transition-fast);
+    color: var(--text-main);
   }
 
   /* Eyeball Blink Animation Styles */
@@ -366,8 +313,8 @@
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(252, 252, 249, 0.75);
+    border-bottom: 1px solid rgba(18, 18, 16, 0.06);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
@@ -389,11 +336,11 @@
     font-family: var(--font-sans);
     font-weight: 700;
     font-size: 1.25rem;
-    color: #ffffff;
+    color: var(--text-main);
   }
 
   .logo svg {
-    color: #ffffff;
+    color: var(--text-main);
   }
 
   .nav-links {
@@ -404,12 +351,12 @@
   .nav-links a {
     font-size: 0.85rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--text-subtle);
     transition: color var(--transition-fast);
   }
 
   .nav-links a:hover {
-    color: #ffffff;
+    color: var(--text-main);
   }
 
   /* ==========================================================================
@@ -468,7 +415,7 @@
     gap: 1.25rem;
     width: 100%;
     max-width: 650px;
-    color: #ffffff;
+    color: var(--text-main);
     pointer-events: auto;
   }
 
@@ -660,43 +607,7 @@
     pointer-events: auto;
   }
 
-  /* Giant 3D Glass Eyeball Logo (Air.inc 3D logo style) */
-  .glass-eyeball-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    perspective: 1000px;
-    width: 100%;
-  }
 
-  .glass-eyeball-sphere {
-    width: 110px;
-    height: 110px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 
-      inset 0 10px 20px rgba(255, 255, 255, 0.35),
-      inset 0 -10px 20px rgba(0, 0, 0, 0.1),
-      0 15px 35px rgba(0, 0, 0, 0.2);
-    animation: float-logo 6s infinite ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .glass-eyeball-svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  @keyframes float-logo {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-12px) rotate(2deg); }
-  }
 
   /* Showcase Tabs Deck (Frosted Glass Pill, inspired by Air.inc) */
   .showcase-tabs-deck {
@@ -704,13 +615,13 @@
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(252, 252, 249, 0.8);
+    border: 1px solid rgba(18, 18, 16, 0.08);
     padding: 6px;
     border-radius: 30px;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(18, 18, 16, 0.05);
     z-index: 10;
     pointer-events: auto;
   }
@@ -720,7 +631,7 @@
     border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-subtle);
     transition: all var(--transition-normal);
     white-space: nowrap;
     display: flex;
@@ -730,14 +641,14 @@
   }
 
   .showcase-tabs-deck .sim-tab:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    background: rgba(18, 18, 16, 0.03);
   }
 
   .showcase-tabs-deck .sim-tab.active {
-    color: #121210;
-    background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #fcfcf9;
+    background: var(--text-main);
+    box-shadow: 0 4px 12px rgba(18, 18, 16, 0.15);
   }
 
   /* Mac Display Mockup Frame */
@@ -1345,7 +1256,7 @@
   }
 
   .footer-brand svg {
-    color: var(--color-primary);
+    color: var(--text-main);
   }
 
   .footer-socials {
