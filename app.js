@@ -25,33 +25,57 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     
-    // Geometry & Material (Glassmorphic Physical Material)
-    const geometry = new THREE.IcosahedronGeometry(2, 28);
-    const material = new THREE.MeshPhysicalMaterial({
+    // Overall eye/orb composite group
+    const eyeGroup = new THREE.Group();
+    scene.add(eyeGroup);
+    
+    // 1. Outer transmissive glass shell (Sphere)
+    const glassGeometry = new THREE.SphereGeometry(2, 32, 32);
+    const glassMaterial = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
-      roughness: 0.15,
-      metalness: 0.05,
-      transmission: 0.9,
+      roughness: 0.1,
+      metalness: 0.02,
+      transmission: 0.95,
       thickness: 1.5,
       ior: 1.5,
       reflectivity: 0.5,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
+      clearcoatRoughness: 0.05,
       side: THREE.DoubleSide
     });
+    const glassShell = new THREE.Mesh(glassGeometry, glassMaterial);
+    eyeGroup.add(glassShell);
     
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    // 2. Horizontal dividing ring (the eye line)
+    const torusGeometry = new THREE.TorusGeometry(2.015, 0.035, 8, 64);
+    const darkMaterial = new THREE.MeshBasicMaterial({ color: 0x121210 });
+    const dividingRing = new THREE.Mesh(torusGeometry, darkMaterial);
+    dividingRing.rotation.x = Math.PI / 2; // Lay flat horizontally
+    eyeGroup.add(dividingRing);
     
-    // Copy original vertices for displacement calculations
-    const positionAttribute = geometry.attributes.position;
-    const originalPositions = positionAttribute.array.slice();
+    // 3. Inner eyeball group (pupil + highlight) that will track cursor
+    const eyeballGroup = new THREE.Group();
+    eyeGroup.add(eyeballGroup);
+    window.eyeballGroup = eyeballGroup; // Save to window for blinking sync
+    
+    // The pupil (dark sphere inside, pushed slightly forward)
+    const pupilGeometry = new THREE.SphereGeometry(0.68, 32, 32);
+    const pupilMesh = new THREE.Mesh(pupilGeometry, darkMaterial);
+    pupilMesh.position.set(0, 0, 0.5);
+    eyeballGroup.add(pupilMesh);
+    
+    // The highlight (small white sphere on the pupil, offset to the right and top)
+    const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0xfcfcf9 });
+    const highlightGeometry = new THREE.SphereGeometry(0.13, 16, 16);
+    const highlightMesh = new THREE.Mesh(highlightGeometry, whiteMaterial);
+    highlightMesh.position.set(0.24, 0.24, 1.1);
+    eyeballGroup.add(highlightMesh);
     
     // Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
     
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
     dirLight.position.set(0, 10, 5);
     scene.add(dirLight);
     
@@ -70,24 +94,32 @@ document.addEventListener('DOMContentLoaded', () => {
       baseZ: 0.0,
       scaleX: 1.0,
       scaleY: 1.0,
-      scaleZ: 1.0,
-      waveAmplitude: 0.25,
-      waveSpeed: 0.6,
-      waveFrequency: 1.5
+      scaleZ: 1.0
     };
-    window.webglOrbMaterial = material;
+    window.webglOrbMaterial = glassMaterial;
     
-    // Position tracking (baseline + mouse attraction offset)
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
+    // Position tracking variables
+    let swayX = 0;
+    let swayY = 0;
+    let targetSwayX = 0;
+    let targetSwayY = 0;
+    
+    // Normalized 3D eyeball tracking coordinates
+    const currentLook = new THREE.Vector3(0, 0, 3);
+    const targetLook = new THREE.Vector3(0, 0, 3);
     
     window.addEventListener('mousemove', (e) => {
       const normX = (e.clientX / window.innerWidth) * 2 - 1;
       const normY = -(e.clientY / window.innerHeight) * 2 + 1;
-      targetX = normX * 1.5;
-      targetY = normY * 1.5;
+      
+      // Target position for overall group sway
+      targetSwayX = normX * 1.2;
+      targetSwayY = normY * 1.2;
+      
+      // Target position for 3D look-at tracking
+      targetLook.x = normX * 3.5;
+      targetLook.y = normY * 3.5;
+      targetLook.z = 3.5;
     });
     
     // Window Resize handler
@@ -104,23 +136,35 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const time = Date.now() * 0.001;
       
-      // Interpolate mouse coordinates (smooth attraction lag)
-      mouseX += (targetX - mouseX) * 0.08;
-      mouseY += (targetY - mouseY) * 0.08;
+      // Interpolate general mesh sway
+      swayX += (targetSwayX - swayX) * 0.07;
+      swayY += (targetSwayY - swayY) * 0.07;
       
-      // Apply base position (GSAP animated) + cursor offset
-      mesh.position.x = window.webglOrb.baseX + mouseX;
-      mesh.position.y = window.webglOrb.baseY + mouseY;
-      mesh.position.z = window.webglOrb.baseZ;
+      // Slow organic float cycle
+      const floatX = Math.cos(time * 1.0) * 0.08;
+      const floatY = Math.sin(time * 1.5) * 0.12;
       
-      // Apply base scale (GSAP animated)
-      mesh.scale.set(window.webglOrb.scaleX, window.webglOrb.scaleY, window.webglOrb.scaleZ);
+      // Apply base coordinates + sway + float
+      eyeGroup.position.x = window.webglOrb.baseX + swayX + floatX;
+      eyeGroup.position.y = window.webglOrb.baseY + swayY + floatY;
+      eyeGroup.position.z = window.webglOrb.baseZ;
       
-      // Rotate mesh gently
-      mesh.rotation.y = time * 0.05;
-      mesh.rotation.x = time * 0.03;
+      // Apply base scale
+      eyeGroup.scale.set(window.webglOrb.scaleX, window.webglOrb.scaleY, window.webglOrb.scaleZ);
       
-      // Orbit point lights to cast moving highlights
+      // Rotate outer elements slowly
+      glassShell.rotation.y = time * 0.02;
+      dividingRing.rotation.z = time * 0.015;
+      
+      // Interpolate pupil look-at coordinates (fun springy glance lag)
+      currentLook.lerp(targetLook, 0.08);
+      eyeballGroup.lookAt(currentLook);
+      
+      // Slanted glance slide (pupil moves slightly in look direction for physical depth)
+      const slideTarget = new THREE.Vector3().copy(currentLook).normalize().multiplyScalar(0.22);
+      eyeballGroup.position.lerp(slideTarget, 0.08);
+      
+      // Orbit light sources
       light1.position.x = Math.sin(time * 0.4) * 6;
       light1.position.y = Math.cos(time * 0.5) * 6;
       light1.position.z = Math.sin(time * 0.3) * 6;
@@ -128,29 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
       light2.position.x = Math.cos(time * 0.3) * 6;
       light2.position.y = Math.sin(time * 0.4) * 6;
       light2.position.z = Math.cos(time * 0.5) * 6;
-      
-      // Deform mesh vertices (fluid ripple morph)
-      const speed = window.webglOrb.waveSpeed;
-      const freq = window.webglOrb.waveFrequency;
-      const amp = window.webglOrb.waveAmplitude;
-      
-      for (let i = 0; i < positionAttribute.count; i++) {
-        const vx = originalPositions[i * 3];
-        const vy = originalPositions[i * 3 + 1];
-        const vz = originalPositions[i * 3 + 2];
-        
-        const len = Math.sqrt(vx*vx + vy*vy + vz*vz);
-        
-        // Simulating organic blob displacement using overlapping sin/cos coordinates
-        const offset = Math.sin(vx * freq + time * speed) * 
-                       Math.cos(vy * freq + time * speed) * 
-                       Math.sin(vz * freq + time * speed) * amp;
-                       
-        const ratio = (len + offset) / len;
-        positionAttribute.setXYZ(i, vx * ratio, vy * ratio, vz * ratio);
-      }
-      positionAttribute.needsUpdate = true;
-      geometry.computeVertexNormals();
       
       renderer.render(scene, camera);
     }
@@ -172,8 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let targetSimY = 0;
 
   // Move custom cursor to start position immediately
-  cursor.style.left = `${cursorX}px`;
-  cursor.style.top = `${cursorY}px`;
+  cursor.style.transform = `translate3d(${cursorX - 9}px, ${cursorY - 9}px, 0)`;
 
   // Track real mouse movements
   window.addEventListener('mousemove', (e) => {
@@ -184,7 +204,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Cursor interpolation logic (ease-out)
-  const interpolationFactor = 0.15; // Smooth lag factor
+  const interpolationFactor = 0.16; // Snappy lag factor
+  let cursorScale = 1.0;
+
   function animateCursor() {
     if (isSimulating) {
       cursorX += (targetSimX - cursorX) * interpolationFactor;
@@ -194,17 +216,17 @@ document.addEventListener('DOMContentLoaded', () => {
       cursorY += (mouseY - cursorY) * interpolationFactor;
     }
 
-    cursor.style.left = `${cursorX}px`;
-    cursor.style.top = `${cursorY}px`;
+    // Apply hardware accelerated translate3d transformation
+    cursor.style.transform = `translate3d(${cursorX - 9}px, ${cursorY - 9}px, 0) scale(${cursorScale})`;
     requestAnimationFrame(animateCursor);
   }
   requestAnimationFrame(animateCursor);
 
   // Handle clicking events during simulation (pulse cursor effect)
   function triggerCursorPulse() {
-    cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+    cursorScale = 0.8;
     setTimeout(() => {
-      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      cursorScale = 1.0;
     }, 150);
   }
 
@@ -943,14 +965,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize Lenis smooth scroll
   lenis = new Lenis({
-    duration: 1.2,
+    duration: 0.85, // Snappier response
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
     direction: 'vertical',
     gestureDirection: 'vertical',
     smooth: true,
-    mouseMultiplier: 1,
+    mouseMultiplier: 0.8, // Lighter scroll weight
     smoothTouch: false,
-    touchMultiplier: 2,
+    touchMultiplier: 1.5,
     infinite: false,
   });
 
@@ -1295,6 +1317,17 @@ document.addEventListener('DOMContentLoaded', () => {
         eye.classList.remove('blink');
       }, 250); // Match animation duration
     });
+    
+    // Blink the 3D WebGL eyeball in sync
+    if (window.eyeballGroup && typeof gsap !== 'undefined') {
+      gsap.to(window.eyeballGroup.scale, {
+        y: 0.05,
+        duration: 0.12,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut"
+      });
+    }
     
     // Schedule next blink between 7 and 12 seconds
     const randomDelay = Math.random() * (12000 - 7000) + 7000;
