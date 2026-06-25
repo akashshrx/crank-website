@@ -72,10 +72,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const notch = document.getElementById('mac-notch');
   const notchStatus = document.getElementById('notch-status');
   const screenContent = document.getElementById('screen-content');
+  const appWindow = document.getElementById('app-window');
   const appTitle = document.getElementById('app-window-title');
   const appBody = document.getElementById('app-window-body');
+  const agentWindow = document.getElementById('agent-window');
   const agentEmptyState = document.getElementById('agent-empty-state');
   const agentCardsContainer = document.getElementById('agent-cards-container');
+  const finderWindow = document.getElementById('finder-window');
   const screenIndicator = document.getElementById('screen-indicator');
   const speechOverlay = document.getElementById('speech-overlay');
   const speechText = document.getElementById('speech-text');
@@ -91,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="browser-mock">
           <div class="browser-url-bar">https://www.linkedin.com/search</div>
           <div class="mock-search-results" id="search-results-box">
-            <div style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-top: 2rem;">
+            <div style="color: var(--text-muted); font-size: 0.75rem; text-align: center; margin-top: 1.5rem;">
               LinkedIn Search Field (Inactive)
             </div>
           </div>
@@ -104,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
           notchActive: true,
           duration: 2500,
           action: (resolve) => {
-            // Screen indicator lights up
             screenIndicator.classList.add('active');
             resolve();
           }
@@ -114,9 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
           notchState: "Thinking...",
           duration: 3000,
           action: (resolve) => {
-            // Notch thinks, simulator cursor detaches
             isSimulating = true;
-            // Move cursor to LinkedIn search input
             const searchBox = document.querySelector('.browser-url-bar');
             if (searchBox) {
               const rect = searchBox.getBoundingClientRect();
@@ -132,8 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 3500,
           action: (resolve) => {
             triggerCursorPulse();
-            
-            // Hide empty state, spawn agent card
             agentEmptyState.style.display = 'none';
             agentCardsContainer.innerHTML = `
               <div class="agent-card-item">
@@ -146,11 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
               </div>
             `;
-
-            // Start typing indicator in mock browser
             const resultsBox = document.getElementById('search-results-box');
-            resultsBox.innerHTML = `<div style="font-family: var(--font-mono); color: var(--color-primary); font-size: 0.8rem;">Searching: "tech micro-influencer SF"...</div>`;
-            
+            if (resultsBox) {
+              resultsBox.innerHTML = `<div style="font-family: var(--font-mono); color: var(--color-primary); font-size: 0.75rem;">Searching: "tech micro-influencer SF"...</div>`;
+            }
             resolve();
           }
         },
@@ -164,28 +161,30 @@ document.addEventListener('DOMContentLoaded', () => {
             if (agentStatus) agentStatus.innerText = "Extracting profiles (4/10)...";
             if (progress) progress.style.width = "50%";
 
-            // Update LinkedIn browser screen with some profiles
             const resultsBox = document.getElementById('search-results-box');
-            resultsBox.innerHTML = `
-              <div class="mock-search-results">
-                <div class="mock-search-item highlighted">
-                  <h5>Alex Chen • Founder & Tech Writer</h5>
-                  <p>12K followers • Focus: NextJS, WebDev</p>
+            if (resultsBox) {
+              resultsBox.innerHTML = `
+                <div class="mock-search-results">
+                  <div class="mock-search-item highlighted">
+                    <h5>Alex Chen • Founder & Tech Writer</h5>
+                    <p>12K followers • Focus: NextJS, WebDev</p>
+                  </div>
+                  <div class="mock-search-item">
+                    <h5>Sarah Jenkins • AI Researcher</h5>
+                    <p>18K followers • Focus: PyTorch, ML Ops</p>
+                  </div>
                 </div>
-                <div class="mock-search-item">
-                  <h5>Sarah Jenkins • AI Researcher</h5>
-                  <p>18K followers • Focus: PyTorch, ML Ops</p>
-                </div>
-              </div>
-            `;
-
-            // Move cursor to first item to simulate data extraction
-            const item = document.querySelector('.mock-search-item');
-            if (item) {
-              const rect = item.getBoundingClientRect();
-              targetSimX = rect.left + 80;
-              targetSimY = rect.top + 20;
+              `;
             }
+
+            setTimeout(() => {
+              const item = document.querySelector('.mock-search-item');
+              if (item) {
+                const rect = item.getBoundingClientRect();
+                targetSimX = rect.left + 80;
+                targetSimY = rect.top + 20;
+              }
+            }, 500);
             resolve();
           }
         },
@@ -202,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (progress) progress.style.width = "100%";
 
-            // Add artifact tag inside agent card
             const agentCard = document.querySelector('.agent-card-item');
             if (agentCard) {
               const artifact = document.createElement('div');
@@ -211,16 +209,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10 9 9 9 8 9"></polyline>
                 </svg>
-                influencers_tech.md
+                 influencers_tech.md
               `;
               agentCard.appendChild(artifact);
             }
 
-            // Finish simulation
             isSimulating = false;
             screenIndicator.classList.remove('active');
             resolve();
@@ -256,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 3500,
           action: (resolve) => {
             isSimulating = true;
-            // Move cursor to error line
             const errorLine = document.querySelector('.terminal-error-red');
             if (errorLine) {
               const rect = errorLine.getBoundingClientRect();
@@ -272,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 4000,
           action: (resolve) => {
             triggerCursorPulse();
-            
             agentEmptyState.style.display = 'none';
             agentCardsContainer.innerHTML = `
               <div class="agent-card-item">
@@ -286,7 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             `;
 
-            // Switch mock window to code editor view
             setTimeout(() => {
               appTitle.innerText = "VS Code - src/app.js";
               appBody.innerHTML = `
@@ -299,7 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
               `;
             }, 1000);
-            
             resolve();
           }
         },
@@ -313,15 +303,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (agentStatus) agentStatus.innerText = "Applying safe fallback code...";
             if (progress) progress.style.width = "75%";
 
-            // Move cursor to line 44 inside VS Code mockup
-            const errorLine = document.querySelector('.terminal-error-red');
-            if (errorLine) {
-              const rect = errorLine.getBoundingClientRect();
-              targetSimX = rect.left + 150;
-              targetSimY = rect.top + 8;
-            }
+            setTimeout(() => {
+              const errorLine = document.querySelector('.terminal-error-red');
+              if (errorLine) {
+                const rect = errorLine.getBoundingClientRect();
+                targetSimX = rect.left + 150;
+                targetSimY = rect.top + 8;
+              }
+            }, 500);
 
-            // Edit code in body
             setTimeout(() => {
               appBody.innerHTML = `
                 <div class="terminal-mock" style="color: #bbb;">
@@ -334,7 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
               `;
               triggerCursorPulse();
             }, 1500);
-
             resolve();
           }
         },
@@ -360,12 +349,11 @@ document.addEventListener('DOMContentLoaded', () => {
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
                 </svg>
-                error_fix_report.md
+                 error_fix_report.md
               `;
               agentCard.appendChild(artifact);
             }
 
-            // Return to terminal successfully compiled
             setTimeout(() => {
               appTitle.innerText = "Terminal - Build success";
               appBody.innerHTML = `
@@ -417,7 +405,6 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 3000,
           action: (resolve) => {
             isSimulating = true;
-            // Move cursor to calendar meeting
             const meeting = document.getElementById('meeting-block');
             if (meeting) {
               const rect = meeting.getBoundingClientRect();
@@ -433,7 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 3500,
           action: (resolve) => {
             triggerCursorPulse();
-
             agentEmptyState.style.display = 'none';
             agentCardsContainer.innerHTML = `
               <div class="agent-card-item">
@@ -459,7 +445,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (agentStatus) agentStatus.innerText = "Moving event to 15:00...";
             if (progress) progress.style.width = "80%";
 
-            // Animate calendar visual block shifting
             appBody.innerHTML = `
               <div class="calendar-mock">
                 <div class="calendar-day-header">Friday, June 26, 2026</div>
@@ -476,7 +461,6 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             `;
 
-            // Move cursor to new slot
             setTimeout(() => {
               const newMeeting = document.querySelector('.modified');
               if (newMeeting) {
@@ -485,7 +469,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 targetSimY = rect.top + 20;
               }
             }, 500);
-
             resolve();
           }
         },
@@ -511,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
                 </svg>
-                calendar-resched.md
+                 calendar-resched.md
               `;
               agentCard.appendChild(artifact);
             }
@@ -558,7 +541,6 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 3000,
           action: (resolve) => {
             isSimulating = true;
-            // Move cursor to Priya's email
             const mail = document.getElementById('mail-item-1');
             if (mail) {
               const rect = mail.getBoundingClientRect();
@@ -574,7 +556,6 @@ document.addEventListener('DOMContentLoaded', () => {
           duration: 3500,
           action: (resolve) => {
             triggerCursorPulse();
-
             agentEmptyState.style.display = 'none';
             agentCardsContainer.innerHTML = `
               <div class="agent-card-item">
@@ -600,7 +581,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (agentStatus) agentStatus.innerText = "Drafting Gmail response...";
             if (progress) progress.style.width = "70%";
 
-            // Shift display to draft compose window
             appBody.innerHTML = `
               <div class="browser-mock">
                 <div class="browser-url-bar">Gmail Draft (To: Priya)</div>
@@ -609,7 +589,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
               </div>
             `;
-
             resolve();
           }
         },
@@ -635,7 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                   <polyline points="14 2 14 8 20 8"></polyline>
                 </svg>
-                email_triage.md
+                 email_triage.md
               `;
               agentCard.appendChild(artifact);
             }
@@ -651,7 +630,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Run a specified demo timeline
   function runDemo(demoKey) {
-    // Clear any previous simulation
     if (simulatorTimeoutId) {
       clearTimeout(simulatorTimeoutId);
     }
@@ -664,18 +642,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const demo = demos[demoKey];
     if (!demo) return;
 
-    // Reset initial UI states
+    // Reset UI states
     appTitle.innerText = demo.title;
     appBody.innerHTML = demo.initHTML;
     agentEmptyState.style.display = 'flex';
     agentCardsContainer.innerHTML = '';
 
-    // Execute steps sequentially
     let stepIndex = 0;
-
     function executeNextStep() {
       if (stepIndex >= demo.steps.length) {
-        // Complete timeline
         isSimulating = false;
         notch.classList.remove('active');
         notchStatus.innerText = "Idle";
@@ -684,8 +659,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const step = demo.steps[stepIndex];
-      
-      // Update Notch states
       notchStatus.innerText = step.notchState;
       if (step.notchState !== "Idle") {
         notch.classList.add('active');
@@ -693,11 +666,9 @@ document.addEventListener('DOMContentLoaded', () => {
         notch.classList.remove('active');
       }
 
-      // Update Speech overlay
       speechText.innerText = step.text;
       speechOverlay.classList.add('active');
 
-      // Run step's actions
       new Promise((resolve) => {
         step.action(resolve);
       }).then(() => {
@@ -706,24 +677,18 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Start
     executeNextStep();
   }
 
-  // Bind selectors to timeline triggers
+  // Bind tabs manually
   demoCards.forEach(card => {
     card.addEventListener('click', () => {
       demoCards.forEach(c => c.classList.remove('active'));
       card.classList.add('active');
-      
       const selectedDemo = card.getAttribute('data-demo');
       runDemo(selectedDemo);
     });
   });
-
-  // Initialize with first demo
-  runDemo('influencers');
-
 
   // ==========================================
   // 4. On-Device Redaction Demo
@@ -732,27 +697,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const redactStateText = document.getElementById('redact-state');
   const redactableFields = document.querySelectorAll('.redactable');
 
-  // Redact values initially
   redactableFields.forEach(el => el.classList.add('redacted'));
 
-  btnRedact.addEventListener('click', () => {
-    const isRedacted = redactStateText.innerText === "ON";
-    
-    if (isRedacted) {
-      // Toggle off
-      redactableFields.forEach(el => el.classList.remove('redacted'));
-      redactStateText.innerText = "OFF";
-      btnRedact.classList.remove('active');
-      btnRedact.style.border = '1px solid rgba(255, 75, 107, 0.4)';
-    } else {
-      // Toggle on
+  function setRedactionState(enabled) {
+    if (enabled) {
       redactableFields.forEach(el => el.classList.add('redacted'));
-      redactStateText.innerText = "ON";
-      btnRedact.classList.add('active');
-      btnRedact.style.border = '';
+      if (redactStateText) redactStateText.innerText = "ON";
+      if (btnRedact) btnRedact.classList.add('active');
+    } else {
+      redactableFields.forEach(el => el.classList.remove('redacted'));
+      if (redactStateText) redactStateText.innerText = "OFF";
+      if (btnRedact) btnRedact.classList.remove('active');
     }
-  });
+  }
 
+  if (btnRedact) {
+    btnRedact.addEventListener('click', () => {
+      const isRedacted = redactStateText.innerText === "ON";
+      setRedactionState(!isRedacted);
+    });
+  }
 
   // ==========================================
   // 5. Simulated Memory Database Lookup
@@ -784,44 +748,247 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  function queryMemory() {
-    const query = searchInput.value.toLowerCase().trim();
+  function queryMemory(customVal) {
+    const query = (customVal || searchInput.value || "").toLowerCase().trim();
     if (!query) {
       resultsContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.85rem;">Type a query to search local SQLite database memory...</div>`;
       return;
     }
 
-    // Filter memory array
     const matches = memoryDatabase.filter(item => {
       return item.keywords.some(keyword => query.includes(keyword) || keyword.includes(query));
     });
 
-    // Display
     if (matches.length > 0) {
-      resultsContainer.innerHTML = matches.map(match => `
+      resultsContainer.innerHTML = matches.map(item => `
         <div class="memory-item">
-          <span class="memory-meta">${match.meta}</span>
-          <p>${match.content}</p>
+          <span class="memory-meta">${item.meta}</span>
+          <p>"${item.content}"</p>
         </div>
       `).join('');
     } else {
-      resultsContainer.innerHTML = `
-        <div class="memory-item" style="border-left-color: var(--primary-red);">
-          <span class="memory-meta" style="color: var(--primary-red);">0 results found</span>
-          <p>No local embeddings found matching "${searchInput.value}". Try searching 'Thomas', 'Project', or 'Clicky'.</p>
-        </div>
-      `;
+      resultsContainer.innerHTML = `<div style="color: var(--text-muted); font-size: 0.85rem;">0 matches found for "${query}"</div>`;
     }
   }
 
-  searchBtn.addEventListener('click', queryMemory);
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') queryMemory();
-  });
-
+  if (searchBtn) {
+    searchBtn.addEventListener('click', () => queryMemory());
+  }
 
   // ==========================================
-  // 6. Download Trigger & Scroll Setup Guide
+  // 6. SCROLL-LINKED NARRATIVE CONTROLLER
+  // ==========================================
+  const steps = document.querySelectorAll('.scrolly-step');
+  
+  let activeStep = 'hero';
+  let redactionInterval = null;
+  let installerInterval = null;
+
+  // Transition mock screen content to reflect current scroll step
+  function transitionSimulatorTo(stepName) {
+    // Clear any timers
+    if (simulatorTimeoutId) clearTimeout(simulatorTimeoutId);
+    clearInterval(redactionInterval);
+    clearInterval(installerInterval);
+    isSimulating = false;
+    notch.classList.remove('active');
+    notchStatus.innerText = "Idle";
+    screenIndicator.classList.remove('active');
+    speechOverlay.classList.remove('active');
+
+    // Default window visibility resets
+    appWindow.style.opacity = '1';
+    agentWindow.style.opacity = '1';
+    finderWindow.classList.remove('active');
+
+    if (stepName === 'hero') {
+      // Clean home state
+      appTitle.innerText = "Browser - Crank Guide";
+      appBody.innerHTML = `
+        <div style="font-size: 0.8rem; text-align: center; color: var(--text-muted); padding-top: 1.5rem;">
+          Welcome to Crank Desktop.<br>Scroll to begin your workspace agent story.
+        </div>
+      `;
+      agentEmptyState.style.display = 'flex';
+      agentCardsContainer.innerHTML = '';
+      
+    } else if (stepName === 'notch-wave') {
+      // Autoplay the influencers demo
+      runDemo('influencers');
+      
+    } else if (stepName === 'memory-ledger') {
+      // Simulate memory search query
+      appTitle.innerText = "Browser - localdb.sqlite";
+      appBody.innerHTML = `
+        <div class="browser-mock">
+          <div class="browser-url-bar">SQLite Console - Local Memory Query</div>
+          <div id="sqlite-status" style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-primary); padding: 5px;">
+            sqlite> SELECT content FROM ledger WHERE query LIKE '%thomas%';
+          </div>
+          <div id="sqlite-results" style="font-size: 0.65rem; padding: 2px 5px; opacity: 0;">
+            <div style="border-left: 2px solid var(--color-primary); padding-left: 4px; background: rgba(var(--color-primary-rgb), 0.03);">
+              <strong>Slack context:</strong> Thomas is lead for calendar oauth tokens.
+            </div>
+          </div>
+        </div>
+      `;
+      agentEmptyState.style.display = 'none';
+      agentCardsContainer.innerHTML = `
+        <div class="agent-card-item">
+          <span class="agent-card-title">Memory Resolution</span>
+          <span class="agent-card-status" style="color: var(--primary-green);">Resolved slack-oauth-token</span>
+        </div>
+      `;
+
+      isSimulating = true;
+      
+      // Move cursor to SQLite search input inside text column
+      setTimeout(() => {
+        if (searchInput) {
+          searchInput.value = '';
+          let text = 'Thomas';
+          let i = 0;
+          const typing = setInterval(() => {
+            searchInput.value += text[i];
+            i++;
+            if (i >= text.length) {
+              clearInterval(typing);
+              
+              // Move cursor to Query button
+              const rect = searchBtn.getBoundingClientRect();
+              targetSimX = rect.left + 25;
+              targetSimY = rect.top + 10;
+
+              setTimeout(() => {
+                triggerCursorPulse();
+                queryMemory('Thomas');
+                
+                // Show result on simulator screen too
+                const sqResults = document.getElementById('sqlite-results');
+                if (sqResults) sqResults.style.opacity = '1';
+                
+              }, 800);
+            }
+          }, 150);
+        }
+      }, 1000);
+
+    } else if (stepName === 'privacy-filter') {
+      // Toggle blur demo in loop
+      appTitle.innerText = "VS Code - config.json";
+      appBody.innerHTML = `
+        <div class="terminal-mock" style="color: #bbb;">
+          <div>"DB_PASSWORD": "<span class="redactable">super_secret_pwd</span>"</div>
+          <div>"API_SECRET": "<span class="redactable">sk_live_51M39fNsL27...</span>"</div>
+          <div>"PUBLIC_PROJECT": "Crank website release"</div>
+        </div>
+      `;
+      agentEmptyState.style.display = 'none';
+      agentCardsContainer.innerHTML = `
+        <div class="agent-card-item">
+          <span class="agent-card-title">Redaction Engine</span>
+          <span class="agent-card-status" style="color: var(--primary-green);">Classified password &amp; secret key</span>
+        </div>
+      `;
+
+      isSimulating = true;
+      const rect = btnRedact.getBoundingClientRect();
+      targetSimX = rect.left + 50;
+      targetSimY = rect.top + 15;
+
+      let redactToggleState = true;
+      setRedactionState(true);
+
+      redactionInterval = setInterval(() => {
+        redactToggleState = !redactToggleState;
+        setRedactionState(redactToggleState);
+        triggerCursorPulse();
+        
+        // Re-read redactables inside editor
+        const appRedactables = appBody.querySelectorAll('.redactable');
+        appRedactables.forEach(el => {
+          if (redactToggleState) {
+            el.style.filter = 'blur(4px)';
+            el.style.color = 'transparent';
+            el.style.background = 'rgba(201, 59, 85, 0.08)';
+          } else {
+            el.style.filter = 'none';
+            el.style.color = '#ff5f56';
+            el.style.background = 'none';
+          }
+        });
+      }, 2500);
+
+    } else if (stepName === 'setup-guide') {
+      // Show Finder setup window and hide other windows
+      appWindow.style.opacity = '0';
+      agentWindow.style.opacity = '0';
+      finderWindow.classList.add('active');
+
+      isSimulating = true;
+      
+      const dragAppNode = document.getElementById('drag-app-node');
+      
+      function runInstallerLoop() {
+        if (!dragAppNode) return;
+        dragAppNode.style.transform = 'none';
+        
+        // Get start coordinates
+        const appRect = dragAppNode.getBoundingClientRect();
+        targetSimX = appRect.left + appRect.width / 2;
+        targetSimY = appRect.top + appRect.height / 2;
+
+        setTimeout(() => {
+          triggerCursorPulse();
+          
+          // Drag app icon visual translation to Applications folder
+          dragAppNode.style.transition = 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)';
+          dragAppNode.style.transform = 'translate(180px, 0px)';
+          
+          // Move cursor alongside icon translation
+          targetSimX += 180;
+          
+          setTimeout(() => {
+            triggerCursorPulse();
+            dragAppNode.style.transition = 'none';
+            dragAppNode.style.transform = 'none';
+            
+            // Loop back
+            runInstallerLoop();
+          }, 2000);
+        }, 1000);
+      }
+
+      runInstallerLoop();
+    }
+  }
+
+  // Setup step observer to bind scroll intersections to simulator steps
+  const observerOptions = {
+    root: null,
+    rootMargin: '-30% 0px -40% 0px', // focused viewport zone
+    threshold: 0
+  };
+
+  const stepObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const stepName = entry.target.getAttribute('data-step');
+        steps.forEach(s => s.classList.remove('active'));
+        entry.target.classList.add('active');
+        
+        if (activeStep !== stepName) {
+          activeStep = stepName;
+          transitionSimulatorTo(stepName);
+        }
+      }
+    });
+  }, observerOptions);
+
+  steps.forEach(step => stepObserver.observe(step));
+
+  // ==========================================
+  // 7. Download Trigger & Scroll Setup Guide
   // ==========================================
   const downloadLinks = document.querySelectorAll('.btn-download');
   const downloadToast = document.getElementById('download-toast');
@@ -836,7 +1003,7 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadToast.classList.remove('show');
       }, 5000);
 
-      // Smoothly scroll to the setup section
+      // Smoothly scroll to the setup step section
       const setupSection = document.getElementById('setup');
       if (setupSection) {
         setTimeout(() => {
