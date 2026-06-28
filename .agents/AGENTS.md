@@ -3,3 +3,6 @@
 - The product name is **Glide** (formerly Crank/Caret). Avoid using "Crank" or "Caret" in code, text copy, or document filenames.
 - The GitHub repository name is `glide-website`.
 - The primary download file target is `Glide_macOS.dmg`.
+- The official branding logos for Glide are:
+  - Dark logo: `logo_dark.png` (used in the header navigation bar).
+  - White logo: `logo_white.png` (used in the dock footer layout).

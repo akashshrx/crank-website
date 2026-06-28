@@ -331,8 +331,10 @@
     color: #121210;
   }
 
-  .logo svg {
+  .logo svg, .logo img {
     color: #121210;
+    display: block;
+    object-fit: contain;
   }
 
   .nav-links {
@@ -719,10 +721,11 @@
     transform: scale(1.2) translateY(-6px);
   }
 
-  .glide-dock-svg {
+  .glide-dock-svg, .glide-dock-img {
     width: 100%;
     height: 100%;
     display: block;
+    object-fit: contain;
   }
 
   .features-section {
