@@ -936,9 +936,9 @@
   .reveal-viewport {
     position: relative;
     width: 100%;
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 2rem;
+    max-width: 100%;
+    margin-inline: 0;
+    padding-inline: clamp(2rem, 6vw, 8rem);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -946,9 +946,7 @@
     align-items: flex-start;
     gap: 1.6rem;
     height: 78vh;
-    overflow: hidden;
-    mask-image: linear-gradient(to bottom, transparent 0%, #fff 15%, #fff 85%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #fff 15%, #fff 85%, transparent 100%);
+    overflow: visible;
   }
 
   .reveal-line {
