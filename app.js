@@ -63,9 +63,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define 3D CatmullRomCurve3 flight path for the paper plane
     const flightPath = new THREE.CatmullRomCurve3([
       new THREE.Vector3(1.8, 0.8, 3.5),
-      new THREE.Vector3(2.2, 1.5, 3.2),
-      new THREE.Vector3(0.8, 0.7, 3.0),  // Transition point to smooth out the first curve dip
-      new THREE.Vector3(-1.5, -0.8, 2.8),
+      new THREE.Vector3(2.0, 1.1, 3.3),
+      new THREE.Vector3(1.8, 1.2, 3.1),
+      new THREE.Vector3(1.2, 1.0, 2.9),
+      new THREE.Vector3(0.2, 0.5, 2.8),
+      new THREE.Vector3(-1.0, -0.2, 2.7),
+      new THREE.Vector3(-2.0, -0.8, 2.6),
       new THREE.Vector3(-2.4, 0.5, 3.5),
       new THREE.Vector3(0.0, 1.5, 4.0),
       new THREE.Vector3(2.0, -1.2, 3.0),
@@ -82,39 +85,49 @@ document.addEventListener('DOMContentLoaded', () => {
       const rightTip = [1.8, 0.4, -1.2];
       const keel = [0, -0.6, -0.8];
       
-      // Top Wing Surface (White color: #ffffff)
-      const topGeom = new THREE.BufferGeometry();
-      const topVertices = new Float32Array([
+      // Wings Geometry
+      const wingsGeom = new THREE.BufferGeometry();
+      const wingsVertices = new Float32Array([
         ...nose, ...leftTip, ...tail,
         ...nose, ...tail, ...rightTip
       ]);
-      topGeom.setAttribute('position', new THREE.BufferAttribute(topVertices, 3));
-      topGeom.computeVertexNormals();
+      wingsGeom.setAttribute('position', new THREE.BufferAttribute(wingsVertices, 3));
+      wingsGeom.computeVertexNormals();
       
+      // Top Wing Surface (Faces upwards - BackSide because of normals direction)
       const topMat = new THREE.MeshPhongMaterial({
         color: 0xffffff,
         flatShading: true,
-        side: THREE.DoubleSide
+        side: THREE.BackSide
       });
-      const topMesh = new THREE.Mesh(topGeom, topMat);
+      const topMesh = new THREE.Mesh(wingsGeom, topMat);
       group.add(topMesh);
       
-      // Bottom Keel Surface (Periwinkle blue: #bec7ed)
-      const bottomGeom = new THREE.BufferGeometry();
-      const bottomVertices = new Float32Array([
+      // Bottom Wing Surface (Faces downwards - FrontSide)
+      const bottomMat = new THREE.MeshPhongMaterial({
+        color: 0xbec7ed,
+        flatShading: true,
+        side: THREE.FrontSide
+      });
+      const bottomMesh = new THREE.Mesh(wingsGeom, bottomMat);
+      group.add(bottomMesh);
+      
+      // Keel Geometry (Vertical sheet)
+      const keelGeom = new THREE.BufferGeometry();
+      const keelVertices = new Float32Array([
         ...nose, ...tail, ...keel,
         ...nose, ...keel, ...tail
       ]);
-      bottomGeom.setAttribute('position', new THREE.BufferAttribute(bottomVertices, 3));
-      bottomGeom.computeVertexNormals();
+      keelGeom.setAttribute('position', new THREE.BufferAttribute(keelVertices, 3));
+      keelGeom.computeVertexNormals();
       
-      const bottomMat = new THREE.MeshPhongMaterial({
+      const keelMat = new THREE.MeshPhongMaterial({
         color: 0xbec7ed,
         flatShading: true,
         side: THREE.DoubleSide
       });
-      const bottomMesh = new THREE.Mesh(bottomGeom, bottomMat);
-      group.add(bottomMesh);
+      const keelMesh = new THREE.Mesh(keelGeom, keelMat);
+      group.add(keelMesh);
       
       group.scale.set(0.22, 0.22, 0.22);
       return group;
