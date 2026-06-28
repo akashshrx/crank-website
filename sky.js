@@ -54,12 +54,12 @@
                   // Steady star (constant soft shine, slight random intensity offset)
                   twinkle = 0.8 + 0.2 * r;
                 } else if (starType < 0.8) {
-                  // Slow, organic shimmer
-                  float speed = 0.8 + fract(r * 100.0) * 1.2;
+                  // Slow, organic shimmer (90% slower)
+                  float speed = 0.08 + fract(r * 100.0) * 0.12;
                   twinkle = 0.55 + 0.45 * sin(uTime * speed + r * 62.8);
                 } else {
-                  // Sharp, flickering shimmer (scintillation)
-                  float speed = 3.5 + fract(r * 1000.0) * 4.0;
+                  // Sharp, flickering shimmer (90% slower)
+                  float speed = 0.35 + fract(r * 1000.0) * 0.40;
                   float wave = 0.5 + 0.5 * sin(uTime * speed + r * 62.8);
                   twinkle = 0.15 + 0.85 * pow(wave, 3.0); // sharp peaks
                 }
