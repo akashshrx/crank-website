@@ -63,12 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define 3D CatmullRomCurve3 flight path for the paper plane
     const flightPath = new THREE.CatmullRomCurve3([
       new THREE.Vector3(1.8, 0.8, 3.5),
-      new THREE.Vector3(2.0, 1.1, 3.3),
-      new THREE.Vector3(1.8, 1.2, 3.1),
-      new THREE.Vector3(1.2, 1.0, 2.9),
-      new THREE.Vector3(0.2, 0.5, 2.8),
-      new THREE.Vector3(-1.0, -0.2, 2.7),
-      new THREE.Vector3(-2.0, -0.8, 2.6),
+      new THREE.Vector3(1.5, 1.2, 3.2),
+      new THREE.Vector3(1.0, 1.3, 3.0),  // Crest point of the first climb
+      new THREE.Vector3(0.2, 1.0, 2.8),  // Gradual swoop down-left
+      new THREE.Vector3(-0.8, 0.4, 2.7),
+      new THREE.Vector3(-1.8, -0.4, 2.6),
       new THREE.Vector3(-2.4, 0.5, 3.5),
       new THREE.Vector3(0.0, 1.5, 4.0),
       new THREE.Vector3(2.0, -1.2, 3.0),
@@ -219,6 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const bottomColorStart = new THREE.Color('#b8dffa');
       const bottomColorEnd = new THREE.Color('#005099');
       skyBackground.material.uniforms.uSkyColorBottom.value.copy(bottomColorStart).lerp(bottomColorEnd, currentScrollFrac);
+
+      // Update star animation progress uniforms
+      if (skyBackground.material.uniforms.uTime) {
+        skyBackground.material.uniforms.uTime.value = clock.getElapsedTime();
+      }
+      if (skyBackground.material.uniforms.uStarOpacity) {
+        const starOpacity = Math.max(0, Math.min(1, (currentScrollFrac - 0.4) / 0.5));
+        skyBackground.material.uniforms.uStarOpacity.value = starOpacity;
+      }
 
       // ------------------------------------------
       // Animate Paper Plane Along Flight Path Curve

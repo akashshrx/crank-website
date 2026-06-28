@@ -11,7 +11,9 @@
       const material = new THREE.ShaderMaterial({
         uniforms: {
           uSkyColor:       { value: new THREE.Color('#0099e6') },
-          uSkyColorBottom: { value: new THREE.Color('#b8dffa') }
+          uSkyColorBottom: { value: new THREE.Color('#b8dffa') },
+          uTime:           { value: 0 },
+          uStarOpacity:    { value: 0 }
         },
         vertexShader: `
           varying vec2 vUv;
@@ -24,9 +26,37 @@
           varying vec2 vUv;
           uniform vec3 uSkyColor;
           uniform vec3 uSkyColorBottom;
+          uniform float uTime;
+          uniform float uStarOpacity;
+
+          float hash(vec2 p) {
+            p = fract(p * vec2(123.34, 456.21));
+            p += dot(p, p + 45.32);
+            return fract(p.x * p.y);
+          }
 
           void main() {
             vec3 skyColor = mix(uSkyColorBottom, uSkyColor, vUv.y);
+            
+            // Add subtle twinkling stars in the darker portions of the sky
+            if (uStarOpacity > 0.01 && vUv.y > 0.15) {
+              vec2 starGrid = vUv * vec2(280.0, 140.0);
+              vec2 ipos = floor(starGrid);
+              vec2 fpos = fract(starGrid);
+              
+              float r = hash(ipos);
+              
+              if (r > 0.988) { // 1.2% density of grid cells contain a star
+                float twinkle = 0.4 + 0.6 * sin(uTime * 2.8 + r * 6.28);
+                float dist = length(fpos - 0.5);
+                float starSize = 0.12;
+                float star = smoothstep(starSize, 0.0, dist);
+                
+                // Add soft star glow
+                skyColor += vec3(star * twinkle * uStarOpacity * 0.95);
+              }
+            }
+
             gl_FragColor = vec4(skyColor, 1.0);
           }
         `,
