@@ -63,8 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define 3D CatmullRomCurve3 flight path for the paper plane
     const flightPath = new THREE.CatmullRomCurve3([
       new THREE.Vector3(1.8, 0.8, 3.5),
-      new THREE.Vector3(2.1, 1.6, 3.2),
-      new THREE.Vector3(-1.5, -1.0, 2.5),
+      new THREE.Vector3(2.2, 1.5, 3.2),
+      new THREE.Vector3(0.8, 0.7, 3.0),  // Transition point to smooth out the first curve dip
+      new THREE.Vector3(-1.5, -0.8, 2.8),
       new THREE.Vector3(-2.4, 0.5, 3.5),
       new THREE.Vector3(0.0, 1.5, 4.0),
       new THREE.Vector3(2.0, -1.2, 3.0),
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create 3D paper plane mesh
     function createPaperPlane() {
-      const geometry = new THREE.BufferGeometry();
+      const group = new THREE.Group();
       
       const nose = [0, 0, 2];
       const tail = [0, 0.15, -1.5];
@@ -81,38 +82,54 @@ document.addEventListener('DOMContentLoaded', () => {
       const rightTip = [1.8, 0.4, -1.2];
       const keel = [0, -0.6, -0.8];
       
-      const vertices = new Float32Array([
-        // Left Wing
+      // Top Wing Surface (White color: #ffffff)
+      const topGeom = new THREE.BufferGeometry();
+      const topVertices = new Float32Array([
         ...nose, ...leftTip, ...tail,
-        // Right Wing
-        ...nose, ...tail, ...rightTip,
-        // Left Keel
-        ...nose, ...tail, ...keel,
-        // Right Keel
-        ...nose, ...keel, ...tail
+        ...nose, ...tail, ...rightTip
       ]);
+      topGeom.setAttribute('position', new THREE.BufferAttribute(topVertices, 3));
+      topGeom.computeVertexNormals();
       
-      geometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3));
-      geometry.computeVertexNormals();
-      
-      const material = new THREE.MeshPhongMaterial({
-        color: 0xf7f5f5,
+      const topMat = new THREE.MeshPhongMaterial({
+        color: 0xffffff,
         flatShading: true,
         side: THREE.DoubleSide
       });
+      const topMesh = new THREE.Mesh(topGeom, topMat);
+      group.add(topMesh);
       
-      const mesh = new THREE.Mesh(geometry, material);
+      // Bottom Keel Surface (Periwinkle blue: #bec7ed)
+      const bottomGeom = new THREE.BufferGeometry();
+      const bottomVertices = new Float32Array([
+        ...nose, ...tail, ...keel,
+        ...nose, ...keel, ...tail
+      ]);
+      bottomGeom.setAttribute('position', new THREE.BufferAttribute(bottomVertices, 3));
+      bottomGeom.computeVertexNormals();
       
-      mesh.scale.set(0.22, 0.22, 0.22);
-      return mesh;
+      const bottomMat = new THREE.MeshPhongMaterial({
+        color: 0xbec7ed,
+        flatShading: true,
+        side: THREE.DoubleSide
+      });
+      const bottomMesh = new THREE.Mesh(bottomGeom, bottomMat);
+      group.add(bottomMesh);
+      
+      group.scale.set(0.22, 0.22, 0.22);
+      return group;
     }
 
     const paperPlane = createPaperPlane();
     scene.add(paperPlane);
 
-    // Create dynamic depth shadow
+    // Create dynamic depth shadow (Toggled off by default)
+    const shadowGeometry = new THREE.BufferGeometry();
+    if (paperPlane.children && paperPlane.children[0]) {
+      shadowGeometry.copy(paperPlane.children[0].geometry);
+    }
     const paperPlaneShadow = new THREE.Mesh(
-      paperPlane.geometry.clone(),
+      shadowGeometry,
       new THREE.MeshBasicMaterial({
         color: 0x001326,
         transparent: true,
@@ -121,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     );
     paperPlaneShadow.scale.copy(paperPlane.scale);
+    paperPlaneShadow.visible = false; // Toggled off as per user request
     scene.add(paperPlaneShadow);
 
     // Dummy references to avoid console/GSAP errors if there's any third-party code
