@@ -810,25 +810,29 @@
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
-    padding: 0.6rem 1.2rem;
+    padding: 0.65rem 1.25rem;
     font-family: var(--font-mono);
     font-size: 0.95rem;
     font-weight: 600;
     color: #ffffff;
     box-shadow: 
-      0 4px 10px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    transition: all 0.2s ease;
+      0 4px 0 rgba(255, 255, 255, 0.08), /* 3D keycap ridge */
+      0 6px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
     user-select: none;
+    position: relative;
+    top: 0;
   }
 
-  .key-cap.active {
+  .key-cap:active, .key-cap.active {
     background: rgba(255, 255, 255, 0.95);
     color: #121210;
     border-color: #ffffff;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-    transform: scale(0.96);
+    box-shadow: 
+      0 1px 0 rgba(255, 255, 255, 0.04),
+      0 2px 5px rgba(0, 0, 0, 0.1);
+    transform: translateY(3px); /* 3D mechanical bump press */
   }
 
   .key-plus {
@@ -838,115 +842,83 @@
     color: rgba(255, 255, 255, 0.4);
   }
 
-  .notch-demo-card {
+  /* Dynamic Minimal Audiogram Card */
+  .audiogram-demo-card {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-
-  .notch-display-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: none;
-    border: none;
-    padding: 5rem 2rem;
-    box-sizing: border-box;
-  }
-
-  .notch-bar-mock {
-    position: relative;
-    width: 250px;
-    height: 36px;
-    background: #000000;
-    border-radius: 0 0 12px 12px;
-    display: flex;
-    align-items: center;
-    padding-inline: 14px;
-    box-sizing: border-box;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
-  }
-
-  .notch-bar-mock.listening {
-    width: 290px;
-    background: #08080c;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-top: none;
-  }
-
-  .mac-notch-lens {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #0f1c3f;
-    border: 1px solid #1c2e5a;
-    flex-shrink: 0;
-  }
-
-  .mac-notch-content {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
-    width: 100%;
-    margin-left: 12px;
+    min-height: 200px;
+    box-sizing: border-box;
   }
 
-  .notch-text-label {
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.45);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .audiogram-desc {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2rem;
     transition: color 0.3s ease;
   }
 
-  .notch-bar-mock.listening .notch-text-label {
-    color: var(--color-primary);
+  .audiogram-demo-card.listening .audiogram-desc {
+    color: #ffffff;
   }
 
-  /* Equalizer wave styles */
-  .audiogram {
+  .audiogram-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .audiogram-wave {
     display: flex;
     align-items: center;
-    gap: 3px;
-    opacity: 0;
-    transform: scaleX(0.7);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    gap: 4px;
+    height: 100%;
   }
 
-  .notch-bar-mock.listening .audiogram {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-
-  .audiogram span {
+  .audiogram-wave span {
     display: block;
-    width: 2px;
+    width: 3px;
     height: 6px;
-    background: var(--color-primary);
-    border-radius: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 1.5px;
+    transition: background-color 0.3s ease, height 0.3s ease, transform 0.3s ease;
   }
 
-  .notch-bar-mock.listening .audiogram span {
-    animation: audiopulse 0.6s ease-in-out infinite alternate;
+  /* Wave animation when keypress summons listening mode */
+  .audiogram-demo-card.listening .audiogram-wave span {
+    background: #ffffff;
+    animation: voice-pulse 0.8s ease-in-out infinite alternate;
   }
 
-  .audiogram span:nth-child(1) { animation-delay: 0.1s; }
-  .audiogram span:nth-child(2) { animation-delay: 0.25s; }
-  .audiogram span:nth-child(3) { animation-delay: 0.05s; }
-  .audiogram span:nth-child(4) { animation-delay: 0.35s; }
-  .audiogram span:nth-child(5) { animation-delay: 0.15s; }
-  .audiogram span:nth-child(6) { animation-delay: 0.4s; }
-  .audiogram span:nth-child(7) { animation-delay: 0.2s; }
+  .audiogram-wave span:nth-child(1) { animation-delay: 0.1s; height: 12px; }
+  .audiogram-wave span:nth-child(2) { animation-delay: 0.3s; height: 18px; }
+  .audiogram-wave span:nth-child(3) { animation-delay: 0.15s; height: 8px; }
+  .audiogram-wave span:nth-child(4) { animation-delay: 0.45s; height: 24px; }
+  .audiogram-wave span:nth-child(5) { animation-delay: 0.2s; height: 14px; }
+  .audiogram-wave span:nth-child(6) { animation-delay: 0.35s; height: 20px; }
+  .audiogram-wave span:nth-child(7) { animation-delay: 0.1s; height: 10px; }
+  .audiogram-wave span:nth-child(8) { animation-delay: 0.5s; height: 26px; }
+  .audiogram-wave span:nth-child(9) { animation-delay: 0.25s; height: 12px; }
+  .audiogram-wave span:nth-child(10) { animation-delay: 0.4s; height: 22px; }
+  .audiogram-wave span:nth-child(11) { animation-delay: 0.15s; height: 8px; }
+  .audiogram-wave span:nth-child(12) { animation-delay: 0.3s; height: 16px; }
+  .audiogram-wave span:nth-child(13) { animation-delay: 0.2s; height: 14px; }
+  .audiogram-wave span:nth-child(14) { animation-delay: 0.45s; height: 18px; }
+  .audiogram-wave span:nth-child(15) { animation-delay: 0.1s; height: 10px; }
 
-  @keyframes audiopulse {
-    from { transform: scaleY(0.6); }
-    to { transform: scaleY(3.0); }
+  @keyframes voice-pulse {
+    from {
+      transform: scaleY(0.4);
+      background: rgba(255, 255, 255, 0.7);
+    }
+    to {
+      transform: scaleY(2.2);
+      background: #ffffff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
   }
 
   /* Scroll Reveal Section (Vercel-style Masked Text Reveal) */
@@ -972,8 +944,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    gap: 0.5rem;
-    height: 70vh;
+    gap: 0.25rem;
+    height: 75vh;
     overflow: hidden;
     mask-image: linear-gradient(to bottom, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #fff 20%, #fff 80%, transparent 100%);
@@ -981,7 +953,7 @@
 
   .reveal-line {
     font-family: var(--font-sans);
-    font-size: clamp(3rem, 7.5vw, 6.5rem);
+    font-size: clamp(2rem, 5.2vw, 4.5rem);
     font-weight: 900;
     line-height: 0.95;
     letter-spacing: -0.04em;

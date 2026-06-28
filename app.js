@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollTrigger: {
         trigger: ".scroll-reveal-section",
         start: "top top",
-        end: "+=180%",
+        end: "+=220%",
         scrub: 0.8,
         pin: true,
         anticipatePin: 1
@@ -393,6 +393,11 @@ document.addEventListener('DOMContentLoaded', () => {
       "+=0.3"
     )
     .fromTo(".reveal-line.line-3", 
+      { y: "50px", opacity: 0.05 }, 
+      { y: "0px", opacity: 1, duration: 1, ease: "power2.out" }, 
+      "+=0.3"
+    )
+    .fromTo(".reveal-line.line-4", 
       { y: "50px", opacity: 0.05 }, 
       { y: "0px", opacity: 1, duration: 1, ease: "power2.out" }, 
       "+=0.3"
@@ -447,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const keyCtrl = document.getElementById('key-ctrl');
   const keyOpt = document.getElementById('key-opt');
   const keyDemoBtn = document.getElementById('keyboard-trigger-btn');
-  const notchMock = document.querySelector('.notch-bar-mock');
+  const audiogramCard = document.getElementById('audiogram-card');
   const notchText = document.getElementById('interactive-notch-text');
   
   let ctrlPressed = false;
@@ -457,14 +462,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startListening() {
     if (releaseTimeout) clearTimeout(releaseTimeout);
-    if (notchMock) notchMock.classList.add('listening');
+    if (audiogramCard) audiogramCard.classList.add('listening');
     if (notchText) notchText.innerText = "Listening...";
   }
 
   function stopListening() {
     if (releaseTimeout) clearTimeout(releaseTimeout);
     releaseTimeout = setTimeout(() => {
-      if (notchMock) notchMock.classList.remove('listening');
+      if (audiogramCard) audiogramCard.classList.remove('listening');
       if (notchText) notchText.innerText = "Hold Hotkey to Summon";
       if (keyCtrl) keyCtrl.classList.remove('active');
       if (keyOpt) keyOpt.classList.remove('active');
@@ -508,16 +513,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Tap/Click fallback triggers simulation
+  // Tap/Click fallback triggers simulation for keycaps (individual clicks!)
+  if (keyCtrl) {
+    keyCtrl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      ctrlPressed = !ctrlPressed;
+      if (ctrlPressed) {
+        keyCtrl.classList.add('active');
+      } else {
+        keyCtrl.classList.remove('active');
+      }
+      checkListeningState();
+    });
+  }
+
+  if (keyOpt) {
+    keyOpt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      optPressed = !optPressed;
+      if (optPressed) {
+        keyOpt.classList.add('active');
+      } else {
+        keyOpt.classList.remove('active');
+      }
+      checkListeningState();
+    });
+  }
+
+  function checkListeningState() {
+    if (ctrlPressed && optPressed) {
+      simulatedListening = true;
+      startListening();
+    } else {
+      simulatedListening = false;
+      // Immediately stop listening if click toggles them off
+      if (releaseTimeout) clearTimeout(releaseTimeout);
+      if (audiogramCard) audiogramCard.classList.remove('listening');
+      if (notchText) notchText.innerText = "Hold Hotkey to Summon";
+    }
+  }
+
+  // Clicking the wrapper triggers toggle of both
   if (keyDemoBtn) {
     keyDemoBtn.addEventListener('click', () => {
       simulatedListening = !simulatedListening;
       if (simulatedListening) {
+        ctrlPressed = true;
+        optPressed = true;
         if (keyCtrl) keyCtrl.classList.add('active');
         if (keyOpt) keyOpt.classList.add('active');
         startListening();
       } else {
-        stopListening();
+        ctrlPressed = false;
+        optPressed = false;
+        if (keyCtrl) keyCtrl.classList.remove('active');
+        if (keyOpt) keyOpt.classList.remove('active');
+        if (releaseTimeout) clearTimeout(releaseTimeout);
+        if (audiogramCard) audiogramCard.classList.remove('listening');
+        if (notchText) notchText.innerText = "Hold Hotkey to Summon";
       }
     });
   }

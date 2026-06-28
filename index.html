@@ -24,7 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="icon" type="image/png" href="logo_dark.png?v=11">
 </head>
 <body data-cursor-color="blue">
 
@@ -121,23 +122,19 @@
           <h3>Trigger Glide</h3>
           <p class="key-desc">Press and hold the hotkey on your Mac keyboard to summon Glide instantly, or click the keys below to simulate.</p>
           <div class="keyboard-trigger" id="keyboard-trigger-btn">
-            <kbd class="key-cap" id="key-ctrl" style="font-size: 1.35rem; line-height: 1; padding: 0.4rem 1.2rem;">⌃</kbd>
+            <kbd class="key-cap" id="key-ctrl">⌃</kbd>
             <span class="key-plus">+</span>
-            <kbd class="key-cap" id="key-opt" style="font-size: 1.35rem; line-height: 1; padding: 0.4rem 1.2rem;">⌥</kbd>
+            <kbd class="key-cap" id="key-opt">⌥</kbd>
           </div>
         </div>
 
-        <!-- Right: MacBook Pro Notch visualizer -->
-        <div class="notch-demo-card">
-          <div class="notch-display-container">
-            <div class="notch-bar-mock">
-              <div class="mac-notch-lens"></div>
-              <div class="mac-notch-content" style="justify-content: center; margin-left: 0;">
-                <!-- Centered Audiogram -->
-                <div class="audiogram">
-                  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                </div>
-              </div>
+        <!-- Right: Dynamic minimal audiogram card -->
+        <div class="glass-card audiogram-demo-card" id="audiogram-card">
+          <h3>Voice Waveform</h3>
+          <p class="audiogram-desc" id="interactive-notch-text">Hold Hotkey to Summon</p>
+          <div class="audiogram-container">
+            <div class="audiogram-wave" id="demo-audiogram">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
             </div>
           </div>
         </div>
@@ -147,9 +144,10 @@
     <!-- Scroll Reveal Section -->
     <section class="scroll-reveal-section">
       <div class="reveal-viewport">
-        <div class="reveal-line line-1">SPEAK INSTANTLY.</div>
-        <div class="reveal-line line-2">DRIVE DESKTOP.</div>
-        <div class="reveal-line line-3">WITHOUT EFFORT.</div>
+        <div class="reveal-line line-1">REMEMBERS EVERYTHING YOU SAW.</div>
+        <div class="reveal-line line-2">JUST YOUR VOICE.</div>
+        <div class="reveal-line line-3">LIGHTWEIGHT.</div>
+        <div class="reveal-line line-4">DEPLOY SWARMS.</div>
       </div>
     </section>
 
@@ -229,10 +227,10 @@
 
   <!-- Three.js for WebGL Background Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="sky.js?v=10"></script>
+  <script src="sky.js?v=11"></script>
   <script src="ImprovedNoise.js"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=10"></script>
+  <script src="app.js?v=11"></script>
 </body>
 </html>
