@@ -140,9 +140,9 @@
   h3 { font-size: clamp(1.35rem, 1rem + 1vw, 1.85rem); }
   h4 { font-size: 1.1rem; }
 
-  h1 em, h2 em {
+  h1 em, h2 em, h3 em, h4 em {
     font-style: italic;
-    font-family: var(--font-display);
+    font-family: 'Crafty Girls', cursive;
     font-weight: 400;
   }
 
@@ -471,7 +471,7 @@
   }
 
   .hero-title em {
-    font-family: var(--font-display);
+    font-family: 'Crafty Girls', cursive;
     font-style: italic;
     font-weight: 400;
   }
@@ -512,7 +512,7 @@
   }
 
   .features-header em {
-    font-family: var(--font-display);
+    font-family: 'Crafty Girls', cursive;
     font-style: italic;
     font-weight: 400;
   }
