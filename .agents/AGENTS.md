@@ -1,5 +1,5 @@
-# Project Customization Rules — Crank Website
+# Project Customization Rules — Glide Website
 
-- The product name is **Crank** (formerly Caret). Avoid using "Caret" in code, text copy, or document filenames.
-- The GitHub repository name is `crank-website`.
-- The primary download file target is `Crank_macOS.dmg`.
+- The product name is **Glide** (formerly Crank/Caret). Avoid using "Crank" or "Caret" in code, text copy, or document filenames.
+- The GitHub repository name is `glide-website`.
+- The primary download file target is `Glide_macOS.dmg`.

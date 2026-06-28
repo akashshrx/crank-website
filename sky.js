@@ -1,223 +1,299 @@
-( function () {
+(function () {
 
-	/**
- * Based on "A Practical Analytic Model for Daylight"
- * aka The Preetham Model, the de facto standard analytic skydome model
- * https://www.researchgate.net/publication/220720443_A_Practical_Analytic_Model_for_Daylight
- *
- * First implemented by Simon Wallner
- * http://www.simonwallner.at/projects/atmospheric-scattering
- *
- * Improved by Martin Upitis
- * http://blenderartists.org/forum/showthread.php?245954-preethams-sky-impementation-HDR
- *
- * Three.js integration by zz85 http://twitter.com/blurspline
-*/
+  // ==========================================
+  // Gradient Sky Background Plane
+  // Fixed sunny-day colors: bright blue top, light sky-blue bottom
+  // ==========================================
+  class SkyBackground extends THREE.Mesh {
+    constructor() {
+      const geometry = new THREE.PlaneGeometry(1, 1);
+      
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          uSkyColor:       { value: new THREE.Color('#0099e6') },
+          uSkyColorBottom: { value: new THREE.Color('#b8dffa') }
+        },
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          varying vec2 vUv;
+          uniform vec3 uSkyColor;
+          uniform vec3 uSkyColorBottom;
 
-	class Sky extends THREE.Mesh {
+          void main() {
+            vec3 skyColor = mix(uSkyColorBottom, uSkyColor, vUv.y);
+            gl_FragColor = vec4(skyColor, 1.0);
+          }
+        `,
+        depthWrite: false,
+        depthTest: true
+      });
 
-		constructor() {
+      super(geometry, material);
+      this.position.set(0, 0, -100);
+    }
 
-			const shader = Sky.SkyShader;
-			const material = new THREE.ShaderMaterial( {
-				name: 'SkyShader',
-				fragmentShader: shader.fragmentShader,
-				vertexShader: shader.vertexShader,
-				uniforms: THREE.UniformsUtils.clone( shader.uniforms ),
-				side: THREE.BackSide,
-				depthWrite: false
-			} );
-			super( new THREE.BoxGeometry( 1, 1, 1 ), material );
+    updateViewport(camera) {
+      const depth = Math.abs(this.position.z - camera.position.z);
+      const fovRad = (camera.fov * Math.PI) / 180;
+      const height = 2 * Math.tan(fovRad / 2) * depth;
+      const width = height * camera.aspect;
+      this.scale.set(width, height, 1);
+    }
+  }
 
-		}
+  // ==========================================
+  // Instanced Cloud Sprites
+  // Matching air.inc "clouds" theme: scattered softly across the upper area
+  // ==========================================
 
-	}
 
-	Sky.prototype.isSky = true;
-	Sky.SkyShader = {
-		uniforms: {
-			'turbidity': {
-				value: 2
-			},
-			'rayleigh': {
-				value: 1
-			},
-			'mieCoefficient': {
-				value: 0.005
-			},
-			'mieDirectionalG': {
-				value: 0.8
-			},
-			'sunPosition': {
-				value: new THREE.Vector3()
-			},
-			'up': {
-				value: new THREE.Vector3( 0, 1, 0 )
-			}
-		},
-		vertexShader:
-  /* glsl */
-  `
-		uniform vec3 sunPosition;
-		uniform float rayleigh;
-		uniform float turbidity;
-		uniform float mieCoefficient;
-		uniform vec3 up;
+  class Clouds extends THREE.InstancedMesh {
+    constructor(cloudTexture, skyBackground, camera) {
+      // Exactly 60 sprite instances
+      const count = 60;
+      
+      const fovRad = (camera.fov * Math.PI) / 180;
+      const distance = 7.4;
+      const vpHeight = 2 * Math.tan(fovRad / 2) * distance;
+      const vpWidth  = vpHeight * camera.aspect;
+      
+      // Base sprite size (square since cloud.png is a square cloud)
+      const h = Math.max(vpWidth / 9, 6);
+      const geometry = new THREE.PlaneGeometry(h, h);
 
-		varying vec3 vWorldPosition;
-		varying vec3 vSunDirection;
-		varying float vSunfade;
-		varying vec3 vBetaR;
-		varying vec3 vBetaM;
-		varying float vSunE;
+      // Re-use the high-performance shader with the photo texture
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          uCloud:          { value: cloudTexture },
+          uDepth:          { value: new THREE.Vector2(-4, 9.2) },
+          uSkyColor:       { value: skyBackground.material.uniforms.uSkyColor.value },
+          uSkyColorBottom: { value: skyBackground.material.uniforms.uSkyColorBottom.value }
+        },
+        vertexShader: `
+          uniform vec2 uDepth;
+          varying vec2 vUv;
+          varying float vDepth;
+          varying vec2 vFlatUv;
+          varying vec2 vViewportUV;
 
-		// constants for atmospheric scattering
-		const float e = 2.71828182845904523536028747135266249775724709369995957;
-		const float pi = 3.141592653589793238462643383279502884197169;
+          void main() {
+              vUv = uv;
 
-		// wavelength of used primaries, according to preetham
-		const vec3 lambda = vec3( 680E-9, 550E-9, 450E-9 );
-		// this pre-calcuation replaces older TotalRayleigh(vec3 lambda) function:
-		// (8.0 * pow(pi, 3.0) * pow(pow(n, 2.0) - 1.0, 2.0) * (6.0 + 3.0 * pn)) / (3.0 * N * pow(lambda, vec3(4.0)) * (6.0 - 7.0 * pn))
-		const vec3 totalRayleigh = vec3( 5.804542996261093E-6, 1.3562911419845635E-5, 3.0265902468824876E-5 );
+              vec4 worldPosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
+              vec4 viewPosition  = viewMatrix  * worldPosition;
+              gl_Position = projectionMatrix * viewPosition;
 
-		// mie stuff
-		// K coefficient for the primaries
-		const float v = 4.0;
-		const vec3 K = vec3( 0.686, 0.678, 0.666 );
-		// MieConst = pi * pow( ( 2.0 * pi ) / lambda, vec3( v - 2.0 ) ) * K
-		const vec3 MieConst = vec3( 1.8399918514433978E14, 2.7798023919660528E14, 4.0790479543861094E14 );
+              vec3 ndc = gl_Position.xyz / gl_Position.w;
+              vViewportUV = ndc.xy * 0.5 + 0.5;
 
-		// earth shadow hack
-		// cutoffAngle = pi / 1.95;
-		const float cutoffAngle = 1.6110731556870734;
-		const float steepness = 1.5;
-		const float EE = 1000.0;
+              float cosR = instanceMatrix[0][0];
+              float sinR = instanceMatrix[1][0];
 
-		float sunIntensity( float zenithAngleCos ) {
-			zenithAngleCos = clamp( zenithAngleCos, -1.0, 1.0 );
-			return EE * max( 0.0, 1.0 - pow( e, -( ( cutoffAngle - acos( zenithAngleCos ) ) / steepness ) ) );
-		}
+              vec2 centeredUv = uv - 0.5;
+              vec2 unrotatedUv = vec2(
+                  centeredUv.x * cosR + centeredUv.y * sinR,
+                  -centeredUv.x * sinR + centeredUv.y * cosR
+              ) + 0.5;
 
-		vec3 totalMie( float T ) {
-			float c = ( 0.2 * T ) * 10E-18;
-			return 0.434 * c * MieConst;
-		}
+              vFlatUv = unrotatedUv;
 
-		void main() {
+              float d = (worldPosition.z - uDepth.x) / (uDepth.y - uDepth.x);
+              vDepth = clamp(d, 0.0, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform sampler2D uCloud;
+          varying vec2 vUv;
+          varying float vDepth;
+          varying vec2 vFlatUv;
+          uniform vec3 uSkyColor;
+          uniform vec3 uSkyColorBottom;
+          varying vec2 vViewportUV;
 
-			vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
-			vWorldPosition = worldPosition.xyz;
+          void main() {
+              vec4 tex = texture2D(uCloud, vUv);
+              float fade = vDepth;
 
-			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-			gl_Position.z = gl_Position.w; // set z to camera.far
+              // Depth-based alpha fading
+              float invFade = 1.0 - pow(fade, 10.0);
+              tex.a *= 1.0 - pow(1.0 - fade, 1.5);
+              tex.a *= invFade;
 
-			vSunDirection = normalize( sunPosition );
+              vec3 averageSkyColour = (uSkyColor + uSkyColorBottom) / 2.0;
+              float skyBrightness = dot(averageSkyColour, vec3(0.2126, 0.7152, 0.0722));
 
-			vSunE = sunIntensity( dot( vSunDirection, up ) );
+              vec3 cloudColour = mix(averageSkyColour, tex.rgb * clamp(skyBrightness * 3.0, 0.0, 1.0), clamp(skyBrightness * 2.0, 0.0, 1.0));
+              vec3 skyColor = mix(uSkyColor, uSkyColorBottom, 1.0 - vViewportUV.y);
 
-			vSunfade = 1.0 - clamp( 1.0 - exp( ( sunPosition.y / 450000.0 ) ), 0.0, 1.0 );
+              vec3 greyGradient = mix(cloudColour * 0.5, cloudColour, smoothstep(0.2, 0.6, vFlatUv.y));
+              vec3 color = mix(greyGradient, mix(skyColor, cloudColour, 0.1), 1.0 - smoothstep(0.1, 0.6, vFlatUv.y));
 
-			float rayleighCoefficient = rayleigh - ( 1.0 * ( 1.0 - vSunfade ) );
+              gl_FragColor = vec4(color, tex.a);
+          }
+        `,
+        transparent: true,
+        depthWrite: false
+      });
 
-			// extinction (absorbtion + out scattering)
-			// rayleigh coefficients
-			vBetaR = totalRayleigh * rayleighCoefficient;
+      super(geometry, material, count);
+      this.frustumCulled = false;
+      this.h = h;
+      this.cloudData = [];
+      this._viewport = { width: vpWidth, height: vpHeight };
 
-			// mie coefficients
-			vBetaM = totalMie( turbidity ) * mieCoefficient;
+      this._initClouds();
+    }
 
-		}`,
-		fragmentShader:
-  /* glsl */
-  `
-		varying vec3 vWorldPosition;
-		varying vec3 vSunDirection;
-		varying float vSunfade;
-		varying vec3 vBetaR;
-		varying vec3 vBetaM;
-		varying float vSunE;
+    _initClouds() {
+      const vp = this._viewport;
 
-		uniform float mieDirectionalG;
-		uniform vec3 up;
+      // Seeded random for deterministic layouts
+      let seed = 23;
+      const rand = () => {
+        let x = 10000 * Math.sin(seed++);
+        return x - Math.floor(x);
+      };
 
-		const vec3 cameraPos = vec3( 0.0, 0.0, 0.0 );
+      this.cloudData = [];
+      const targetCount = 60;
+      let instanceIdx = 0;
+      const scrollWorldHeight = vp.height * 4; 
 
-		// constants for atmospheric scattering
-		const float pi = 3.141592653589793238462643383279502884197169;
+      while (instanceIdx < targetCount) {
+        const xSpread = vp.width * 1.5;
+        const baseX = (rand() - 0.5) * xSpread;
+        const baseY = (vp.height / 2) - rand() * (scrollWorldHeight + vp.height);
+        const baseZ = -4 + (rand() * 13.2);
 
-		const float n = 1.0003; // refractive index of air
-		const float N = 2.545E25; // number of molecules per unit volume for air at 288.15K and 1013mb (sea level -45 celsius)
+        // Group size: 1 to 3 overlapping sprites to create diverse fluffy formations
+        const groupSize = rand() < 0.35 ? 1 : (rand() < 0.75 ? 2 : 3);
+        const subSprites = [];
 
-		// optical length at zenith for molecules
-		const float rayleighZenithLength = 8.4E3;
-		const float mieZenithLength = 1.25E3;
-		// 66 arc seconds -> degrees, and the cosine of that
-		const float sunAngularDiameterCos = 0.999956676946448443553574619906976478926848692873900859324;
+        for (let s = 0; s < groupSize; s++) {
+          // Offsets within the cluster
+          const dx = s === 0 ? 0 : (rand() - 0.5) * 5.0;
+          const dy = s === 0 ? 0 : (rand() - 0.5) * 1.8;
+          const dz = s === 0 ? 0 : (rand() - 0.5) * 0.4;
 
-		// 3.0 / ( 16.0 * pi )
-		const float THREE_OVER_SIXTEENPI = 0.05968310365946075;
-		// 1.0 / ( 4.0 * pi )
-		const float ONE_OVER_FOURPI = 0.07957747154594767;
+          // Scale variation (relative to the base cloud scale)
+          const scale = (0.22 + rand() * 0.45) * (s === 0 ? 1.0 : 0.7 + rand() * 0.4);
+          
+          // Subtle aspect ratio variation (from 0.9 to 1.25) to stretch ever so slightly, keeping it very round and fluffy
+          const aspect = 0.9 + rand() * 0.35;
 
-		float rayleighPhase( float cosTheta ) {
-			return THREE_OVER_SIXTEENPI * ( 1.0 + pow( cosTheta, 2.0 ) );
-		}
+          const rotation = rand() * Math.PI * 2;
+          const direction = rand() < 0.5 ? 1 : -1;
+          const speed = 0.15 + rand() * 0.4;
 
-		float hgPhase( float cosTheta, float g ) {
-			float g2 = pow( g, 2.0 );
-			float inverse = 1.0 / pow( 1.0 - 2.0 * g * cosTheta + g2, 1.5 );
-			return ONE_OVER_FOURPI * ( ( 1.0 - g2 ) * inverse );
-		}
+          subSprites.push({
+            dx, dy, dz,
+            scale,
+            aspect,
+            rotation,
+            direction,
+            speed
+          });
+          
+          instanceIdx++;
+          if (instanceIdx >= targetCount) break;
+        }
 
-		void main() {
+        this.cloudData.push({
+          x: baseX,
+          y: baseY,
+          z: baseZ,
+          subSprites
+        });
+      }
 
-			vec3 direction = normalize( vWorldPosition - cameraPos );
+      this._updateInstances();
+    }
 
-			// optical length
-			// cutoff angle at 90 to avoid singularity in next formula.
-			float zenithAngle = acos( max( 0.0, dot( up, direction ) ) );
-			float inverse = 1.0 / ( cos( zenithAngle ) + 0.15 * pow( 93.885 - ( ( zenithAngle * 180.0 ) / pi ), -1.253 ) );
-			float sR = rayleighZenithLength * inverse;
-			float sM = mieZenithLength * inverse;
+    _updateInstances() {
+      // Sort clusters by depth (back to front) to ensure perfect alpha blending
+      this.cloudData.sort((a, b) => a.z - b.z);
 
-			// combined extinction factor
-			vec3 Fex = exp( -( vBetaR * sR + vBetaM * sM ) );
+      const dummy = new THREE.Object3D();
+      let currentIdx = 0;
 
-			// in scattering
-			float cosTheta = dot( direction, vSunDirection );
+      this.cloudData.forEach((cloud) => {
+        cloud.subSprites.forEach((sprite) => {
+          // air.inc breathing animation scale multiplier
+          const breathing = 0.08 * Math.sin(10 * sprite.rotation);
+          const currentScale = sprite.scale + breathing;
 
-			float rPhase = rayleighPhase( cosTheta * 0.5 + 0.5 );
-			vec3 betaRTheta = vBetaR * rPhase;
+          dummy.position.set(
+            cloud.x + sprite.dx,
+            cloud.y + sprite.dy,
+            cloud.z + sprite.dz
+          );
+          dummy.scale.set(currentScale * sprite.aspect, currentScale, currentScale);
+          dummy.rotation.set(0, 0, sprite.rotation);
+          dummy.updateMatrix();
 
-			float mPhase = hgPhase( cosTheta, mieDirectionalG );
-			vec3 betaMTheta = vBetaM * mPhase;
+          this.setMatrixAt(currentIdx++, dummy.matrix);
+        });
+      });
 
-			vec3 Lin = pow( vSunE * ( ( betaRTheta + betaMTheta ) / ( vBetaR + vBetaM ) ) * ( 1.0 - Fex ), vec3( 1.5 ) );
-			Lin *= mix( vec3( 1.0 ), pow( vSunE * ( ( betaRTheta + betaMTheta ) / ( vBetaR + vBetaM ) ) * Fex, vec3( 1.0 / 2.0 ) ), clamp( pow( 1.0 - dot( up, vSunDirection ), 5.0 ), 0.0, 1.0 ) );
+      this.instanceMatrix.needsUpdate = true;
+    }
 
-			// nightsky
-			float theta = acos( direction.y ); // elevation --> y-axis, [-pi/2, pi/2]
-			float phi = atan( direction.z, direction.x ); // azimuth --> x-axis [-pi/2, pi/2]
-			vec2 uv = vec2( phi, theta ) / vec2( 2.0 * pi, pi ) + vec2( 0.5, 0.0 );
-			vec3 L0 = vec3( 0.1 ) * Fex;
+    // Rebuild on window resize
+    resize(camera) {
+      const fovRad = (camera.fov * Math.PI) / 180;
+      const distance = 7.4;
+      const vpHeight = 2 * Math.tan(fovRad / 2) * distance;
+      const vpWidth  = vpHeight * camera.aspect;
+      this._viewport = { width: vpWidth, height: vpHeight };
 
-			// composition + solar disc
-			float sundisk = smoothstep( sunAngularDiameterCos, sunAngularDiameterCos + 0.00002, cosTheta );
-			L0 += ( vSunE * 19000.0 * Fex ) * sundisk;
+      const h = Math.max(vpWidth / 9, 6);
+      this.h = h;
 
-			vec3 texColor = ( Lin + L0 ) * 0.04 + vec3( 0.0, 0.0003, 0.00075 );
+      this.geometry.dispose();
+      this.geometry = new THREE.PlaneGeometry(h, h);
 
-			vec3 retColor = pow( texColor, vec3( 1.0 / ( 1.2 + ( 1.2 * vSunfade ) ) ) );
+      this._initClouds();
+    }
 
-			gl_FragColor = vec4( retColor, 1.0 );
+    // Per-frame physics/drift update
+    update(dt) {
+      this.cloudData.forEach((cloud) => {
+        // Slow drift along Z depth plane
+        cloud.z += dt * 0.5;
+        // Wrap back when passing the foreground clip boundary
+        if (cloud.z > 9.2) {
+          cloud.z = -4;
+        }
 
-			#include <tonemapping_fragment>
-			#include <encodings_fragment>
+        // Infinite vertical wrapping
+        const margin = this.h * 1.0; 
+        const absY = cloud.y + this.position.y;
+        if (absY < -this._viewport.height / 2 - margin) {
+          // Wrapped off the bottom, move it to the top
+          cloud.y += this._viewport.height + margin * 2;
+        } else if (absY > this._viewport.height / 2 + margin) {
+          // Wrapped off the top, move it to the bottom
+          cloud.y -= this._viewport.height + margin * 2;
+        }
 
-		}`
-	};
+        // Slow spin for realistic fluid rotation
+        cloud.subSprites.forEach((sprite) => {
+          sprite.rotation += dt * sprite.speed * sprite.direction * 0.05;
+        });
+      });
 
-	THREE.Sky = Sky;
+      this._updateInstances();
+    }
+  }
 
-} )();
+  // Export to THREE namespace
+  THREE.SkyBackground = SkyBackground;
+  THREE.Clouds = Clouds;
+
+})();
