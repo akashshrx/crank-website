@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define 3D CatmullRomCurve3 flight path for the paper plane
     const flightPath = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(1.8, 1.2, 3.5),
-      new THREE.Vector3(2.2, 0.2, 3.0),
+      new THREE.Vector3(1.8, 0.8, 3.5),
+      new THREE.Vector3(2.1, 1.6, 3.2),
       new THREE.Vector3(-1.5, -1.0, 2.5),
       new THREE.Vector3(-2.4, 0.5, 3.5),
       new THREE.Vector3(0.0, 1.5, 4.0),
