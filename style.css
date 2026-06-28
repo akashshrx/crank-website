@@ -143,7 +143,7 @@
   h1 em, h2 em, h3 em, h4 em {
     font-style: italic;
     font-family: 'Caveat', cursive;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   p {
@@ -473,7 +473,7 @@
   .hero-title em {
     font-family: 'Caveat', cursive;
     font-style: italic;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   .hero-subtitle {
@@ -514,7 +514,7 @@
   .features-header em {
     font-family: 'Caveat', cursive;
     font-style: italic;
-    font-weight: 400;
+    font-weight: 700;
   }
 
   .features-grid {
