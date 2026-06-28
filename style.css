@@ -938,7 +938,7 @@
     width: 100%;
     max-width: 100%;
     margin-inline: 0;
-    padding-inline: clamp(2rem, 6vw, 8rem);
+    padding-inline: clamp(1rem, 4vw, 4rem);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -951,7 +951,7 @@
 
   .reveal-line {
     font-family: var(--font-sans);
-    font-size: clamp(2.2rem, 5.8vw, 5.5rem);
+    font-size: clamp(1.4rem, 3.8vw, 4.5rem);
     font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.04em;
