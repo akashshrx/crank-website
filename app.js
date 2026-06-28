@@ -52,11 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // 3D Paper Plane & Lighting Setup
     // ==========================================
-    // Ambient and Directional lighting for soft, faceted origami shading
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-    scene.add(ambientLight);
+    // HemisphereLight for soft sky light and blue periwinkle bounce light from below
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x8ea2e8, 0.75);
+    scene.add(hemiLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.95);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.85);
     dirLight.position.set(5, 12, 8);
     scene.add(dirLight);
 
@@ -74,6 +74,35 @@ document.addEventListener('DOMContentLoaded', () => {
       new THREE.Vector3(-0.5, -2.2, 3.5)
     ]);
 
+    // Generate a procedural noise paper texture for a realistic matte paper feel
+    function createPaperTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      
+      // Base off-white color
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, 256, 256);
+      
+      // Draw very subtle fine noise grain
+      const imgData = ctx.getImageData(0, 0, 256, 256);
+      const data = imgData.data;
+      for (let i = 0; i < data.length; i += 4) {
+        const noise = (Math.random() - 0.5) * 12; // subtle grain
+        data[i] = Math.min(255, Math.max(0, data[i] + noise));
+        data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise));
+        data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise));
+      }
+      ctx.putImageData(imgData, 0, 0);
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(3, 3); // repeat across faces
+      return texture;
+    }
+
     // Create 3D paper plane mesh
     function createPaperPlane() {
       const group = new THREE.Group();
@@ -84,6 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const rightTip = [1.8, 0.4, -1.2];
       const keel = [0, -0.6, -0.8];
       
+      const paperTexture = createPaperTexture();
+
       // Wings Geometry
       const wingsGeom = new THREE.BufferGeometry();
       const wingsVertices = new Float32Array([
@@ -97,16 +128,30 @@ document.addEventListener('DOMContentLoaded', () => {
       const topMat = new THREE.MeshPhongMaterial({
         color: 0xffffff,
         flatShading: true,
-        side: THREE.BackSide
+        side: THREE.BackSide,
+        map: paperTexture,
+        bumpMap: paperTexture,
+        bumpScale: 0.015,
+        shininess: 5,
+        polygonOffset: true,
+        polygonOffsetFactor: 1,
+        polygonOffsetUnits: 1
       });
       const topMesh = new THREE.Mesh(wingsGeom, topMat);
       group.add(topMesh);
       
       // Bottom Wing Surface (Faces downwards - FrontSide)
       const bottomMat = new THREE.MeshPhongMaterial({
-        color: 0xbec7ed,
+        color: 0x9fb2e8, // slightly more saturated periwinkle to show up clearly
         flatShading: true,
-        side: THREE.FrontSide
+        side: THREE.FrontSide,
+        map: paperTexture,
+        bumpMap: paperTexture,
+        bumpScale: 0.015,
+        shininess: 5,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1
       });
       const bottomMesh = new THREE.Mesh(wingsGeom, bottomMat);
       group.add(bottomMesh);
@@ -121,9 +166,13 @@ document.addEventListener('DOMContentLoaded', () => {
       keelGeom.computeVertexNormals();
       
       const keelMat = new THREE.MeshPhongMaterial({
-        color: 0xbec7ed,
+        color: 0x9fb2e8,
         flatShading: true,
-        side: THREE.DoubleSide
+        side: THREE.DoubleSide,
+        map: paperTexture,
+        bumpMap: paperTexture,
+        bumpScale: 0.015,
+        shininess: 5
       });
       const keelMesh = new THREE.Mesh(keelGeom, keelMat);
       group.add(keelMesh);
