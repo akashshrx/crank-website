@@ -1118,4 +1118,155 @@
     object-fit: contain;
     display: block;
   }
+
+  /* Bento Grid Section */
+  .bento-section {
+    width: 100%;
+    max-width: 1000px;
+    padding-block: 100px;
+    margin-inline: auto;
+    box-sizing: border-box;
+    color: var(--text-main);
+  }
+
+  .bento-header {
+    font-family: var(--font-sans);
+    font-size: clamp(1.8rem, 1rem + 2vw, 2.5rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .bento-subtitle {
+    font-family: var(--font-sans);
+    font-size: clamp(0.95rem, 0.8rem + 0.5vw, 1.15rem);
+    text-align: center;
+    color: var(--text-subtle);
+    max-width: 600px;
+    margin-inline: auto;
+    margin-bottom: 4rem;
+    text-wrap: pretty;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .bento-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+    padding: 2.25rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bento-card.col-span-2 {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .bento-card h3 {
+    font-family: var(--font-sans);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  .bento-card p {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--text-subtle);
+    margin: 0;
+  }
+
+  .bento-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 120px;
+    position: relative;
+  }
+
+  /* SVG Line Art Styling */
+  .bento-diagram svg {
+    display: block;
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    overflow: visible;
+  }
+
+  .bento-diagram svg path,
+  .bento-diagram svg circle,
+  .bento-diagram svg ellipse,
+  .bento-diagram svg line,
+  .bento-diagram svg rect {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 1;
+    fill: none;
+    transition: stroke 0.35s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bento-diagram svg .accent-line {
+    stroke: rgba(255, 255, 255, 0.28);
+    stroke-width: 1.25;
+  }
+
+  /* Hover interactivity states */
+  .bento-card:hover .bento-diagram svg path,
+  .bento-card:hover .bento-diagram svg circle,
+  .bento-card:hover .bento-diagram svg ellipse,
+  .bento-card:hover .bento-diagram svg line,
+  .bento-card:hover .bento-diagram svg rect {
+    stroke: rgba(255, 255, 255, 0.35);
+  }
+
+  .bento-card:hover .bento-diagram svg .accent-line {
+    stroke: #0ea5e9; /* Brand blue highlight color */
+    stroke-width: 1.75;
+    filter: drop-shadow(0 0 5px rgba(14, 165, 233, 0.6));
+  }
+
+  /* Mobile responsive overrides */
+  @media (max-width: 768px) {
+    .bento-section {
+      padding-block: 50px;
+    }
+    
+    .bento-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .bento-card.col-span-2 {
+      grid-column: span 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    
+    .bento-card {
+      min-height: auto;
+      padding: 2rem 1.5rem;
+    }
+    
+    .bento-diagram {
+      margin-top: 1rem;
+      min-height: 100px;
+    }
+  }
 }

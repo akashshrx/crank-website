@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glide — Desktop Agents That Live in Your Notch</title>
+  <title>Glide: Desktop Agents That Live in Your Notch</title>
   <meta name="description" content="Glide is a voice-first agent built for power users. Lives in your Mac notch, listens to your voice, reads your screen, and automates desktop workflows with perfect memory.">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Glide — Desktop Agents That Live in Your Notch">
+  <meta property="og:title" content="Glide: Desktop Agents That Live in Your Notch">
   <meta property="og:description" content="Glide is a voice-first agent built for power users. Lives in your Mac notch, listens to your voice, reads your screen, and automates desktop workflows with perfect memory.">
   <meta property="og:image" content="cloud.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Glide — Desktop Agents That Live in Your Notch">
+  <meta name="twitter:title" content="Glide: Desktop Agents That Live in Your Notch">
   <meta name="twitter:description" content="Glide is a voice-first agent built for power users. Lives in your Mac notch, listens to your voice, reads your screen, and automates desktop workflows with perfect memory.">
   <meta name="twitter:image" content="cloud.png">
 
@@ -114,6 +114,190 @@
       </div>
     </section>
 
+    <!-- Bento Grid Section -->
+    <section class="bento-section">
+      <h2 class="bento-header">Built for <em>unrivaled efficiency</em>.</h2>
+      <p class="bento-subtitle">Every feature is designed to merge local desktop execution with intelligent voice control.</p>
+      
+      <div class="bento-grid">
+        <!-- Card 1: Screen-Aware Context (Spans 2 columns) -->
+        <div class="glass-card bento-card col-span-2">
+          <div class="bento-content">
+            <h3>Screen-Aware Workflows</h3>
+            <p>Glide continually parses active window layouts, text contents, and console errors to make your voice inputs immediately context-relevant.</p>
+          </div>
+          <div class="bento-diagram">
+            <svg viewBox="0 0 240 140" width="240" height="140">
+              <!-- Dotted coordinate grid lines -->
+              <line x1="10" y1="70" x2="230" y2="70" stroke="rgba(255,255,255,0.08)" stroke-dasharray="2,4" />
+              <line x1="120" y1="10" x2="120" y2="130" stroke="rgba(255,255,255,0.08)" stroke-dasharray="2,4" />
+              
+              <!-- Outer monitor layout frame -->
+              <rect x="35" y="20" width="170" height="100" rx="8" stroke="rgba(255,255,255,0.15)" stroke-width="1" />
+              <line x1="35" y1="35" x2="205" y2="35" stroke="rgba(255,255,255,0.15)" />
+              <circle cx="47" cy="27.5" r="1.5" fill="rgba(255,255,255,0.2)" />
+              <circle cx="53" cy="27.5" r="1.5" fill="rgba(255,255,255,0.2)" />
+              <circle cx="59" cy="27.5" r="1.5" fill="rgba(255,255,255,0.2)" />
+
+              <!-- Mock application window 1 -->
+              <rect x="45" y="45" width="70" height="65" rx="4" stroke="rgba(255,255,255,0.12)" />
+              <line x1="45" y1="53" x2="115" y2="53" stroke="rgba(255,255,255,0.12)" />
+              <rect x="52" y="60" width="25" height="4" rx="1" fill="rgba(255,255,255,0.08)" />
+              <rect x="52" y="68" width="50" height="4" rx="1" fill="rgba(255,255,255,0.08)" />
+              <rect x="52" y="76" width="40" height="4" rx="1" fill="rgba(255,255,255,0.08)" />
+
+              <!-- Mock window 2 with active targeting -->
+              <rect x="125" y="45" width="70" height="65" rx="4" stroke="rgba(255,255,255,0.12)" />
+              <line x1="125" y1="53" x2="195" y2="53" stroke="rgba(255,255,255,0.12)" />
+              
+              <!-- Active focal bounding target (Accent line) -->
+              <rect x="135" y="60" width="50" height="40" rx="2" stroke="rgba(255,255,255,0.15)" stroke-dasharray="2,2" />
+              
+              <!-- Target corner brackets (Accent paths) -->
+              <path d="M 131 66 L 131 56 L 141 56" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+              <path d="M 189 66 L 189 56 L 179 56" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+              <path d="M 131 94 L 131 104 L 141 104" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+              <path d="M 189 94 L 189 104 L 179 104" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+              
+              <!-- Target crosshair in middle of window 2 -->
+              <circle cx="160" cy="80" r="3" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+              <line x1="160" y1="73" x2="160" y2="87" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+              <line x1="153" y1="80" x2="167" y2="80" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Card 2: Local SQLite Memory (Spans 1 column) -->
+        <div class="glass-card bento-card">
+          <div class="bento-content">
+            <h3>Local SQLite Memory</h3>
+            <p>A secure, indexed ledger keeps your query history completely on-device with zero external database sync.</p>
+          </div>
+          <div class="bento-diagram">
+            <svg viewBox="0 0 160 120" width="160" height="120">
+              <!-- Dotted stack background projection lines -->
+              <line x1="80" y1="10" x2="80" y2="110" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2,3" />
+              
+              <!-- Cylinder top ellipse -->
+              <ellipse cx="80" cy="25" rx="35" ry="10" stroke="rgba(255,255,255,0.2)" />
+              
+              <!-- Cylinder 2nd ellipse/layer -->
+              <path d="M 45 50 A 35 10 0 0 0 115 50" stroke="rgba(255,255,255,0.15)" stroke-dasharray="3,2" />
+              <path d="M 45 50 A 35 10 0 0 1 115 50" stroke="rgba(255,255,255,0.1)" />
+              
+              <!-- Cylinder 3rd ellipse/layer -->
+              <path d="M 45 75 A 35 10 0 0 0 115 75" stroke="rgba(255,255,255,0.15)" stroke-dasharray="3,2" />
+              
+              <!-- Cylinder base ellipse -->
+              <ellipse cx="80" cy="100" rx="35" ry="10" stroke="rgba(255,255,255,0.2)" />
+              
+              <!-- Cylinder vertical bounds -->
+              <line x1="45" y1="25" x2="45" y2="100" stroke="rgba(255,255,255,0.2)" />
+              <line x1="115" y1="25" x2="115" y2="100" stroke="rgba(255,255,255,0.2)" />
+              
+              <!-- Data network index points inside database -->
+              <circle cx="65" cy="50" r="1.5" fill="rgba(255,255,255,0.2)" />
+              <circle cx="95" cy="50" r="1.5" fill="rgba(255,255,255,0.2)" />
+              <circle cx="80" cy="75" r="1.5" fill="rgba(255,255,255,0.2)" />
+              <circle cx="60" cy="75" r="1.5" fill="rgba(255,255,255,0.2)" />
+              <circle cx="90" cy="25" r="1.5" fill="rgba(255,255,255,0.2)" />
+              
+              <!-- Intersecting query laser/indexing path (Accent line) -->
+              <path d="M 30 15 Q 80 40 60 70 T 130 95" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+              
+              <!-- Core data nodes on query line (Accent nodes) -->
+              <circle cx="68" cy="45" r="3" stroke="rgba(255,255,255,0.4)" fill="#050508" class="accent-line" />
+              <circle cx="83" cy="75" r="3" stroke="rgba(255,255,255,0.4)" fill="#050508" class="accent-line" />
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Card 3: Spectral Transcription (Spans 1 column) -->
+        <div class="glass-card bento-card">
+          <div class="bento-content">
+            <h3>Sub-100ms Latency</h3>
+            <p>Instant voice transcription engineered for speed. Notch waveform triggers in real-time as you command.</p>
+          </div>
+          <div class="bento-diagram">
+            <svg viewBox="0 0 160 120" width="160" height="120">
+              <!-- Dotted target guide rings -->
+              <circle cx="80" cy="60" r="45" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2,3" />
+              <circle cx="80" cy="60" r="30" stroke="rgba(255,255,255,0.06)" stroke-dasharray="2,3" />
+              
+              <!-- Central notch-summon microphone core (Accent) -->
+              <circle cx="80" cy="60" r="6" stroke="rgba(255,255,255,0.3)" fill="none" class="accent-line" />
+              <circle cx="80" cy="60" r="2" fill="rgba(255,255,255,0.4)" class="accent-line" />
+              
+              <!-- Muted secondary waves -->
+              <path d="M 15 60 Q 30 40 45 60 T 75 60 T 105 60 T 135 60 T 145 60" stroke="rgba(255,255,255,0.12)" />
+              <path d="M 15 60 Q 35 75 55 60 T 95 60 T 135 60 T 145 60" stroke="rgba(255,255,255,0.1)" />
+              
+              <!-- High intensity voice amplitude wave path (Accent) -->
+              <path d="M 15 60 Q 40 20 60 60 T 80 60 T 100 60 T 120 100 T 145 60" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Card 4: Cross-App Automation (Spans 2 columns) -->
+        <div class="glass-card bento-card col-span-2">
+          <div class="bento-content">
+            <h3>Cross-App Automation</h3>
+            <p>Orchestrate complex actions across Slack, VS Code, Google Chrome, and your Mac Terminal simultaneously with single spoken macros.</p>
+          </div>
+          <div class="bento-diagram">
+            <svg viewBox="0 0 240 140" width="240" height="140">
+              <!-- Dotted coordinate grid lines -->
+              <line x1="20" y1="70" x2="220" y2="70" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2,4" />
+              
+              <!-- App Node 1: Slack (left top) -->
+              <circle cx="50" cy="40" r="16" stroke="rgba(255,255,255,0.15)" fill="none" />
+              <circle cx="50" cy="40" r="3" fill="rgba(255,255,255,0.2)" />
+              
+              <!-- App Node 2: VS Code (right top) -->
+              <circle cx="190" cy="40" r="16" stroke="rgba(255,255,255,0.15)" fill="none" />
+              <path d="M 183 40 L 190 33 L 197 40 L 190 47 Z" stroke="rgba(255,255,255,0.2)" />
+              
+              <!-- App Node 3: Chrome (left bottom) -->
+              <circle cx="50" cy="100" r="16" stroke="rgba(255,255,255,0.15)" fill="none" />
+              <circle cx="50" cy="100" r="6" stroke="rgba(255,255,255,0.15)" />
+              
+              <!-- App Node 4: Terminal (right bottom) -->
+              <circle cx="190" cy="100" r="16" stroke="rgba(255,255,255,0.15)" fill="none" />
+              <path d="M 184 97 L 189 100 L 184 103" stroke="rgba(255,255,255,0.2)" fill="none" />
+              <line x1="191" y1="104" x2="197" y2="104" stroke="rgba(255,255,255,0.2)" />
+
+              <!-- App Node 5: Central Orchestrator / Glide Core (Center) -->
+              <circle cx="120" cy="70" r="22" stroke="rgba(255,255,255,0.2)" fill="none" />
+              <circle cx="120" cy="70" r="8" stroke="rgba(255,255,255,0.2)" />
+              
+              <!-- Dotted path connections from Glide to nodes -->
+              <line x1="80" y1="52" x2="105" y2="62" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2,2" />
+              <line x1="160" y1="52" x2="135" y2="62" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2,2" />
+              <line x1="80" y1="88" x2="105" y2="78" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2,2" />
+              <line x1="160" y1="88" x2="135" y2="78" stroke="rgba(255,255,255,0.1)" stroke-dasharray="2,2" />
+              
+              <!-- Active execution paths (Accent lines) -->
+              <path d="M 120 48 L 120 70 M 120 70 L 190 40" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+              <path d="M 120 70 Q 80 80 50 100" stroke="rgba(255,255,255,0.3)" stroke-width="1.2" class="accent-line" />
+              <circle cx="190" cy="40" r="16" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+              <circle cx="50" cy="100" r="16" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+              <circle cx="120" cy="70" r="22" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scroll Reveal Section -->
+    <section class="scroll-reveal-section">
+      <div class="reveal-viewport">
+        <div class="reveal-line line-1">REMEMBERS EVERYTHING YOU SAW.</div>
+        <div class="reveal-line line-2">JUST YOUR VOICE.</div>
+        <div class="reveal-line line-3">LIGHTWEIGHT.</div>
+        <div class="reveal-line line-4">DEPLOY SWARMS.</div>
+      </div>
+    </section>
+
     <!-- Hotkey Interaction Section -->
     <section class="hotkey-section">
       <div class="hotkey-grid">
@@ -138,16 +322,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Scroll Reveal Section -->
-    <section class="scroll-reveal-section">
-      <div class="reveal-viewport">
-        <div class="reveal-line line-1">REMEMBERS EVERYTHING YOU SAW.</div>
-        <div class="reveal-line line-2">JUST YOUR VOICE.</div>
-        <div class="reveal-line line-3">LIGHTWEIGHT.</div>
-        <div class="reveal-line line-4">DEPLOY SWARMS.</div>
       </div>
     </section>
 
