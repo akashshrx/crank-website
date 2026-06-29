@@ -144,6 +144,7 @@
     font-style: italic;
     font-family: 'Caveat', cursive;
     font-weight: 700;
+    font-size: 1.25em;
   }
 
   p {
@@ -474,6 +475,7 @@
     font-family: 'Caveat', cursive;
     font-style: italic;
     font-weight: 700;
+    font-size: 1.25em;
   }
 
   .hero-subtitle {
@@ -515,6 +517,7 @@
     font-family: 'Caveat', cursive;
     font-style: italic;
     font-weight: 700;
+    font-size: 1.25em;
   }
 
   .features-grid {
