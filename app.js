@@ -611,4 +611,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const backdrop = videoModal.querySelector('.video-modal-backdrop');
     if (backdrop) backdrop.addEventListener('click', closeModal);
   }
+
+  // Dynamic Footer Year
+  const footerYear = document.getElementById('footer-year');
+  if (footerYear) {
+    footerYear.textContent = new Date().getFullYear();
+  }
 });
