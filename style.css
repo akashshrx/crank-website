@@ -636,8 +636,13 @@
       height: 48px;
       margin-top: 10px;
       border-radius: 24px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
       background-image: none;
       mask-image: none;
       -webkit-mask-image: none;
@@ -653,6 +658,19 @@
       min-height: 60vh;
     }
 
+    .hero-subtitle {
+      max-width: 100%;
+      padding-inline: 0.5rem;
+    }
+
+    .capabilities-section {
+      padding-block: 50px;
+    }
+
+    .capabilities-header {
+      margin-bottom: 2rem;
+    }
+
     .features-section {
       padding-block: 60px;
     }
@@ -664,6 +682,20 @@
 
     .glass-card {
       padding: 2.25rem 1.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-cta {
+      flex-direction: column;
+      width: 100%;
+      align-items: stretch;
+      gap: 0.75rem !important;
+    }
+    
+    .hero-cta .btn {
+      width: 100%;
+      justify-content: center;
     }
   }
 }

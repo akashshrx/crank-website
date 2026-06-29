@@ -177,7 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const keelMesh = new THREE.Mesh(keelGeom, keelMat);
       group.add(keelMesh);
       
-      group.scale.set(0.22, 0.22, 0.22);
+      const isMobile = window.innerWidth < 768;
+      const initialScale = isMobile ? 0.12 : 0.22;
+      group.scale.set(initialScale, initialScale, initialScale);
       return group;
     }
 
@@ -216,6 +218,11 @@ document.addEventListener('DOMContentLoaded', () => {
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      
+      // Update plane scale responsively
+      const isMobile = window.innerWidth < 768;
+      const currentScale = isMobile ? 0.12 : 0.22;
+      paperPlane.scale.set(currentScale, currentScale, currentScale);
       
       // Keep background screen-aligned geometry filled
       skyBackground.updateViewport(camera);
