@@ -399,10 +399,10 @@ document.addEventListener('DOMContentLoaded', () => {
       0
     );
 
-    // Fade out title immediately on scroll start to prevent any overlap
+    // Fade out title as questions approach (starts at ~22% scroll progress, done by ~32%)
     questionsTimeline.to(".questions-title-side h2",
-      { opacity: 0, y: -45, duration: 0.18, ease: "power2.inOut" },
-      0
+      { opacity: 0, y: -30, duration: 0.10, ease: "power2.inOut" },
+      0.22
     );
 
     gsap.timeline({
