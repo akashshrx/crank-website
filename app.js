@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const skyBackground = new THREE.SkyBackground();
     scene.add(skyBackground);
     skyBackground.updateViewport(camera);
+    window.skyBackground = skyBackground;
     
     // 2. Instanced Cloud Sprites (sunny-day scattered layout)
     const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
@@ -514,5 +515,67 @@ document.addEventListener('DOMContentLoaded', () => {
   const footerYear = document.getElementById('footer-year');
   if (footerYear) {
     footerYear.textContent = new Date().getFullYear();
+  }
+
+  // Floating Theme Switcher Controller
+  const dayBtn = document.getElementById('theme-btn-day');
+  const nightBtn = document.getElementById('theme-btn-night');
+
+  function updateTheme(isNight, transition = true) {
+    if (!window.skyBackground) return;
+
+    const targetSkyTop = isNight ? new THREE.Color('#03071e') : new THREE.Color('#0099e6');
+    const targetSkyBottom = isNight ? new THREE.Color('#0a1128') : new THREE.Color('#b8dffa');
+    const targetStars = isNight ? 0.95 : 0.0;
+
+    if (transition && typeof gsap !== 'undefined') {
+      gsap.to(window.skyBackground.material.uniforms.uSkyColor.value, {
+        r: targetSkyTop.r,
+        g: targetSkyTop.g,
+        b: targetSkyTop.b,
+        duration: 2.2,
+        ease: "power2.out"
+      });
+      gsap.to(window.skyBackground.material.uniforms.uSkyColorBottom.value, {
+        r: targetSkyBottom.r,
+        g: targetSkyBottom.g,
+        b: targetSkyBottom.b,
+        duration: 2.2,
+        ease: "power2.out"
+      });
+      gsap.to(window.skyBackground.material.uniforms.uStarOpacity, {
+        value: targetStars,
+        duration: 2.2,
+        ease: "power2.out"
+      });
+    } else {
+      window.skyBackground.material.uniforms.uSkyColor.value.copy(targetSkyTop);
+      window.skyBackground.material.uniforms.uSkyColorBottom.value.copy(targetSkyBottom);
+      window.skyBackground.material.uniforms.uStarOpacity.value = targetStars;
+    }
+
+    if (isNight) {
+      document.body.classList.add('space-night-theme');
+      if (dayBtn) dayBtn.classList.remove('active');
+      if (nightBtn) nightBtn.classList.add('active');
+    } else {
+      document.body.classList.remove('space-night-theme');
+      if (nightBtn) nightBtn.classList.remove('active');
+      if (dayBtn) dayBtn.classList.add('active');
+    }
+  }
+
+  if (dayBtn && nightBtn) {
+    dayBtn.addEventListener('click', () => updateTheme(false));
+    nightBtn.addEventListener('click', () => updateTheme(true));
+
+    // Boot theme detection (After 6 PM or before 6 AM is Night)
+    const hour = new Date().getHours();
+    const isNightBoot = hour >= 18 || hour < 6;
+    
+    // Slight timeout to ensure three.js meshes have initialized fully
+    setTimeout(() => {
+      updateTheme(isNightBoot, false);
+    }, 100);
   }
 });
