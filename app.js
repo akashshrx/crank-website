@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollTrigger: {
         trigger: ".questions-section",
         start: "top top",
-        end: "+=250%",
+        end: "+=380%",
         scrub: 1,
         pin: true,
         anticipatePin: 1

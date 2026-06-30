@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=38">
-  <link rel="icon" type="image/png" href="logo_dark.png?v=38">
+  <link rel="stylesheet" href="style.css?v=39">
+  <link rel="icon" type="image/png" href="logo_dark.png?v=39">
 </head>
 <body data-cursor-color="blue">
 
@@ -128,8 +128,7 @@
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 240 140" width="240" height="140">
-              <!-- Outer concentric layout/scanning guides -->
-              <circle cx="120" cy="70" r="62" stroke-dasharray="1.5,8" style="stroke-opacity: 0.15;" />
+              <!-- Inner concentric layout/scanning guide -->
               <circle cx="120" cy="70" r="50" stroke-dasharray="4,5" style="stroke-opacity: 0.2;" />
               
               <!-- Eye outer lines (Bezier Curves) -->
@@ -143,12 +142,6 @@
               <circle cx="120" cy="70" r="14" stroke-width="1.5" />
               <line x1="113" y1="70" x2="127" y2="70" stroke-width="1.5" style="stroke-opacity: 0.7;" />
               <line x1="120" y1="63" x2="120" y2="77" stroke-width="1.5" style="stroke-opacity: 0.7;" />
-              
-              <!-- Ticks at cardinal angles (radar visual elements) -->
-              <line x1="120" y1="12" x2="120" y2="20" stroke-width="2" style="stroke-opacity: 0.5;" />
-              <line x1="120" y1="120" x2="120" y2="128" stroke-width="2" style="stroke-opacity: 0.5;" />
-              <line x1="62" y1="70" x2="70" y2="70" stroke-width="2" style="stroke-opacity: 0.5;" />
-              <line x1="170" y1="70" x2="178" y2="70" stroke-width="2" style="stroke-opacity: 0.5;" />
               
               <!-- Rotating reticle (Accent line, rotates on hover) -->
               <circle class="scanner-reticle accent-line" cx="120" cy="70" r="39" stroke-dasharray="18,12,6,12" stroke-width="3" />
@@ -360,10 +353,10 @@
 
   <!-- Three.js for WebGL Background Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="sky.js?v=38"></script>
+  <script src="sky.js?v=39"></script>
   <script src="ImprovedNoise.js"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=38"></script>
+  <script src="app.js?v=39"></script>
 </body>
 </html>
