@@ -1467,7 +1467,7 @@
   .orb-1 {
     width: 320px;
     height: 320px;
-    background: radial-gradient(circle, rgba(255, 82, 162, 0.35) 0%, rgba(255, 82, 162, 0) 80%);
+    background: radial-gradient(circle, rgba(240, 170, 200, 0.25) 0%, rgba(240, 170, 200, 0) 80%); /* Soft blush pink */
     top: -80px;
     left: 20%;
     animation: moveOrb1 6s infinite ease-in-out alternate;
@@ -1476,7 +1476,7 @@
   .orb-2 {
     width: 380px;
     height: 380px;
-    background: radial-gradient(circle, rgba(163, 112, 247, 0.45) 0%, rgba(163, 112, 247, 0) 80%);
+    background: radial-gradient(circle, rgba(180, 160, 240, 0.3) 0%, rgba(180, 160, 240, 0) 80%); /* Soft lavender */
     bottom: -100px;
     right: 25%;
     animation: moveOrb2 8s infinite ease-in-out alternate;
@@ -1485,7 +1485,7 @@
   .orb-3 {
     width: 280px;
     height: 280px;
-    background: radial-gradient(circle, rgba(30, 112, 230, 0.65) 0%, rgba(30, 112, 230, 0) 80%); /* Vibrant brand blue */
+    background: radial-gradient(circle, rgba(0, 153, 230, 0.3) 0%, rgba(0, 153, 230, 0) 80%); /* Exact brand sky blue #0099e6 */
     top: 10%;
     right: 5%;
     animation: moveOrb3 4.5s infinite ease-in-out alternate;
@@ -1537,7 +1537,7 @@
     font-size: clamp(2rem, 3.8vw, 3.4rem);
     font-weight: 600;
     color: #ffffff;
-    margin: 0 0 -0.25rem 0; /* Pull subtitle up slightly to counter Caveat script baseline offset */
+    margin: 0 0 0.5rem 0; /* Same comfortable spacing as other card titles */
     letter-spacing: -0.01em;
     line-height: 1.1;
   }
@@ -1817,8 +1817,9 @@
 /* Footer bottom link styling */
 .footer-bottom-links {
   position: absolute;
-  left: 40px;
+  left: 0;
   bottom: 20px;
+  padding-left: 24px;
 }
 
 .footer-sublink {
