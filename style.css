@@ -534,9 +534,12 @@
   }
 
   .conversion-header em {
-    font-family: 'EB Garamond', serif;
-    font-style: italic;
-    font-weight: 400;
+    font-family: 'Caveat', cursive;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.15em;
+    color: #ffffff;
+    display: inline-block;
   }
 
   /* Editorial layout (pure premium text, no borders/cards) */
@@ -703,7 +706,7 @@
     z-index: 1;
     opacity: 0;
     transition: opacity 0.5s ease;
-    animation: rotate-border 5s linear infinite;
+    animation: rotate-border 7.2s linear infinite;
   }
 
   .glass-card:hover::before {
@@ -1431,11 +1434,17 @@
   }
 
   .cta-bento-card {
-    background: linear-gradient(135deg, #182354 0%, #2f1d5c 50%, #46113b 100%) !important; /* Solid non-translucent gradient */
+    background: linear-gradient(135deg, #1e70e6 0%, #8b5cf6 50%, #ec4899 100%) !important; /* Vibrant bright gradient for Day Mode */
     opacity: 1 !important;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    transition: background 0.8s ease, border-color 0.8s ease;
+  }
+
+  body.space-night-theme .cta-bento-card {
+    background: linear-gradient(135deg, #182354 0%, #2f1d5c 50%, #46113b 100%) !important; /* Dark starry gradient for Night Mode */
+    border: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   /* Animated Background Orbs */
@@ -1461,7 +1470,7 @@
     background: radial-gradient(circle, rgba(255, 82, 162, 0.85) 0%, rgba(255, 82, 162, 0) 80%);
     top: -80px;
     left: 20%;
-    animation: moveOrb1 16s infinite ease-in-out alternate;
+    animation: moveOrb1 13.3s infinite ease-in-out alternate;
   }
 
   .orb-2 {
@@ -1470,7 +1479,7 @@
     background: radial-gradient(circle, rgba(163, 112, 247, 0.75) 0%, rgba(163, 112, 247, 0) 80%);
     bottom: -100px;
     right: 25%;
-    animation: moveOrb2 20s infinite ease-in-out alternate;
+    animation: moveOrb2 16.7s infinite ease-in-out alternate;
   }
 
   .orb-3 {
@@ -1479,7 +1488,7 @@
     background: radial-gradient(circle, rgba(67, 97, 238, 0.85) 0%, rgba(67, 97, 238, 0) 80%);
     top: 10%;
     right: 5%;
-    animation: moveOrb3 12s infinite ease-in-out alternate;
+    animation: moveOrb3 10s infinite ease-in-out alternate;
   }
 
   @keyframes moveOrb1 {
