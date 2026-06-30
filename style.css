@@ -1246,6 +1246,27 @@
     stroke-width: 3.25;
   }
 
+  /* Speedometer Needle Transition properties */
+  .bento-diagram svg .speed-needle {
+    transform-origin: 80px 85px;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bento-card:hover .speed-needle {
+    transform: rotate(56deg);
+  }
+
+  /* Hand Drawn Highlighter Circle Transition properties */
+  .bento-diagram svg .hand-drawn-circle {
+    stroke-dasharray: 380;
+    stroke-dashoffset: 380;
+    transition: stroke-dashoffset 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bento-card:hover .hand-drawn-circle {
+    stroke-dashoffset: 0;
+  }
+
   /* Hover interactivity states */
   .bento-card:hover .bento-diagram svg path,
   .bento-card:hover .bento-diagram svg circle,

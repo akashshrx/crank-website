@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=24">
-  <link rel="icon" type="image/png" href="logo_dark.png?v=24">
+  <link rel="stylesheet" href="style.css?v=25">
+  <link rel="icon" type="image/png" href="logo_dark.png?v=25">
 </head>
 <body data-cursor-color="blue">
 
@@ -136,10 +136,10 @@
               <circle cx="45" cy="29" r="2" />
               <circle cx="53" cy="29" r="2" />
               
-              <!-- Mock Screen Content -->
-              <rect x="37" y="50" width="70" height="58" rx="3" />
-              <rect x="117" y="50" width="85" height="10" rx="2" />
-              <rect x="117" y="68" width="85" height="40" rx="3" />
+              <!-- Simplified Page Content (1 large card, simple content lines) -->
+              <rect x="42" y="55" width="156" height="48" rx="4" />
+              <line x1="52" y1="70" x2="188" y2="70" />
+              <line x1="52" y1="80" x2="148" y2="80" />
               
               <!-- Scanning bar line (animates on hover) -->
               <line class="scanner-bar accent-line" x1="26" y1="38" x2="214" y2="38" />
@@ -155,20 +155,22 @@
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 160 120" width="160" height="120">
-              <!-- Back Card -->
-              <rect x="65" y="25" width="60" height="60" rx="4" />
-              <line x1="75" y1="37" x2="115" y2="37" />
-              <line x1="75" y1="47" x2="95" y2="47" />
-              
-              <!-- Middle Card -->
-              <rect x="50" y="40" width="60" height="60" rx="4" />
-              <line x1="60" y1="52" x2="100" y2="52" />
-              <line x1="60" y1="62" x2="80" y2="62" />
-              
-              <!-- Front Card (Accent) -->
-              <rect x="35" y="55" width="60" height="60" rx="4" class="accent-line" />
-              <line x1="45" y1="67" x2="85" y2="67" class="accent-line" />
-              <line x1="45" y1="77" x2="65" y2="77" class="accent-line" />
+              <!-- Infinite Corridor Cards Stack -->
+              <!-- Layer 6 (Furthest, Faded) -->
+              <rect x="90" y="15" width="50" height="50" rx="3" stroke="rgba(255,255,255,0.03)" />
+              <!-- Layer 5 -->
+              <rect x="80" y="22" width="50" height="50" rx="3" stroke="rgba(255,255,255,0.06)" />
+              <!-- Layer 4 -->
+              <rect x="70" y="30" width="50" height="50" rx="3" stroke="rgba(255,255,255,0.12)" />
+              <!-- Layer 3 -->
+              <rect x="60" y="38" width="50" height="50" rx="3" stroke="rgba(255,255,255,0.22)" />
+              <!-- Layer 2 -->
+              <rect x="50" y="47" width="50" height="50" rx="3" stroke="rgba(255,255,255,0.45)" />
+              <!-- Layer 1 (Front, Accent) -->
+              <rect x="40" y="57" width="50" height="50" rx="3" class="accent-line" stroke="rgba(255,255,255,0.85)" />
+              <!-- Simple card mock lines inside front card -->
+              <line x1="48" y1="68" x2="82" y2="68" class="accent-line" stroke="rgba(255,255,255,0.85)" />
+              <line x1="48" y1="78" x2="72" y2="78" class="accent-line" stroke="rgba(255,255,255,0.85)" />
             </svg>
           </div>
         </div>
@@ -183,49 +185,36 @@
             <svg viewBox="0 0 160 120" width="160" height="120">
               <!-- Speedometer dial arc -->
               <path d="M 40 85 A 40 40 0 0 1 120 85" stroke-linecap="round" />
-              
               <!-- Dynamic Speed Needle (Accent) -->
-              <line x1="80" y1="85" x2="115" y2="55" class="accent-line" stroke-linecap="round" />
-              
+              <line class="speed-needle accent-line" x1="80" y1="85" x2="52" y2="57" stroke-linecap="round" />
               <!-- Gauge center pivot dot -->
               <circle cx="80" cy="85" r="4" fill="rgba(255, 255, 255, 0.4)" class="accent-line" />
             </svg>
           </div>
         </div>
         
-        <!-- Card 4: Controls Your Apps (Spans 2 columns) -->
+        <!-- Card 4: Draws on Your Screen (Spans 2 columns) -->
         <div class="glass-card bento-card col-span-2">
           <div class="bento-content">
-            <h3>Controls Your Apps</h3>
-            <p>Let Glide handle the boring stuff. It coordinates actions between Slack, Chrome, VS Code, and Terminal so you don't have to jump back and forth.</p>
+            <h3>Draws on Your Screen</h3>
+            <p>Need help finding a button or menu? Glide draws highlights and labels directly on your desktop screen to guide you step-by-step.</p>
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 240 140" width="240" height="140">
-              <!-- Left app nodes -->
-              <circle cx="45" cy="30" r="10" />
-              <circle cx="35" cy="70" r="10" />
-              <circle cx="45" cy="110" r="10" />
+              <!-- Mac Window Frame -->
+              <rect x="25" y="20" width="190" height="100" rx="8" />
+              <line x1="25" y1="38" x2="215" y2="38" />
               
-              <!-- Right app nodes -->
-              <circle cx="195" cy="30" r="10" />
-              <circle cx="205" cy="70" r="10" />
-              <circle cx="195" cy="110" r="10" />
+              <!-- Target button on page -->
+              <rect x="55" y="60" width="65" height="24" rx="4" />
+              <line x1="68" y1="72" x2="107" y2="72" stroke-width="2" />
               
-              <!-- Center Orchestrator Pill (Accent) -->
-              <rect x="95" y="52" width="50" height="36" rx="18" class="accent-line" />
+              <!-- Glide dynamic hand-drawn marker highlighter circle (Accent) -->
+              <path class="hand-drawn-circle accent-line" d="M 45 72 C 45 48, 130 48, 130 72 C 130 96, 45 96, 45 72 Z" />
               
-              <!-- Left linking branches -->
-              <path d="M 95 70 Q 70 70 45 30" />
-              <path d="M 95 70 Q 70 70 35 70" />
-              <path d="M 95 70 Q 70 70 45 110" />
-              
-              <!-- Right linking branches (Accent) -->
-              <path d="M 145 70 Q 170 70 195 30" class="accent-line" />
-              <path d="M 145 70 Q 170 70 205 70" class="accent-line" />
-              <path d="M 145 70 Q 170 70 195 110" class="accent-line" />
-              
-              <!-- Inner design dots -->
-              <circle cx="120" cy="70" r="3" class="accent-line" fill="rgba(255,255,255,0.4)" />
+              <!-- Guideline arrow pointing to button -->
+              <path d="M 175 105 Q 155 70 120 70" stroke-linecap="round" stroke-dasharray="3,3" />
+              <polygon points="120,70 128,73 125,66" fill="rgba(255,255,255,0.4)" />
             </svg>
           </div>
         </div>
@@ -351,10 +340,10 @@
 
   <!-- Three.js for WebGL Background Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="sky.js?v=24"></script>
+  <script src="sky.js?v=25"></script>
   <script src="ImprovedNoise.js"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=24"></script>
+  <script src="app.js?v=25"></script>
 </body>
 </html>
