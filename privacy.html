@@ -43,6 +43,26 @@
       color: #ffffff;
     }
 
+    body.space-night-theme h1,
+    body.space-night-theme h2,
+    body.space-night-theme h3,
+    body.space-night-theme strong {
+      color: #ffffff;
+    }
+
+    body.space-night-theme p,
+    body.space-night-theme li {
+      color: #cccccc;
+    }
+
+    body.space-night-theme .footer {
+      border-top-color: #333333;
+    }
+
+    body.space-night-theme .footer-link:hover {
+      color: #ffffff;
+    }
+
     .sky-header {
       position: relative;
       width: 100%;
@@ -179,6 +199,15 @@
   </style>
 </head>
 <body>
+  <script>
+    if (new Date().getHours() >= 18 || new Date().getHours() < 6) {
+      document.body.classList.add('space-night-theme');
+      window.addEventListener('DOMContentLoaded', () => {
+        const logoImg = document.getElementById('privacy-logo');
+        if (logoImg) logoImg.src = 'logo_white.png?v=59';
+      });
+    }
+  </script>
 
   <div class="sky-header">
     <canvas id="webgl-canvas"></canvas>
@@ -290,10 +319,6 @@
         skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#09122c'));
         skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#1a295c'));
         skyBackground.material.uniforms.uStarOpacity.value = 1.0;
-        document.body.classList.add('space-night-theme');
-        
-        const logoImg = document.getElementById('privacy-logo');
-        if (logoImg) logoImg.src = 'logo_white.png?v=59';
       }
       
       // Clouds
