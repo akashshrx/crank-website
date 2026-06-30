@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
       group.add(keelMesh);
       
       const isMobile = window.innerWidth < 768;
-      const initialScale = isMobile ? 0.132 : 0.242;
+      const initialScale = isMobile ? 0.139 : 0.254;
       group.scale.set(initialScale, initialScale, initialScale);
       return group;
     }
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Update plane scale responsively
       const isMobile = window.innerWidth < 768;
-      const currentScale = isMobile ? 0.132 : 0.242;
+      const currentScale = isMobile ? 0.139 : 0.254;
       paperPlane.scale.set(currentScale, currentScale, currentScale);
       
       // Keep background screen-aligned geometry filled
@@ -399,17 +399,10 @@ document.addEventListener('DOMContentLoaded', () => {
       0
     );
 
-    // Fade in title on scroll start
-    questionsTimeline.fromTo(".questions-title-side h2",
-      { opacity: 0.05, y: 40 },
-      { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" },
-      0
-    );
-
-    // Fade out title on scroll mid-stage (completes early to prevent collision)
+    // Fade out title immediately on scroll start to prevent any overlap
     questionsTimeline.to(".questions-title-side h2",
-      { opacity: 0, y: -40, duration: 0.20, ease: "power2.in" },
-      0.25
+      { opacity: 0, y: -45, duration: 0.18, ease: "power2.inOut" },
+      0
     );
 
     gsap.timeline({
