@@ -23,6 +23,24 @@
       line-height: 1.7;
       font-size: 16px;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.8s ease, color 0.8s ease;
+    }
+
+    body.space-night-theme {
+      background-color: #040914;
+      color: #e0e0e0;
+    }
+
+    body.space-night-theme .sky-header::after {
+      background: linear-gradient(to bottom, transparent, #040914);
+    }
+    
+    body.space-night-theme a.inline-link {
+      color: #4a90e2;
+    }
+
+    body.space-night-theme #privacy-logo-text {
+      color: #ffffff;
     }
 
     .sky-header {
@@ -166,8 +184,8 @@
     <canvas id="webgl-canvas"></canvas>
     <div style="position: relative; z-index: 10; max-width: 760px; margin: 0 auto; padding: 40px 24px;">
       <a href="index.html" class="logo-link">
-        <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
-        <span>Glide</span>
+        <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24" id="privacy-logo">
+        <span id="privacy-logo-text">Glide</span>
       </a>
     </div>
   </div>
@@ -264,6 +282,19 @@
       const skyBackground = new THREE.SkyBackground();
       scene.add(skyBackground);
       skyBackground.updateViewport(camera);
+
+      // Apply Night Theme if after 6 PM or before 6 AM
+      const hour = new Date().getHours();
+      const isNight = hour >= 18 || hour < 6;
+      if (isNight) {
+        skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#09122c'));
+        skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#1a295c'));
+        skyBackground.material.uniforms.uStarOpacity.value = 1.0;
+        document.body.classList.add('space-night-theme');
+        
+        const logoImg = document.getElementById('privacy-logo');
+        if (logoImg) logoImg.src = 'logo_white.png?v=59';
+      }
       
       // Clouds
       const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
