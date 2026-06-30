@@ -26,12 +26,10 @@
     }
 
     .sky-header {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: relative;
       width: 100%;
-      height: 350px;
-      z-index: -1;
+      height: 20vh;
+      min-height: 200px;
       overflow: hidden;
     }
 
@@ -166,14 +164,15 @@
 
   <div class="sky-header">
     <canvas id="webgl-canvas"></canvas>
+    <div style="position: relative; z-index: 10; max-width: 760px; margin: 0 auto; padding: 40px 24px;">
+      <a href="index.html" class="logo-link">
+        <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
+        <span>Glide</span>
+      </a>
+    </div>
   </div>
 
   <div class="container">
-    <a href="index.html" class="logo-link">
-      <img src="logo_dark.png?v=59" alt="Glide Logo">
-      <span>Glide</span>
-    </a>
-
     <h1>Privacy Policy</h1>
 
     <p>At Glide, we prioritize your privacy and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data under your control while maintaining compliance with relevant frameworks, including the General Data Protection Regulation (GDPR).</p>
