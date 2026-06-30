@@ -208,39 +208,23 @@
     overflow: hidden;
   }
 
-  .btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    transform: translateX(-100%);
-    z-index: 1;
-    pointer-events: none;
+
+
+  .btn:hover span {
+    background: linear-gradient(90deg, #121210 0%, #121210 35%, #ffffff 50%, #121210 65%, #121210 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-shimmer 0.8s linear forwards;
   }
 
-  .btn-primary::before {
-    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(0,0,0,0) 100%);
-  }
-
-  .btn-secondary::before {
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255,255,255,0) 100%);
-  }
-
-  .btn:hover::before {
-    animation: button-shimmer 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes button-shimmer {
+  @keyframes text-shimmer {
     0% {
-      transform: translateX(-100%);
+      background-position: 200% center;
     }
     100% {
-      transform: translateX(100%);
+      background-position: -200% center;
     }
-  }
-
-  .btn > * {
-    position: relative;
-    z-index: 2;
   }
 
   .btn-primary {
@@ -637,15 +621,6 @@
     overflow: hidden;
   }
 
-  .conversion-download-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(0,0,0,0) 100%);
-    transform: translateX(-100%);
-    pointer-events: none;
-  }
-
   .conversion-download-btn:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3), 0 25px 50px rgba(0, 0, 0, 0.25);
@@ -653,8 +628,12 @@
     color: #000000;
   }
 
-  .conversion-download-btn:hover::before {
-    animation: button-shimmer 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  .conversion-download-btn:hover .btn-main-text {
+    background: linear-gradient(90deg, #000000 0%, #000000 35%, #a855f7 50%, #000000 65%, #000000 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: text-shimmer 0.8s linear forwards;
   }
 
   .conversion-download-btn:active {
