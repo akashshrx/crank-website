@@ -208,6 +208,26 @@
     overflow: hidden;
   }
 
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .btn:hover::before {
+    transform: translateX(100%);
+  }
+
+  .btn > * {
+    position: relative;
+    z-index: 2;
+  }
+
   .btn-primary {
     background: #ffffff;
     color: #121210;
@@ -218,7 +238,7 @@
   }
 
   .btn-primary:hover:not(:disabled) {
-    transform: translateY(-1px);
+    transform: translateY(-4px);
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 
       0 6px 15px rgba(0, 0, 0, 0.08),
@@ -240,7 +260,7 @@
   }
 
   .btn-secondary:hover:not(:disabled) {
-    transform: translateY(-1px);
+    transform: translateY(-4px);
     background: #ffffff;
     color: #121210;
     border-color: #ffffff;
@@ -1281,7 +1301,8 @@
   .bento-section {
     width: 100%;
     max-width: 1000px;
-    padding-block: 100px;
+    padding-top: 160px;
+    padding-bottom: 100px;
     margin-inline: auto;
     box-sizing: border-box;
     color: var(--text-main);
@@ -1470,7 +1491,7 @@
     background: radial-gradient(circle, rgba(255, 82, 162, 0.85) 0%, rgba(255, 82, 162, 0) 80%);
     top: -80px;
     left: 20%;
-    animation: moveOrb1 13.3s infinite ease-in-out alternate;
+    animation: moveOrb1 11s infinite ease-in-out alternate;
   }
 
   .orb-2 {
@@ -1479,7 +1500,7 @@
     background: radial-gradient(circle, rgba(163, 112, 247, 0.75) 0%, rgba(163, 112, 247, 0) 80%);
     bottom: -100px;
     right: 25%;
-    animation: moveOrb2 16.7s infinite ease-in-out alternate;
+    animation: moveOrb2 13.9s infinite ease-in-out alternate;
   }
 
   .orb-3 {
@@ -1488,7 +1509,7 @@
     background: radial-gradient(circle, rgba(67, 97, 238, 0.85) 0%, rgba(67, 97, 238, 0) 80%);
     top: 10%;
     right: 5%;
-    animation: moveOrb3 10s infinite ease-in-out alternate;
+    animation: moveOrb3 8.3s infinite ease-in-out alternate;
   }
 
   @keyframes moveOrb1 {
