@@ -497,7 +497,7 @@
   .features-section {
     width: 100%;
     max-width: 1000px;
-    padding-block: 100px;
+    padding-block: 70px;
     margin-inline: auto;
     box-sizing: border-box;
   }
@@ -1045,7 +1045,7 @@
     color: #ffffff;
     will-change: transform, opacity;
     white-space: nowrap;
-    padding-right: 0.15em;
+    padding-right: 0.3em;
   }
 
   /* Responsive tweaks for new sections */
