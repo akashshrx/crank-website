@@ -36,10 +36,9 @@
 
     #webgl-canvas {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
       display: block;
     }
 
@@ -225,62 +224,68 @@
   <script src="ImprovedNoise.js"></script>
   <script>
     (function() {
+      const container = document.querySelector('.sky-header');
       const canvas = document.getElementById('webgl-canvas');
-      if (canvas && typeof THREE !== 'undefined') {
-        const scene = new THREE.Scene();
-        
-        // Camera
-        const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 200);
-        camera.position.set(0, 0, 10);
-        
-        // Renderer
-        const renderer = new THREE.WebGLRenderer({
-          canvas: canvas,
-          alpha: true,
-          antialias: true,
-          powerPreference: "high-performance"
-        });
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.0;
-        
-        // Load cloud texture
-        const textureLoader = new THREE.TextureLoader();
-        const cloudTexture = textureLoader.load('cloud.png');
-        
-        // Sky Background
-        const skyBackground = new THREE.SkyBackground();
-        scene.add(skyBackground);
+      if (!canvas || !container || typeof THREE === 'undefined') return;
+
+      // Use container dimensions for sizing
+      const w = container.offsetWidth;
+      const h = container.offsetHeight;
+      if (w === 0 || h === 0) return;
+
+      const scene = new THREE.Scene();
+      
+      // Camera
+      const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 200);
+      camera.position.set(0, 0, 10);
+      
+      // Renderer — set size from container, not canvas
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance"
+      });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      
+      // Load cloud texture
+      const textureLoader = new THREE.TextureLoader();
+      const cloudTexture = textureLoader.load('cloud.png');
+      
+      // Sky Background
+      const skyBackground = new THREE.SkyBackground();
+      scene.add(skyBackground);
+      skyBackground.updateViewport(camera);
+      
+      // Clouds
+      const clouds = new THREE.Clouds(cloudTexture);
+      scene.add(clouds);
+      clouds.position.set(0, 0, 0);
+      
+      // Resize handler
+      function onWindowResize() {
+        const cw = container.offsetWidth;
+        const ch = container.offsetHeight;
+        camera.aspect = cw / ch;
+        camera.updateProjectionMatrix();
+        renderer.setSize(cw, ch);
         skyBackground.updateViewport(camera);
-        
-        // Clouds
-        const clouds = new THREE.Clouds(cloudTexture);
-        scene.add(clouds);
-        clouds.position.set(0, 0, 0);
-        
-        // Resize handler
-        function onWindowResize() {
-          const w = canvas.clientWidth;
-          const h = canvas.clientHeight;
-          camera.aspect = w / h;
-          camera.updateProjectionMatrix();
-          renderer.setSize(w, h);
-          skyBackground.updateViewport(camera);
-          clouds.resize(camera);
-        }
-        window.addEventListener('resize', onWindowResize);
-        
-        // Animation Loop
-        const clock = new THREE.Clock();
-        function animate() {
-          requestAnimationFrame(animate);
-          const dt = clock.getDelta();
-          clouds.update(dt);
-          renderer.render(scene, camera);
-        }
-        animate();
+        clouds.resize(camera);
       }
+      window.addEventListener('resize', onWindowResize);
+      
+      // Animation Loop
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        const dt = clock.getDelta();
+        clouds.update(dt);
+        renderer.render(scene, camera);
+      }
+      animate();
     })();
   </script>
 </body>
