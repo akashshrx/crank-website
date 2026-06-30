@@ -215,15 +215,15 @@
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 0.8s linear forwards;
+    animation: text-shimmer 1.5s linear forwards;
   }
 
   @keyframes text-shimmer {
     0% {
-      background-position: 200% center;
+      background-position: 150% center;
     }
     100% {
-      background-position: -200% center;
+      background-position: -50% center;
     }
   }
 
@@ -633,7 +633,7 @@
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 0.8s linear forwards;
+    animation: text-shimmer 1.5s linear forwards;
   }
 
   .conversion-download-btn:active {
