@@ -212,15 +212,30 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
     transform: translateX(-100%);
-    transition: transform 0.6s ease;
     z-index: 1;
     pointer-events: none;
   }
 
+  .btn-primary::before {
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(0,0,0,0) 100%);
+  }
+
+  .btn-secondary::before {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255,255,255,0) 100%);
+  }
+
   .btn:hover::before {
-    transform: translateX(100%);
+    animation: button-shimmer 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes button-shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   .btn > * {
@@ -626,9 +641,9 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.08) 50%, rgba(0,0,0,0) 100%);
     transform: translateX(-100%);
-    transition: transform 0.6s ease;
+    pointer-events: none;
   }
 
   .conversion-download-btn:hover {
@@ -639,7 +654,7 @@
   }
 
   .conversion-download-btn:hover::before {
-    transform: translateX(100%);
+    animation: button-shimmer 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .conversion-download-btn:active {
@@ -1491,7 +1506,7 @@
     background: radial-gradient(circle, rgba(255, 82, 162, 0.85) 0%, rgba(255, 82, 162, 0) 80%);
     top: -80px;
     left: 20%;
-    animation: moveOrb1 11s infinite ease-in-out alternate;
+    animation: moveOrb1 6s infinite ease-in-out alternate;
   }
 
   .orb-2 {
@@ -1500,7 +1515,7 @@
     background: radial-gradient(circle, rgba(163, 112, 247, 0.75) 0%, rgba(163, 112, 247, 0) 80%);
     bottom: -100px;
     right: 25%;
-    animation: moveOrb2 13.9s infinite ease-in-out alternate;
+    animation: moveOrb2 8s infinite ease-in-out alternate;
   }
 
   .orb-3 {
@@ -1509,7 +1524,7 @@
     background: radial-gradient(circle, rgba(67, 97, 238, 0.85) 0%, rgba(67, 97, 238, 0) 80%);
     top: 10%;
     right: 5%;
-    animation: moveOrb3 8.3s infinite ease-in-out alternate;
+    animation: moveOrb3 4.5s infinite ease-in-out alternate;
   }
 
   @keyframes moveOrb1 {
