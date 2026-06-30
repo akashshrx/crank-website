@@ -1434,11 +1434,6 @@
   }
 
   .cta-bento-card {
-    background: linear-gradient(135deg, rgba(0, 153, 230, 0.35) 0%, rgba(139, 92, 246, 0.25) 50%, rgba(240, 170, 200, 0.3) 100%) !important; /* Soft, blended glass gradient */
-    opacity: 1 !important;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(12px) saturate(120%) !important;
-    -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
     transition: background 0.8s ease, border-color 0.8s ease;
   }
 
@@ -1467,7 +1462,7 @@
   .orb-1 {
     width: 320px;
     height: 320px;
-    background: radial-gradient(circle, rgba(240, 170, 200, 0.25) 0%, rgba(240, 170, 200, 0) 80%); /* Soft blush pink */
+    background: radial-gradient(circle, rgba(240, 170, 200, 0.85) 0%, rgba(240, 170, 200, 0) 80%); /* Soft blush pink */
     top: -80px;
     left: 20%;
     animation: moveOrb1 6s infinite ease-in-out alternate;
@@ -1476,7 +1471,7 @@
   .orb-2 {
     width: 380px;
     height: 380px;
-    background: radial-gradient(circle, rgba(180, 160, 240, 0.3) 0%, rgba(180, 160, 240, 0) 80%); /* Soft lavender */
+    background: radial-gradient(circle, rgba(180, 160, 240, 0.8) 0%, rgba(180, 160, 240, 0) 80%); /* Soft lavender */
     bottom: -100px;
     right: 25%;
     animation: moveOrb2 8s infinite ease-in-out alternate;
@@ -1485,7 +1480,7 @@
   .orb-3 {
     width: 280px;
     height: 280px;
-    background: radial-gradient(circle, rgba(0, 153, 230, 0.3) 0%, rgba(0, 153, 230, 0) 80%); /* Exact brand sky blue #0099e6 */
+    background: radial-gradient(circle, rgba(0, 153, 230, 0.8) 0%, rgba(0, 153, 230, 0) 80%); /* Exact brand sky blue #0099e6 */
     top: 10%;
     right: 5%;
     animation: moveOrb3 4.5s infinite ease-in-out alternate;
