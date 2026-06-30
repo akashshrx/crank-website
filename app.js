@@ -380,6 +380,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
+    // GSAP ScrollTrigger for horizontal questions grid scroll
+    const questionsTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".questions-section",
+        start: "top top",
+        end: "+=180%",
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1
+      }
+    });
+
+    questionsTimeline.fromTo(".questions-title-side h2",
+      { opacity: 0.05, y: 40 },
+      { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
+    );
+
+    questionsTimeline.fromTo(".questions-grid", 
+      { x: "100vw" }, 
+      { x: "-100vw", ease: "none" },
+      "<"
+    );
+
     gsap.timeline({
       scrollTrigger: {
         trigger: ".scroll-reveal-section",
@@ -410,29 +433,6 @@ document.addEventListener('DOMContentLoaded', () => {
       "+=0.3"
     )
     .to({}, { duration: 0.4 }); // Hold state
-
-    // GSAP ScrollTrigger for horizontal questions grid scroll
-    const questionsTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".questions-section",
-        start: "top top",
-        end: "+=180%",
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1
-      }
-    });
-
-    questionsTimeline.fromTo(".questions-title-side h2",
-      { opacity: 0.05, y: 40 },
-      { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
-    );
-
-    questionsTimeline.fromTo(".questions-grid", 
-      { x: "60vw" }, 
-      { x: "-100vw", ease: "none" },
-      "<"
-    );
   }
 
   // Smooth scroll for nav links using Lenis
