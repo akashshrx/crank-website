@@ -215,7 +215,7 @@
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 1.5s linear forwards;
+    animation: text-shimmer 1.05s linear forwards;
   }
 
   @keyframes text-shimmer {
@@ -633,7 +633,7 @@
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 1.5s linear forwards;
+    animation: text-shimmer 1.05s linear forwards;
   }
 
   .conversion-download-btn:active {
@@ -1815,10 +1815,10 @@
 
 /* Footer bottom link styling */
 .footer-bottom-links {
-  position: absolute;
-  left: 0;
-  bottom: 20px;
-  padding-left: 24px;
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 1000;
 }
 
 .footer-sublink {
