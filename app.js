@@ -45,6 +45,37 @@ document.addEventListener('DOMContentLoaded', () => {
     scene.add(skyBackground);
     skyBackground.updateViewport(camera);
     window.skyBackground = skyBackground;
+
+    // Define theme color presets
+    const themes = {
+      day: {
+        topStart: new THREE.Color('#0099e6'),
+        topEnd: new THREE.Color('#002d5a'),
+        bottomStart: new THREE.Color('#b8dffa'),
+        bottomEnd: new THREE.Color('#005099'),
+        minStars: 0.0,
+        maxStars: 1.0
+      },
+      night: {
+        topStart: new THREE.Color('#020308'),
+        topEnd: new THREE.Color('#000103'),
+        bottomStart: new THREE.Color('#0a1128'),
+        bottomEnd: new THREE.Color('#030510'),
+        minStars: 0.85,
+        maxStars: 1.0
+      }
+    };
+
+    window.themes = themes;
+    window.activeTheme = {
+      topStart: themes.day.topStart.clone(),
+      topEnd: themes.day.topEnd.clone(),
+      bottomStart: themes.day.bottomStart.clone(),
+      bottomEnd: themes.day.bottomEnd.clone(),
+      minStars: themes.day.minStars,
+      maxStars: themes.day.maxStars,
+      isNight: false
+    };
     
     // 2. Instanced Cloud Sprites (sunny-day scattered layout)
     const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
@@ -267,22 +298,21 @@ document.addEventListener('DOMContentLoaded', () => {
       // making the user feel like they are ascending up the sky.
       clouds.position.y = -currentScrollY * pxToWorld * 0.5;
       
-      // Interpolate background sky gradient colors to become darker blue at maximum scroll
-      const topColorStart = new THREE.Color('#0099e6');
-      const topColorEnd = new THREE.Color('#002d5a');
-      skyBackground.material.uniforms.uSkyColor.value.copy(topColorStart).lerp(topColorEnd, currentScrollFrac);
-
-      const bottomColorStart = new THREE.Color('#b8dffa');
-      const bottomColorEnd = new THREE.Color('#005099');
-      skyBackground.material.uniforms.uSkyColorBottom.value.copy(bottomColorStart).lerp(bottomColorEnd, currentScrollFrac);
+      // Interpolate background sky gradient colors dynamically based on active theme
+      if (window.activeTheme) {
+        skyBackground.material.uniforms.uSkyColor.value.copy(window.activeTheme.topStart).lerp(window.activeTheme.topEnd, currentScrollFrac);
+        skyBackground.material.uniforms.uSkyColorBottom.value.copy(window.activeTheme.bottomStart).lerp(window.activeTheme.bottomEnd, currentScrollFrac);
+        
+        if (skyBackground.material.uniforms.uStarOpacity) {
+          const scrollStarOpacity = Math.max(0, Math.min(1, (currentScrollFrac - 0.4) / 0.5));
+          const currentStars = window.activeTheme.minStars + (window.activeTheme.maxStars - window.activeTheme.minStars) * scrollStarOpacity;
+          skyBackground.material.uniforms.uStarOpacity.value = currentStars;
+        }
+      }
 
       // Update star animation progress uniforms
       if (skyBackground.material.uniforms.uTime) {
         skyBackground.material.uniforms.uTime.value = clock.getElapsedTime();
-      }
-      if (skyBackground.material.uniforms.uStarOpacity) {
-        const starOpacity = Math.max(0, Math.min(1, (currentScrollFrac - 0.4) / 0.5));
-        skyBackground.material.uniforms.uStarOpacity.value = starOpacity;
       }
 
       // ------------------------------------------
@@ -522,36 +552,53 @@ document.addEventListener('DOMContentLoaded', () => {
   const nightBtn = document.getElementById('theme-btn-night');
 
   function updateTheme(isNight, transition = true) {
-    if (!window.skyBackground) return;
+    if (!window.skyBackground || !window.activeTheme || !window.themes) return;
 
-    const targetSkyTop = isNight ? new THREE.Color('#03071e') : new THREE.Color('#0099e6');
-    const targetSkyBottom = isNight ? new THREE.Color('#0a1128') : new THREE.Color('#b8dffa');
-    const targetStars = isNight ? 0.95 : 0.0;
+    const target = isNight ? window.themes.night : window.themes.day;
+    window.activeTheme.isNight = isNight;
 
     if (transition && typeof gsap !== 'undefined') {
-      gsap.to(window.skyBackground.material.uniforms.uSkyColor.value, {
-        r: targetSkyTop.r,
-        g: targetSkyTop.g,
-        b: targetSkyTop.b,
+      gsap.to(window.activeTheme.topStart, {
+        r: target.topStart.r,
+        g: target.topStart.g,
+        b: target.topStart.b,
         duration: 2.2,
         ease: "power2.out"
       });
-      gsap.to(window.skyBackground.material.uniforms.uSkyColorBottom.value, {
-        r: targetSkyBottom.r,
-        g: targetSkyBottom.g,
-        b: targetSkyBottom.b,
+      gsap.to(window.activeTheme.topEnd, {
+        r: target.topEnd.r,
+        g: target.topEnd.g,
+        b: target.topEnd.b,
         duration: 2.2,
         ease: "power2.out"
       });
-      gsap.to(window.skyBackground.material.uniforms.uStarOpacity, {
-        value: targetStars,
+      gsap.to(window.activeTheme.bottomStart, {
+        r: target.bottomStart.r,
+        g: target.bottomStart.g,
+        b: target.bottomStart.b,
+        duration: 2.2,
+        ease: "power2.out"
+      });
+      gsap.to(window.activeTheme.bottomEnd, {
+        r: target.bottomEnd.r,
+        g: target.bottomEnd.g,
+        b: target.bottomEnd.b,
+        duration: 2.2,
+        ease: "power2.out"
+      });
+      gsap.to(window.activeTheme, {
+        minStars: target.minStars,
+        maxStars: target.maxStars,
         duration: 2.2,
         ease: "power2.out"
       });
     } else {
-      window.skyBackground.material.uniforms.uSkyColor.value.copy(targetSkyTop);
-      window.skyBackground.material.uniforms.uSkyColorBottom.value.copy(targetSkyBottom);
-      window.skyBackground.material.uniforms.uStarOpacity.value = targetStars;
+      window.activeTheme.topStart.copy(target.topStart);
+      window.activeTheme.topEnd.copy(target.topEnd);
+      window.activeTheme.bottomStart.copy(target.bottomStart);
+      window.activeTheme.bottomEnd.copy(target.bottomEnd);
+      window.activeTheme.minStars = target.minStars;
+      window.activeTheme.maxStars = target.maxStars;
     }
 
     if (isNight) {
