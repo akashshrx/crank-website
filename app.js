@@ -57,10 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
         maxStars: 1.0
       },
       night: {
-        topStart: new THREE.Color('#020308'),
-        topEnd: new THREE.Color('#000103'),
-        bottomStart: new THREE.Color('#0a1128'),
-        bottomEnd: new THREE.Color('#030510'),
+        topStart: new THREE.Color('#09122c'),
+        topEnd: new THREE.Color('#040a1c'),
+        bottomStart: new THREE.Color('#1c3260'),
+        bottomEnd: new THREE.Color('#0e1b38'),
         minStars: 0.85,
         maxStars: 1.0
       }

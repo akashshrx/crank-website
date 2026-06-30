@@ -509,29 +509,151 @@
     box-sizing: border-box;
   }
 
-  .features-header {
-    font-family: var(--font-sans);
-    font-size: clamp(1.8rem, 1rem + 2vw, 2.5rem);
-    font-weight: 700;
-    line-height: 1.2;
+  /* Conversion / Features Section styling */
+  .features-section {
+    padding: 8rem 0 12rem 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .conversion-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 4vw, 4rem);
     text-align: center;
-    margin-bottom: 4rem;
-    color: var(--text-main);
-    text-wrap: balance;
   }
 
-  .features-header em {
-    font-family: 'Caveat', cursive;
-    font-style: italic;
+  .conversion-header {
+    font-family: var(--font-sans);
+    font-size: clamp(2rem, 4.5vw, 3.8rem);
     font-weight: 700;
-    font-size: 1.25em;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 4.5rem;
   }
 
-  .features-grid {
+  .conversion-header em {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* Editorial layout (pure premium text, no borders/cards) */
+  .editorial-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    width: 100%;
+    gap: 4rem;
+    text-align: left;
+    margin-bottom: 5.5rem;
+  }
+
+  .editorial-item h3 {
+    font-family: var(--font-sans);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 1.2rem 0;
+    letter-spacing: -0.01em;
+  }
+
+  .editorial-item p {
+    font-family: var(--font-sans);
+    font-size: 1.08rem;
+    line-height: 1.6;
+    color: var(--text-subtle);
+    margin: 0;
+  }
+
+  .editorial-kbd {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    color: #ffffff;
+  }
+
+  /* Big Conversion CTA Button */
+  .conversion-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .conversion-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.1rem 2.6rem;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15), 0 20px 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .conversion-download-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  .conversion-download-btn:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3), 0 25px 50px rgba(0, 0, 0, 0.25);
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .conversion-download-btn:hover::before {
+    transform: translateX(100%);
+  }
+
+  .conversion-download-btn:active {
+    transform: translateY(-1px) scale(1.0);
+  }
+
+  .conversion-download-btn .btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    transition: transform 0.3s ease;
+  }
+
+  .conversion-download-btn:hover .btn-icon {
+    transform: translateY(2px);
+  }
+
+  .btn-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    line-height: 1.25;
+  }
+
+  .btn-main-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #000000;
+  }
+
+  .btn-sub-text {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+    margin-top: 0.15rem;
   }
 
   /* Premium Glassmorphic Cards with Border Glow Animation */
@@ -682,9 +804,9 @@
       padding-block: 60px;
     }
 
-    .features-grid {
+    .editorial-grid {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 2.5rem;
     }
 
     .glass-card {
@@ -1309,8 +1431,8 @@
   }
 
   .cta-bento-card {
-    background: #090a12; /* Fully solid, non-transparent background */
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, #182354 0%, #2f1d5c 50%, #46113b 100%); /* Solid non-translucent gradient */
+    border: 1px solid rgba(255, 255, 255, 0.12);
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
@@ -1641,7 +1763,7 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 1000;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .theme-btn {
