@@ -1823,7 +1823,7 @@
 
 .footer-sublink {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 13px; /* Slightly larger text */
   font-weight: 500;
   color: rgba(255, 255, 255, 0.35);
   text-decoration: none;
@@ -1834,6 +1834,7 @@
 
 .footer-sublink:hover {
   color: rgba(255, 255, 255, 0.7);
+  text-decoration: underline; /* Add underline on hover */
 }
 
 /* Adjust layout on small mobile screens */
