@@ -907,11 +907,15 @@
     font-family: var(--font-sans);
     font-size: 0.8rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(0, 0, 0, 0.45);
     letter-spacing: 0.03em;
     text-transform: uppercase;
     user-select: none;
     white-space: nowrap;
+  }
+
+  body.space-night-theme .dock-text {
+    color: rgba(255, 255, 255, 0.65);
   }
 
   .dock-icon-wrapper {
@@ -1818,7 +1822,7 @@
   font-family: var(--font-sans);
   font-size: 13px; /* Slightly larger text */
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.45);
   text-decoration: none;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1831,11 +1835,11 @@
 }
 
 body.space-night-theme .footer-sublink {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 body.space-night-theme .footer-sublink:hover {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Adjust layout on small mobile screens */
