@@ -1199,7 +1199,7 @@
     font-family: var(--font-sans);
     font-size: 1.35rem;
     font-weight: 700;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.1rem;
     color: #ffffff;
     letter-spacing: -0.01em;
   }
@@ -1218,7 +1218,7 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    min-height: 230px;
+    min-height: 250px;
     position: relative;
   }
 
@@ -1226,7 +1226,7 @@
   .bento-diagram svg {
     display: block;
     width: 100%;
-    max-width: 334px;
+    max-width: 365px;
     height: auto;
     overflow: visible;
   }
@@ -1236,14 +1236,14 @@
   .bento-diagram svg ellipse,
   .bento-diagram svg line,
   .bento-diagram svg rect {
-    stroke: rgba(255, 255, 255, 0.08);
+    stroke: rgba(255, 255, 255, 0.25);
     stroke-width: 3.25;
     fill: none;
     transition: stroke 0.35s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .bento-diagram svg .accent-line {
-    stroke: rgba(255, 255, 255, 0.22);
+    stroke: rgba(255, 255, 255, 0.55);
     stroke-width: 3.25;
   }
 
@@ -1274,7 +1274,7 @@
   .bento-card:hover .bento-diagram svg ellipse,
   .bento-card:hover .bento-diagram svg line,
   .bento-card:hover .bento-diagram svg rect {
-    stroke: rgba(255, 255, 255, 0.22);
+    stroke: rgba(255, 255, 255, 0.40);
     stroke-width: 3.25;
   }
 
