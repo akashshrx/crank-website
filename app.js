@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', () => {
       scrollTrigger: {
         trigger: ".questions-section",
         start: "top top",
-        end: "+=380%",
+        end: "+=520%",
         scrub: 1,
         pin: true,
         anticipatePin: 1
@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Translate grid across the full scroll timeline
     questionsTimeline.fromTo(".questions-grid", 
       { x: "100vw" }, 
-      { x: "-170vw", ease: "none", duration: 1.0 },
+      { x: "-270vw", ease: "none", duration: 1.0 },
       0
     );
 
