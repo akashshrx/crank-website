@@ -1817,9 +1817,9 @@
 }
 
 .theme-btn.active {
-  color: #000000;
-  background: #ffffff;
-  box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* Adjust layout on small mobile screens */
