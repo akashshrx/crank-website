@@ -266,7 +266,7 @@
       skyBackground.updateViewport(camera);
       
       // Clouds
-      const clouds = new THREE.Clouds(cloudTexture);
+      const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
       scene.add(clouds);
       clouds.position.set(0, 0, 0);
       
@@ -287,6 +287,7 @@
       function animate() {
         requestAnimationFrame(animate);
         const dt = clock.getDelta();
+        if (skyBackground) skyBackground.update(dt);
         clouds.update(dt);
         renderer.render(scene, camera);
       }
