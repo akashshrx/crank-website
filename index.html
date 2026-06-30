@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=22">
-  <link rel="icon" type="image/png" href="logo_dark.png?v=22">
+  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="icon" type="image/png" href="logo_dark.png?v=23">
 </head>
 <body data-cursor-color="blue">
 
@@ -128,21 +128,25 @@
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 240 140" width="240" height="140">
-              <!-- Outermost viewport boundary outline -->
-              <rect x="20" y="15" width="200" height="110" rx="8" stroke="rgba(255,255,255,0.12)" />
+              <!-- Screen boundary -->
+              <rect x="20" y="15" width="200" height="110" rx="6" />
               
-              <!-- Center focal target region (dashed) -->
-              <rect x="70" y="35" width="100" height="70" rx="4" stroke="rgba(255,255,255,0.1)" stroke-dasharray="4,4" />
+              <!-- Back App Window -->
+              <rect x="35" y="35" width="80" height="65" rx="4" />
+              <line x1="35" y1="47" x2="115" y2="47" />
               
-              <!-- Target corner brackets (Accent lines) -->
-              <path d="M 62 47 L 62 31 L 78 31" stroke="rgba(255,255,255,0.3)" class="accent-line" />
-              <path d="M 178 31 L 178 47 M 178 31 L 162 31" stroke="rgba(255,255,255,0.3)" class="accent-line" />
-              <path d="M 62 93 L 62 109 L 78 109" stroke="rgba(255,255,255,0.3)" class="accent-line" />
-              <path d="M 178 109 L 178 93 M 178 109 L 162 109" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+              <!-- Front active App Window (Accent) -->
+              <rect x="90" y="45" width="115" height="65" rx="4" class="accent-line" />
+              <line x1="90" y1="57" x2="205" y2="57" class="accent-line" />
               
-              <!-- Center crosshair circle and dot (Accent) -->
-              <circle cx="120" cy="70" r="10" stroke="rgba(255,255,255,0.3)" class="accent-line" />
-              <circle cx="120" cy="70" r="2.5" fill="rgba(255,255,255,0.4)" class="accent-line" />
+              <!-- Target scan lines or bounding brackets -->
+              <path d="M 120 70 L 120 95 M 105 82 L 135 82" class="accent-line" stroke-dasharray="3,3" />
+              <circle cx="120" cy="82" r="5" class="accent-line" />
+              
+              <!-- Screen coordinate indicators -->
+              <circle cx="43" cy="23" r="1.5" />
+              <circle cx="49" cy="23" r="1.5" />
+              <circle cx="55" cy="23" r="1.5" />
             </svg>
           </div>
         </div>
@@ -155,29 +159,27 @@
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 160 120" width="160" height="120">
-              <!-- Cylinder top ellipse -->
-              <ellipse cx="80" cy="30" rx="30" ry="8" stroke="rgba(255,255,255,0.15)" />
+              <!-- Cylindrical storage body -->
+              <ellipse cx="80" cy="25" rx="32" ry="9" />
               
-              <!-- Cylinder bottom ellipse segment -->
-              <path d="M 50 90 A 30 8 0 0 0 110 90" stroke="rgba(255,255,255,0.15)" />
+              <!-- Inner database layers -->
+              <path d="M 48 48 A 32 9 0 0 0 112 48" />
+              <path d="M 48 70 A 32 9 0 0 0 112 70" />
               
-              <!-- Cylinder vertical boundaries -->
-              <line x1="50" y1="30" x2="50" y2="90" stroke="rgba(255,255,255,0.15)" />
-              <line x1="110" y1="30" x2="110" y2="90" stroke="rgba(255,255,255,0.15)" />
+              <ellipse cx="80" cy="92" rx="32" ry="9" />
               
-              <!-- Dotted layer inside cylinder -->
-              <path d="M 50 60 A 30 8 0 0 0 110 60" stroke="rgba(255,255,255,0.1)" stroke-dasharray="3,3" />
+              <!-- Vertical bounds -->
+              <line x1="48" y1="25" x2="48" y2="92" />
+              <line x1="112" y1="25" x2="112" y2="92" />
               
-              <!-- S-curve query line (Accent) -->
-              <path d="M 30 20 Q 80 50 60 85 T 130 100" stroke="rgba(255,255,255,0.3)" class="accent-line" />
-              
-              <!-- Highlighted index query dot (Accent) -->
-              <circle cx="83" cy="76" r="3" fill="#050508" stroke="rgba(255,255,255,0.4)" class="accent-line" />
+              <!-- Memory trace indexing curve (Accent) -->
+              <path d="M 28 50 Q 80 80 132 50" class="accent-line" />
+              <circle cx="80" cy="65" r="3.5" class="accent-line" />
             </svg>
           </div>
         </div>
         
-        <!-- Card 3: Spectral Transcription (Spans 1 column) -->
+        <!-- Card 3: Sub-100ms Latency (Spans 1 column) -->
         <div class="glass-card bento-card">
           <div class="bento-content">
             <h3>Sub-100ms Latency</h3>
@@ -185,14 +187,14 @@
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 160 120" width="160" height="120">
-              <!-- Center/origin dot on the left -->
-              <circle cx="45" cy="60" r="3" fill="rgba(255,255,255,0.2)" />
+              <!-- Baseline guide -->
+              <line x1="15" y1="60" x2="145" y2="60" stroke-dasharray="3,3" />
               
-              <!-- Expanding wave segments (Accent lines) -->
-              <path d="M 65 47 A 20 20 0 0 1 65 73" stroke="rgba(255,255,255,0.2)" class="accent-line" />
-              <path d="M 80 40 A 35 35 0 0 1 80 80" stroke="rgba(255,255,255,0.2)" class="accent-line" />
-              <path d="M 95 33 A 50 50 0 0 1 95 87" stroke="rgba(255,255,255,0.2)" class="accent-line" />
-              <path d="M 110 26 A 65 65 0 0 1 110 94" stroke="rgba(255,255,255,0.2)" class="accent-line" />
+              <!-- Transcription wave line (Accent) -->
+              <path d="M 15 60 L 45 60 Q 55 20 65 90 T 75 60 T 85 60 Q 95 100 105 30 T 115 60 L 145 60" class="accent-line" />
+              
+              <!-- Central latency threshold marker -->
+              <line x1="80" y1="20" x2="80" y2="100" stroke-dasharray="2,2" />
             </svg>
           </div>
         </div>
@@ -205,28 +207,31 @@
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 240 140" width="240" height="140">
-              <!-- Center node (Glide core) -->
-              <circle cx="120" cy="70" r="14" stroke="rgba(255,255,255,0.15)" />
-              <circle cx="120" cy="70" r="4" fill="rgba(255,255,255,0.2)" />
+              <!-- Left app nodes -->
+              <circle cx="45" cy="30" r="10" />
+              <circle cx="35" cy="70" r="10" />
+              <circle cx="45" cy="110" r="10" />
               
-              <!-- Peripheral Node 1: Slack (left top) -->
-              <circle cx="50" cy="35" r="8" stroke="rgba(255,255,255,0.12)" />
+              <!-- Right app nodes -->
+              <circle cx="195" cy="30" r="10" />
+              <circle cx="205" cy="70" r="10" />
+              <circle cx="195" cy="110" r="10" />
               
-              <!-- Peripheral Node 2: VS Code (right top) -->
-              <circle cx="190" cy="35" r="8" stroke="rgba(255,255,255,0.12)" />
+              <!-- Center Orchestrator Pill (Accent) -->
+              <rect x="95" y="52" width="50" height="36" rx="18" class="accent-line" />
               
-              <!-- Peripheral Node 3: Chrome/Terminal (bottom center) -->
-              <circle cx="120" cy="115" r="8" stroke="rgba(255,255,255,0.12)" />
+              <!-- Left linking branches -->
+              <path d="M 95 70 Q 70 70 45 30" />
+              <path d="M 95 70 Q 70 70 35 70" />
+              <path d="M 95 70 Q 70 70 45 110" />
               
-              <!-- Connection paths (Accent lines) -->
-              <line x1="120" y1="56" x2="120" y2="107" stroke="rgba(255,255,255,0.2)" class="accent-line" />
-              <line x1="108" y1="62" x2="57" y2="41" stroke="rgba(255,255,255,0.2)" class="accent-line" />
-              <line x1="132" y1="62" x2="183" y2="41" stroke="rgba(255,255,255,0.2)" class="accent-line" />
+              <!-- Right linking branches (Accent) -->
+              <path d="M 145 70 Q 170 70 195 30" class="accent-line" />
+              <path d="M 145 70 Q 170 70 205 70" class="accent-line" />
+              <path d="M 145 70 Q 170 70 195 110" class="accent-line" />
               
-              <!-- Highlighted active nodes (Accent circles) -->
-              <circle cx="120" cy="70" r="14" stroke="rgba(255,255,255,0.3)" class="accent-line" />
-              <circle cx="190" cy="35" r="8" stroke="rgba(255,255,255,0.3)" class="accent-line" />
-              <circle cx="50" cy="35" r="8" stroke="rgba(255,255,255,0.3)" class="accent-line" />
+              <!-- Inner design dots -->
+              <circle cx="120" cy="70" r="3" class="accent-line" fill="rgba(255,255,255,0.4)" />
             </svg>
           </div>
         </div>
@@ -293,7 +298,7 @@
   <!-- macOS Dock Footer -->
   <footer class="dock-footer">
     <div class="dock-container">
-      <span class="dock-text">Glide for Mac</span>
+      <span class="dock-text">ALL RIGHT RESERVED</span>
       
       <div class="dock-icon-wrapper">
         <a href="Glide_macOS.dmg" download class="btn-download" aria-label="Download Glide app">
@@ -303,7 +308,7 @@
         </a>
       </div>
       
-      <span class="dock-text" id="footer-copyright">GLIDE INC. © <span id="footer-year">2026</span> ALL RIGHTS RESERVED</span>
+      <span class="dock-text" id="footer-copyright">GLIDE INC. © <span id="footer-year">2026</span></span>
     </div>
   </footer>
 
@@ -346,10 +351,10 @@
 
   <!-- Three.js for WebGL Background Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="sky.js?v=22"></script>
+  <script src="sky.js?v=23"></script>
   <script src="ImprovedNoise.js"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=22"></script>
+  <script src="app.js?v=23"></script>
 </body>
 </html>

@@ -1214,15 +1214,15 @@
   .bento-diagram svg ellipse,
   .bento-diagram svg line,
   .bento-diagram svg rect {
-    stroke: rgba(255, 255, 255, 0.12);
-    stroke-width: 2.25;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 3.25;
     fill: none;
     transition: stroke 0.35s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .bento-diagram svg .accent-line {
-    stroke: rgba(255, 255, 255, 0.28);
-    stroke-width: 2.25;
+    stroke: rgba(255, 255, 255, 0.22);
+    stroke-width: 3.25;
   }
 
   /* Hover interactivity states */
@@ -1231,14 +1231,14 @@
   .bento-card:hover .bento-diagram svg ellipse,
   .bento-card:hover .bento-diagram svg line,
   .bento-card:hover .bento-diagram svg rect {
-    stroke: rgba(255, 255, 255, 0.35);
-    stroke-width: 2.25;
+    stroke: rgba(255, 255, 255, 0.22);
+    stroke-width: 3.25;
   }
 
   .bento-card:hover .bento-diagram svg .accent-line {
-    stroke: #0ea5e9; /* Brand blue highlight color */
-    stroke-width: 3.5;
-    filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.8));
+    stroke: rgba(245, 245, 247, 0.95); /* Premium warm off-white */
+    stroke-width: 4.75;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
   }
 
   /* Mobile responsive overrides */
