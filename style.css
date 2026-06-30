@@ -47,6 +47,11 @@
   }
 
   /* WebGL Background Canvas */
+  @keyframes canvasFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
   #webgl-canvas {
     position: fixed;
     top: 0;
@@ -55,6 +60,8 @@
     height: 100%;
     z-index: 1;
     pointer-events: none;
+    opacity: 0;
+    animation: canvasFadeIn 2.5s ease-in-out forwards;
   }
 
   img, svg {
