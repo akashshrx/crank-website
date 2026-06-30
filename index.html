@@ -24,8 +24,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=30">
-  <link rel="icon" type="image/png" href="logo_dark.png?v=30">
+  <link rel="stylesheet" href="style.css?v=31">
+  <link rel="icon" type="image/png" href="logo_dark.png?v=31">
 </head>
 <body data-cursor-color="blue">
 
@@ -128,23 +128,30 @@
           </div>
           <div class="bento-diagram">
             <svg viewBox="0 0 240 140" width="240" height="140">
-              <!-- Laptop Screen Outer Outline -->
-              <rect x="45" y="15" width="150" height="90" rx="6" />
-              <!-- Laptop Screen Inner Display Bound -->
-              <rect x="51" y="21" width="138" height="78" rx="2" stroke-dasharray="1.5,1.5" style="stroke-opacity: 0.3;" />
+              <!-- Outer concentric layout/scanning guides -->
+              <circle cx="120" cy="70" r="62" stroke-dasharray="1.5,8" style="stroke-opacity: 0.15;" />
+              <circle cx="120" cy="70" r="50" stroke-dasharray="4,5" style="stroke-opacity: 0.2;" />
               
-              <!-- Laptop Base -->
-              <path d="M 25 105 L 215 105 C 215 105, 215 113, 205 113 L 35 113 C 25 113, 25 105, 25 105 Z" />
-              <!-- Trackpad -->
-              <rect x="105" y="105" width="30" height="5" rx="1.5" />
+              <!-- Eye outer lines (Bezier Curves) -->
+              <path d="M 45 70 Q 120 22 195 70" fill="none" stroke-width="2.5" />
+              <path d="M 45 70 Q 120 118 195 70" fill="none" stroke-width="2.5" />
               
-              <!-- Simplified Laptop Screen Content -->
-              <rect x="62" y="32" width="116" height="56" rx="4" />
-              <line x1="72" y1="48" x2="168" y2="48" />
-              <line x1="72" y1="60" x2="138" y2="60" />
+              <!-- Inner Iris concentric outline -->
+              <circle cx="120" cy="70" r="30" stroke-width="2" />
               
-              <!-- Scanning bar line (sweeps screen vertically on hover) -->
-              <line class="scanner-bar accent-line" x1="46" y1="15" x2="194" y2="15" />
+              <!-- Screen Grid Mockup (inside pupil) -->
+              <circle cx="120" cy="70" r="14" stroke-width="1.5" />
+              <line x1="113" y1="70" x2="127" y2="70" stroke-width="1.5" style="stroke-opacity: 0.7;" />
+              <line x1="120" y1="63" x2="120" y2="77" stroke-width="1.5" style="stroke-opacity: 0.7;" />
+              
+              <!-- Ticks at cardinal angles (radar visual elements) -->
+              <line x1="120" y1="12" x2="120" y2="20" stroke-width="2" style="stroke-opacity: 0.5;" />
+              <line x1="120" y1="120" x2="120" y2="128" stroke-width="2" style="stroke-opacity: 0.5;" />
+              <line x1="62" y1="70" x2="70" y2="70" stroke-width="2" style="stroke-opacity: 0.5;" />
+              <line x1="170" y1="70" x2="178" y2="70" stroke-width="2" style="stroke-opacity: 0.5;" />
+              
+              <!-- Rotating reticle (Accent line, rotates on hover) -->
+              <circle class="scanner-reticle accent-line" cx="120" cy="70" r="39" stroke-dasharray="18,12,6,12" stroke-width="3" />
             </svg>
           </div>
         </div>
@@ -384,10 +391,10 @@
 
   <!-- Three.js for WebGL Background Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="sky.js?v=30"></script>
+  <script src="sky.js?v=31"></script>
   <script src="ImprovedNoise.js"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=30"></script>
+  <script src="app.js?v=31"></script>
 </body>
 </html>

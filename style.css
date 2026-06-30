@@ -1313,15 +1313,19 @@
     }
   }
 
-  /* Scan Effect Animation */
-  @keyframes laptopScan {
-    0% { transform: translateY(0); opacity: 0.15; }
-    50% { transform: translateY(90px); opacity: 0.85; stroke: rgba(245, 245, 247, 0.95); }
-    100% { transform: translateY(0); opacity: 0.15; }
+  /* Eye Scan Reticle Rotation Animation */
+  @keyframes rotateReticle {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
-  .bento-card:hover .scanner-bar {
-    animation: laptopScan 2.4s infinite ease-in-out;
+  .scanner-reticle {
+    transform-origin: 120px 70px;
+    transition: stroke 0.3s ease;
+  }
+
+  .bento-card:hover .scanner-reticle {
+    animation: rotateReticle 6s infinite linear;
   }
 }
 
@@ -1365,7 +1369,7 @@
 .questions-viewport {
   flex-grow: 1;
   height: 680px;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
