@@ -211,7 +211,7 @@
 
 
   .btn:hover span {
-    background: linear-gradient(90deg, #121210 0%, #121210 35%, #ffffff 50%, #121210 65%, #121210 100%);
+    background: linear-gradient(90deg, #121210 0%, #121210 35%, #a855f7 50%, #121210 65%, #121210 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
