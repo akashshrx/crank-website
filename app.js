@@ -392,15 +392,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    questionsTimeline.fromTo(".questions-title-side h2",
-      { opacity: 0.05, y: 40 },
-      { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
-    );
-
+    // Translate grid across the full scroll timeline
     questionsTimeline.fromTo(".questions-grid", 
       { x: "100vw" }, 
-      { x: "-100vw", ease: "none" },
-      "<"
+      { x: "-120vw", ease: "none", duration: 1.0 },
+      0
+    );
+
+    // Fade in title on scroll start
+    questionsTimeline.fromTo(".questions-title-side h2",
+      { opacity: 0.05, y: 40 },
+      { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" },
+      0
+    );
+
+    // Fade out title on scroll late-stage
+    questionsTimeline.to(".questions-title-side h2",
+      { opacity: 0, y: -40, duration: 0.4, ease: "power2.in" },
+      0.55
     );
 
     gsap.timeline({
