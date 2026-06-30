@@ -215,7 +215,7 @@
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 1.05s linear forwards;
+    animation: text-shimmer 0.8s linear forwards;
   }
 
   @keyframes text-shimmer {
@@ -633,7 +633,7 @@
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: text-shimmer 1.05s linear forwards;
+    animation: text-shimmer 0.8s linear forwards;
   }
 
   .conversion-download-btn:active {
