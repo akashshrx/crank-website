@@ -1434,11 +1434,11 @@
   }
 
   .cta-bento-card {
-    background: linear-gradient(135deg, #1e70e6 0%, #8b5cf6 50%, #ec4899 100%) !important; /* Vibrant bright gradient for Day Mode */
+    background: linear-gradient(135deg, rgba(0, 153, 230, 0.35) 0%, rgba(139, 92, 246, 0.25) 50%, rgba(240, 170, 200, 0.3) 100%) !important; /* Soft, blended glass gradient */
     opacity: 1 !important;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px) saturate(120%) !important;
+    -webkit-backdrop-filter: blur(12px) saturate(120%) !important;
     transition: background 0.8s ease, border-color 0.8s ease;
   }
 
