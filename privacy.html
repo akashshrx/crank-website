@@ -287,7 +287,6 @@
       function animate() {
         requestAnimationFrame(animate);
         const dt = clock.getDelta();
-        if (skyBackground) skyBackground.update(dt);
         clouds.update(dt);
         renderer.render(scene, camera);
       }
