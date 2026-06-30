@@ -416,22 +416,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     .fromTo(".reveal-line.line-1", 
-      { y: "50px", scaleY: 1.35, opacity: 0.05 }, 
-      { y: "0px", scaleY: 1.35, opacity: 1, duration: 1, ease: "power2.out" }
+      { y: "50px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 0.05 }, 
+      { y: "0px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 1, duration: 1, ease: "power2.out" }
     )
     .fromTo(".reveal-line.line-2", 
-      { y: "50px", scaleY: 1.35, opacity: 0.05 }, 
-      { y: "0px", scaleY: 1.35, opacity: 1, duration: 1, ease: "power2.out" }, 
+      { y: "50px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 0.05 }, 
+      { y: "0px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 1, duration: 1, ease: "power2.out" }, 
       "+=0.3"
     )
     .fromTo(".reveal-line.line-3", 
-      { y: "50px", scaleY: 1.35, opacity: 0.05 }, 
-      { y: "0px", scaleY: 1.35, opacity: 1, duration: 1, ease: "power2.out" }, 
+      { y: "50px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 0.05 }, 
+      { y: "0px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 1, duration: 1, ease: "power2.out" }, 
       "+=0.3"
     )
     .fromTo(".reveal-line.line-4", 
-      { y: "50px", scaleY: 1.35, opacity: 0.05 }, 
-      { y: "0px", scaleY: 1.35, opacity: 1, duration: 1, ease: "power2.out" }, 
+      { y: "50px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 0.05 }, 
+      { y: "0px", scaleY: 1.35, transformOrigin: "center bottom", opacity: 1, duration: 1, ease: "power2.out" }, 
       "+=0.3"
     )
     .to({}, { duration: 0.4 }); // Hold state
