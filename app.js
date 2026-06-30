@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Translate grid across the full scroll timeline
     questionsTimeline.fromTo(".questions-grid", 
       { x: "100vw" }, 
-      { x: "-120vw", ease: "none", duration: 1.0 },
+      { x: "-300vw", ease: "none", duration: 1.0 },
       0
     );
 
