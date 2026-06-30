@@ -915,6 +915,11 @@
     justify-content: space-between;
     min-height: 200px;
     box-sizing: border-box;
+    background: none !important;
+    border: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
   }
 
   .audiogram-desc {
@@ -932,59 +937,75 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
+    height: 100px;
     width: 100%;
     margin-top: auto;
   }
 
-  .audiogram-wave {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    height: 100%;
-  }
-
-  .audiogram-wave span {
+  /* Waveform SVG line-art styling */
+  .waveform-svg {
     display: block;
-    width: 3px;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 1.5px;
-    transition: background-color 0.3s ease, height 0.3s ease, transform 0.3s ease;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    overflow: visible;
   }
 
-  /* Wave animation when keypress summons listening mode */
-  .audiogram-demo-card.listening .audiogram-wave span {
-    background: #ffffff;
-    animation: voice-pulse 0.8s ease-in-out infinite alternate;
+  .waveform-svg line,
+  .waveform-svg path {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 3.25;
+    fill: none;
+    transition: stroke 0.35s cubic-bezier(0.16, 1, 0.3, 1), stroke-width 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
   }
 
-  .audiogram-wave span:nth-child(1) { animation-delay: 0.1s; height: 12px; }
-  .audiogram-wave span:nth-child(2) { animation-delay: 0.3s; height: 18px; }
-  .audiogram-wave span:nth-child(3) { animation-delay: 0.15s; height: 8px; }
-  .audiogram-wave span:nth-child(4) { animation-delay: 0.45s; height: 24px; }
-  .audiogram-wave span:nth-child(5) { animation-delay: 0.2s; height: 14px; }
-  .audiogram-wave span:nth-child(6) { animation-delay: 0.35s; height: 20px; }
-  .audiogram-wave span:nth-child(7) { animation-delay: 0.1s; height: 10px; }
-  .audiogram-wave span:nth-child(8) { animation-delay: 0.5s; height: 26px; }
-  .audiogram-wave span:nth-child(9) { animation-delay: 0.25s; height: 12px; }
-  .audiogram-wave span:nth-child(10) { animation-delay: 0.4s; height: 22px; }
-  .audiogram-wave span:nth-child(11) { animation-delay: 0.15s; height: 8px; }
-  .audiogram-wave span:nth-child(12) { animation-delay: 0.3s; height: 16px; }
-  .audiogram-wave span:nth-child(13) { animation-delay: 0.2s; height: 14px; }
-  .audiogram-wave span:nth-child(14) { animation-delay: 0.45s; height: 18px; }
-  .audiogram-wave span:nth-child(15) { animation-delay: 0.1s; height: 10px; }
+  .waveform-svg .wave-line {
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
 
-  @keyframes voice-pulse {
-    from {
-      transform: scaleY(0.4);
-      background: rgba(255, 255, 255, 0.7);
-    }
-    to {
-      transform: scaleY(2.2);
-      background: #ffffff;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-    }
+  .listening .waveform-svg .wave-baseline {
+    opacity: 0;
+    stroke-width: 1.5;
+  }
+
+  .listening .waveform-svg .wave-line {
+    opacity: 0.85;
+    transform: scaleY(1);
+    stroke: rgba(245, 245, 247, 0.95);
+    stroke-width: 4.75;
+  }
+
+  @keyframes voiceWave1 {
+    0% { transform: scaleY(0.4) skewX(-2deg); opacity: 0.6; }
+    50% { transform: scaleY(1.3) skewX(2deg); opacity: 0.95; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3)); }
+    100% { transform: scaleY(0.4) skewX(-2deg); opacity: 0.6; }
+  }
+
+  @keyframes voiceWave2 {
+    0% { transform: scaleY(1.2) skewX(3deg); opacity: 0.9; }
+    50% { transform: scaleY(0.3) skewX(-3deg); opacity: 0.5; }
+    100% { transform: scaleY(1.2) skewX(3deg); opacity: 0.9; }
+  }
+
+  @keyframes voiceWave3 {
+    0% { transform: scaleY(0.2); opacity: 0.4; }
+    50% { transform: scaleY(1.5); opacity: 0.95; filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.35)); }
+    100% { transform: scaleY(0.2); opacity: 0.4; }
+  }
+
+  .listening .waveform-svg .wave-1 {
+    animation: voiceWave1 1.4s infinite ease-in-out;
+  }
+
+  .listening .waveform-svg .wave-2 {
+    animation: voiceWave2 1.8s infinite ease-in-out;
+  }
+
+  .listening .waveform-svg .wave-3 {
+    animation: voiceWave3 1.1s infinite ease-in-out;
   }
 
   /* Scroll Reveal Section (Vercel-style Masked Text Reveal) */
@@ -1269,5 +1290,16 @@
       margin-top: 1rem;
       min-height: 100px;
     }
+  }
+
+  /* Scan Effect Animation */
+  @keyframes scanEffect {
+    0% { transform: translateY(0); opacity: 0.15; }
+    50% { transform: translateY(68px); opacity: 0.85; stroke: rgba(245, 245, 247, 0.95); }
+    100% { transform: translateY(0); opacity: 0.15; }
+  }
+
+  .bento-card:hover .scanner-bar {
+    animation: scanEffect 2.2s infinite ease-in-out;
   }
 }
