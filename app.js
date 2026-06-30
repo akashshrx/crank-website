@@ -372,11 +372,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 1. Download Trigger & Notification
   // ==========================================
-  const downloadLinks = document.querySelectorAll('.btn-download');
+  const downloadLinks = document.querySelectorAll('.btn-download, .conversion-download-btn');
   const downloadToast = document.getElementById('download-toast');
 
   downloadLinks.forEach(link => {
     link.addEventListener('click', (e) => {
+      e.preventDefault();
       // Show download started toast
       downloadToast.classList.add('show');
       
