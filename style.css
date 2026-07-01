@@ -37,7 +37,11 @@
     pointer-events: none;
   }
 
-  html, body {
+  html {
+    background-color: var(--bg-base);
+  }
+
+  body {
     background: var(--bg-base);
     color: var(--text-main);
     font-family: var(--font-sans);
