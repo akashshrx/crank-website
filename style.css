@@ -1744,7 +1744,6 @@
   font-family: 'Caveat', cursive;
   font-weight: 700;
   font-size: 1.35em;
-  color: #66b3ff;
 }
 
 .shimmer-target {
@@ -1753,7 +1752,7 @@
 }
 
 .shimmer-target.shimmer-active {
-  background: linear-gradient(90deg, #66b3ff 0%, #66b3ff 35%, #ffffff 50%, #66b3ff 65%, #66b3ff 100%);
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 35%, #66b3ff 50%, #ffffff 65%, #ffffff 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
