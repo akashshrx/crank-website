@@ -1736,6 +1736,36 @@
   transform: translateY(-4px);
 }
 
+.questions-grid:active {
+  cursor: grabbing;
+}
+
+.caveat-highlight {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  font-size: 1.2em;
+}
+
+.shimmer-target {
+  display: inline-block;
+  color: inherit;
+}
+
+.shimmer-target.shimmer-active {
+  background: linear-gradient(90deg, #121210 0%, #121210 35%, #0099e6 50%, #121210 65%, #121210 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 1.5s linear forwards;
+}
+
+body.space-night-theme .shimmer-target.shimmer-active {
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 35%, #66b3ff 50%, #ffffff 65%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Mobile responsive overrides for questions section */
 @media (max-width: 768px) {
   .questions-section {

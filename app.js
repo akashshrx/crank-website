@@ -480,6 +480,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // IntersectionObserver for shimmer effect
+  const shimmerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('shimmer-active');
+        shimmerObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.shimmer-target').forEach(target => {
+    shimmerObserver.observe(target);
+  });
+
   // ==========================================
   // 3. Eyeball Blink Animation Controller
   // ==========================================
