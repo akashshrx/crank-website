@@ -420,7 +420,15 @@ document.addEventListener('DOMContentLoaded', () => {
         end: "+=520%",
         scrub: 1,
         pin: true,
-        anticipatePin: 1
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          if (self.progress > 0.15 && !window.shimmerFired) {
+            window.shimmerFired = true;
+            document.querySelectorAll('.shimmer-target').forEach(el => {
+              el.classList.add('shimmer-active');
+            });
+          }
+        }
       }
     });
 
@@ -478,20 +486,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lenis.scrollTo(target);
       }
     });
-  });
-
-  // IntersectionObserver for shimmer effect
-  const shimmerObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('shimmer-active');
-        shimmerObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  document.querySelectorAll('.shimmer-target').forEach(target => {
-    shimmerObserver.observe(target);
   });
 
   // ==========================================
