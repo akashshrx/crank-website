@@ -421,13 +421,16 @@ document.addEventListener('DOMContentLoaded', () => {
         scrub: 1,
         pin: true,
         anticipatePin: 1,
-        onUpdate: (self) => {
-          if (self.progress > 0.15 && !window.shimmerFired) {
-            window.shimmerFired = true;
-            document.querySelectorAll('.shimmer-target').forEach(el => {
-              el.classList.add('shimmer-active');
-            });
-          }
+        onUpdate: () => {
+          document.querySelectorAll('.shimmer-target').forEach(el => {
+            if (!el.classList.contains('shimmer-active')) {
+              const rect = el.getBoundingClientRect();
+              // Trigger when the element enters the visible area (left edge is < 80% of window width and it hasn't passed left edge yet)
+              if (rect.left < window.innerWidth * 0.8 && rect.right > 0) {
+                el.classList.add('shimmer-active');
+              }
+            }
+          });
         }
       }
     });
