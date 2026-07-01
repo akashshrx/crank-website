@@ -1714,7 +1714,9 @@
 .row-3 { padding-left: 400px; }
 
 .question-pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 1.4rem 2.8rem;
   font-family: var(--font-sans);
   font-size: clamp(1.4rem, 2.1vw, 2.1rem);
@@ -1728,6 +1730,7 @@
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: default;
   user-select: none;
+  line-height: 1.2;
 }
 
 .question-pill:hover {
@@ -1744,6 +1747,7 @@
   font-family: 'Caveat', cursive;
   font-weight: 700;
   font-size: 1.35em;
+  padding-right: 0.15em;
 }
 
 .shimmer-target {
@@ -1757,6 +1761,19 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: text-shimmer 1.5s linear forwards;
+}
+
+@keyframes text-shimmer-hover {
+  0% {
+    background-position: 150% center;
+  }
+  100% {
+    background-position: -50% center;
+  }
+}
+
+.question-pill:hover .shimmer-target.shimmer-active {
+  animation: text-shimmer-hover 1.5s linear forwards;
 }
 
 /* Mobile responsive overrides for questions section */
