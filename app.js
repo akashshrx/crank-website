@@ -427,7 +427,11 @@ document.addEventListener('DOMContentLoaded', () => {
               const rect = el.getBoundingClientRect();
               // Trigger when the element enters the visible area (left edge is < 80% of window width and it hasn't passed left edge yet)
               if (rect.left < window.innerWidth * 0.8 && rect.right > 0) {
-                el.classList.add('shimmer-active');
+                el.classList.add('shimmer-active', 'shimmer-play');
+                // Remove the play class after the animation finishes (1.5s) so hover can cleanly re-trigger it
+                setTimeout(() => {
+                  el.classList.remove('shimmer-play');
+                }, 1500);
               }
             }
           });

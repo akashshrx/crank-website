@@ -1717,7 +1717,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1.4rem 2.8rem;
+  padding: 0 2.8rem;
+  height: clamp(6rem, 8vw, 7.5rem);
   font-family: var(--font-sans);
   font-size: clamp(1.4rem, 2.1vw, 2.1rem);
   font-weight: 500;
@@ -1748,6 +1749,7 @@
   font-weight: 700;
   font-size: 1.35em;
   padding-right: 0.15em;
+  margin-right: 0.25em; /* Extra visual spacing */
 }
 
 .shimmer-target {
@@ -1760,20 +1762,15 @@
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-position: -50% center; /* End state of shimmer so it looks correct without animation */
+}
+
+.shimmer-target.shimmer-active.shimmer-play {
   animation: text-shimmer 1.5s linear forwards;
 }
 
-@keyframes text-shimmer-hover {
-  0% {
-    background-position: 150% center;
-  }
-  100% {
-    background-position: -50% center;
-  }
-}
-
 .question-pill:hover .shimmer-target.shimmer-active {
-  animation: text-shimmer-hover 1.5s linear forwards;
+  animation: text-shimmer 1.5s linear forwards;
 }
 
 /* Mobile responsive overrides for questions section */
