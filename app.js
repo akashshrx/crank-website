@@ -411,46 +411,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
-    // GSAP ScrollTrigger for horizontal questions grid scroll
-    const questionsTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".questions-section",
-        start: "top top",
-        end: "+=520%",
-        scrub: 1,
-        pin: true,
-        anticipatePin: 1,
-        onUpdate: () => {
-          document.querySelectorAll('.shimmer-target').forEach(el => {
-            if (!el.classList.contains('shimmer-active')) {
-              const rect = el.getBoundingClientRect();
-              // Trigger when the element enters the visible area (left edge is < 80% of window width and it hasn't passed left edge yet)
-              if (rect.left < window.innerWidth * 0.8 && rect.right > 0) {
-                el.classList.add('shimmer-active', 'shimmer-play');
-                // Remove the play class after the animation finishes (1.5s) so hover can cleanly re-trigger it
-                setTimeout(() => {
-                  el.classList.remove('shimmer-play');
-                }, 1500);
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 769px)", () => {
+      // GSAP ScrollTrigger for horizontal questions grid scroll
+      const questionsTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".questions-section",
+          start: "top top",
+          end: "+=520%",
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          onUpdate: () => {
+            document.querySelectorAll('.shimmer-target').forEach(el => {
+              if (!el.classList.contains('shimmer-active')) {
+                const rect = el.getBoundingClientRect();
+                // Trigger when the element enters the visible area (left edge is < 80% of window width and it hasn't passed left edge yet)
+                if (rect.left < window.innerWidth * 0.8 && rect.right > 0) {
+                  el.classList.add('shimmer-active', 'shimmer-play');
+                  // Remove the play class after the animation finishes (1.5s) so hover can cleanly re-trigger it
+                  setTimeout(() => {
+                    el.classList.remove('shimmer-play');
+                  }, 1500);
+                }
               }
-            }
-          });
+            });
+          }
         }
-      }
+      });
+
+      // Translate grid across the full scroll timeline
+      questionsTimeline.fromTo(".questions-grid", 
+        { x: "100vw" }, 
+        { x: "-270vw", ease: "none", duration: 1.0 },
+        0
+      );
+
+      // Fade out title as questions approach (starts at ~22% scroll progress, done by ~32%)
+      questionsTimeline.to(".questions-title-side h2",
+        { opacity: 0, y: -30, duration: 0.10, ease: "power2.inOut" },
+        0.22
+      );
     });
-
-    // Translate grid across the full scroll timeline
-    questionsTimeline.fromTo(".questions-grid", 
-      { x: "100vw" }, 
-      { x: "-270vw", ease: "none", duration: 1.0 },
-      0
-    );
-
-    // Fade out title as questions approach (starts at ~22% scroll progress, done by ~32%)
-    questionsTimeline.to(".questions-title-side h2",
-      { opacity: 0, y: -30, duration: 0.10, ease: "power2.inOut" },
-      0.22
-    );
 
     gsap.timeline({
       scrollTrigger: {
