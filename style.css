@@ -911,17 +911,14 @@
 
   .dock-text {
     font-family: var(--font-sans);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.45);
+    color: #ffffff;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     user-select: none;
     white-space: nowrap;
-  }
-
-  body.space-night-theme .dock-text {
-    color: rgba(255, 255, 255, 0.65);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 
   .dock-icon-wrapper {
