@@ -1893,24 +1893,18 @@
   font-family: var(--font-sans);
   font-size: 13px; /* Slightly larger text */
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.45);
+  color: #ffffff;
   text-decoration: none;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .footer-sublink:hover {
-  color: rgba(0, 0, 0, 0.9);
+  color: #ffffff;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.6);
   text-decoration: underline;
-}
-
-body.space-night-theme .footer-sublink {
-  color: rgba(255, 255, 255, 0.65);
-}
-
-body.space-night-theme .footer-sublink:hover {
-  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Adjust layout on small mobile screens */
