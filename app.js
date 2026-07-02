@@ -481,11 +481,6 @@ document.addEventListener('DOMContentLoaded', () => {
       { y: "0px", scaleY: 1.35, transformOrigin: "left bottom", opacity: 1, duration: 1, ease: "power2.out" }, 
       "+=0.3"
     )
-    .fromTo(".reveal-line.line-4", 
-      { y: "50px", scaleY: 1.35, transformOrigin: "left bottom", opacity: 0.05 }, 
-      { y: "0px", scaleY: 1.35, transformOrigin: "left bottom", opacity: 1, duration: 1, ease: "power2.out" }, 
-      "+=0.3"
-    )
     .to({}, { duration: 0.4 }); // Hold state
   }
 
