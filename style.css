@@ -1701,8 +1701,7 @@
   margin-top: 2rem;
   width: 366px;
   position: relative;
-  mask-image: radial-gradient(circle at 156px 116px, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72px, rgba(0, 0, 0, 0.45) 105px, rgba(0, 0, 0, 0) 155px);
-  -webkit-mask-image: radial-gradient(circle at 156px 116px, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72px, rgba(0, 0, 0, 0.45) 105px, rgba(0, 0, 0, 0) 155px);
+  overflow: visible;
 }
 
 .keyboard-row {
@@ -1794,9 +1793,35 @@
   white-space: nowrap;
 }
 
-/* Specific key styles */
+/* Specific key styles & simulated radial fade opacities */
+.mac-key-cap.control-key,
+.mac-key-cap.option-key {
+  opacity: 1;
+}
+
+.mac-key-cap.z-key {
+  opacity: 0.65;
+}
+
+.mac-key-cap.x-key {
+  opacity: 0.55;
+}
+
+.mac-key-cap.fn-key {
+  opacity: 0.35;
+}
+
+.mac-key-cap.command-key {
+  opacity: 0.35;
+}
+
+.mac-key-cap.c-key {
+  opacity: 0.2;
+}
+
 .mac-key-cap.shift-key {
   width: 126px;
+  opacity: 0.2;
 }
 
 .mac-key-cap.letter-key {
