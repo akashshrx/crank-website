@@ -1691,6 +1691,20 @@
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+}
+
+.questions-keys-img-container {
+  max-width: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.questions-keys-img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .questions-viewport {
