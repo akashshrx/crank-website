@@ -1396,9 +1396,8 @@
     stroke-width: 3.25;
   }
 
-  /* Speedometer Needle Transition properties */
   .bento-diagram svg .speed-needle {
-    transform-origin: 80px 80px;
+    transform-origin: 80px 85px;
     transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
