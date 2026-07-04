@@ -1417,11 +1417,11 @@
   }
 
   /* Hover interactivity states */
-  .bento-card:hover .bento-diagram svg path:not(.cursor-path):not(.dashed-arc),
-  .bento-card:hover .bento-diagram svg circle:not(.window-btn),
-  .bento-card:hover .bento-diagram svg ellipse,
-  .bento-card:hover .bento-diagram svg line:not(.speed-tick):not(.wireframe-line),
-  .bento-card:hover .bento-diagram svg rect:not(.tooltip-bubble) {
+  .bento-card:hover .bento-diagram svg path:not(.cursor-path):not(.dashed-arc):not(.accent-line),
+  .bento-card:hover .bento-diagram svg circle:not(.window-btn):not(.accent-line),
+  .bento-card:hover .bento-diagram svg ellipse:not(.accent-line),
+  .bento-card:hover .bento-diagram svg line:not(.speed-tick):not(.wireframe-line):not(.accent-line),
+  .bento-card:hover .bento-diagram svg rect:not(.tooltip-bubble):not(.accent-line) {
     stroke: rgba(255, 255, 255, 0.40);
     stroke-width: 3.25;
   }
@@ -1453,11 +1453,6 @@
     stroke: rgba(255, 255, 255, 0.55) !important;
   }
 
-  .bento-diagram svg .dashed-arc {
-    stroke-width: 1.5 !important;
-    stroke: rgba(255, 255, 255, 0.2) !important;
-  }
-
   .bento-diagram svg .window-btn {
     stroke-width: 1.25 !important;
     stroke: rgba(255, 255, 255, 0.3) !important;
@@ -1468,16 +1463,6 @@
   .bento-card:hover .bento-diagram svg .window-btn {
     stroke: rgba(255, 255, 255, 0.5) !important;
     fill: rgba(255, 255, 255, 0.15) !important;
-  }
-
-  .bento-diagram svg .wireframe-line {
-    stroke-width: 1.25 !important;
-    stroke: rgba(255, 255, 255, 0.15) !important;
-    transition: stroke 0.3s ease;
-  }
-
-  .bento-card:hover .bento-diagram svg .wireframe-line {
-    stroke: rgba(255, 255, 255, 0.3) !important;
   }
 
   .bento-diagram svg .tooltip-bubble {
