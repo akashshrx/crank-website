@@ -1417,7 +1417,7 @@
   }
 
   /* Hover interactivity states */
-  .bento-card:hover .bento-diagram svg path:not(.cursor-path):not(.dashed-arc):not(.accent-line),
+  .bento-card:hover .bento-diagram svg path:not(.dashed-arc):not(.accent-line),
   .bento-card:hover .bento-diagram svg circle:not(.window-btn):not(.accent-line),
   .bento-card:hover .bento-diagram svg ellipse:not(.accent-line),
   .bento-card:hover .bento-diagram svg line:not(.speed-tick):not(.wireframe-line):not(.accent-line),
@@ -1475,18 +1475,6 @@
   .bento-card:hover .bento-diagram svg .tooltip-bubble {
     stroke: rgba(255, 255, 255, 0.3) !important;
     fill: rgba(255, 255, 255, 0.08) !important;
-  }
-
-  .bento-diagram svg .cursor-path {
-    fill: #ffffff !important;
-    stroke: #1d1e22 !important;
-    stroke-width: 1.25 !important;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    transition: transform 0.3s ease;
-  }
-
-  .bento-card:hover .bento-diagram svg .cursor-path {
-    transform: translate(-2px, -2px); /* visual click feel on hover */
   }
 
   /* CTA Bento Card Styling (col-span-3) */
