@@ -1417,11 +1417,11 @@
   }
 
   /* Hover interactivity states */
-  .bento-card:hover .bento-diagram svg path,
-  .bento-card:hover .bento-diagram svg circle,
+  .bento-card:hover .bento-diagram svg path:not(.cursor-path):not(.dashed-arc),
+  .bento-card:hover .bento-diagram svg circle:not(.window-btn),
   .bento-card:hover .bento-diagram svg ellipse,
-  .bento-card:hover .bento-diagram svg line,
-  .bento-card:hover .bento-diagram svg rect {
+  .bento-card:hover .bento-diagram svg line:not(.speed-tick):not(.wireframe-line),
+  .bento-card:hover .bento-diagram svg rect:not(.tooltip-bubble) {
     stroke: rgba(255, 255, 255, 0.40);
     stroke-width: 3.25;
   }
@@ -1430,6 +1430,78 @@
     stroke: rgba(245, 245, 247, 0.95); /* Premium warm off-white */
     stroke-width: 4.75;
     filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.35));
+  }
+
+  /* High fidelity SVG overrides */
+  .bento-diagram svg text {
+    stroke: none !important;
+    fill: rgba(255, 255, 255, 0.6) !important;
+    transition: fill 0.3s ease;
+  }
+
+  .bento-card:hover .bento-diagram svg text {
+    fill: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  .bento-diagram svg .speed-tick {
+    stroke-width: 1.25 !important;
+    stroke: rgba(255, 255, 255, 0.3) !important;
+    transition: stroke 0.3s ease;
+  }
+
+  .bento-card:hover .bento-diagram svg .speed-tick {
+    stroke: rgba(255, 255, 255, 0.55) !important;
+  }
+
+  .bento-diagram svg .dashed-arc {
+    stroke-width: 1.5 !important;
+    stroke: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .bento-diagram svg .window-btn {
+    stroke-width: 1.25 !important;
+    stroke: rgba(255, 255, 255, 0.3) !important;
+    fill: rgba(255, 255, 255, 0.05) !important;
+    transition: stroke 0.3s ease, fill 0.3s ease;
+  }
+
+  .bento-card:hover .bento-diagram svg .window-btn {
+    stroke: rgba(255, 255, 255, 0.5) !important;
+    fill: rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .bento-diagram svg .wireframe-line {
+    stroke-width: 1.25 !important;
+    stroke: rgba(255, 255, 255, 0.15) !important;
+    transition: stroke 0.3s ease;
+  }
+
+  .bento-card:hover .bento-diagram svg .wireframe-line {
+    stroke: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  .bento-diagram svg .tooltip-bubble {
+    stroke-width: 1 !important;
+    stroke: rgba(255, 255, 255, 0.15) !important;
+    fill: rgba(255, 255, 255, 0.05) !important;
+    transition: stroke 0.3s ease, fill 0.3s ease;
+  }
+
+  .bento-card:hover .bento-diagram svg .tooltip-bubble {
+    stroke: rgba(255, 255, 255, 0.3) !important;
+    fill: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .bento-diagram svg .cursor-path {
+    fill: #ffffff !important;
+    stroke: #1d1e22 !important;
+    stroke-width: 1.25 !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+  }
+
+  .bento-card:hover .bento-diagram svg .cursor-path {
+    transform: translate(-2px, -2px); /* visual click feel on hover */
   }
 
   /* CTA Bento Card Styling (col-span-3) */
