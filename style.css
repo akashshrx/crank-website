@@ -1729,9 +1729,18 @@
 }
 
 .mac-key-cap.blank-key {
-  opacity: 0.2;
   pointer-events: none;
   box-shadow: none; /* remove glow from blank keys */
+}
+
+.mac-key-cap.left-blank {
+  mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+.mac-key-cap.right-blank {
+  mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
 }
 
 .mac-key-cap .key-symbol {
