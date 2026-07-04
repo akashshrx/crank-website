@@ -450,8 +450,8 @@ document.addEventListener('DOMContentLoaded', () => {
         0
       );
 
-      // Fade out title and keys as questions approach (starts at ~22% scroll progress, done by ~32%)
-      questionsTimeline.to(".questions-title-side h2, .questions-keys-container",
+      // Fade out the entire left title side container as questions approach (starts at ~22% scroll progress, done by ~32%)
+      questionsTimeline.to(".questions-title-side",
         { opacity: 0, y: -30, duration: 0.10, ease: "power2.inOut" },
         0.22
       );
