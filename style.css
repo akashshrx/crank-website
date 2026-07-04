@@ -1800,11 +1800,11 @@
 }
 
 .mac-key-cap.z-key {
-  opacity: 0.65;
+  opacity: 0.2;
 }
 
 .mac-key-cap.x-key {
-  opacity: 0.55;
+  opacity: 0.2;
 }
 
 .mac-key-cap.fn-key {
@@ -1813,6 +1813,7 @@
 
 .mac-key-cap.command-key {
   opacity: 0.35;
+  width: 83px;
 }
 
 .mac-key-cap.c-key {
