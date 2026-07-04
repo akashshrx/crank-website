@@ -1699,10 +1699,10 @@
   flex-direction: column;
   gap: 8px;
   margin-top: 2rem;
-  width: 312px;
+  width: 366px;
   position: relative;
-  mask-image: radial-gradient(circle at 156px 116px, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 85px, rgba(0, 0, 0, 0) 220px);
-  -webkit-mask-image: radial-gradient(circle at 156px 116px, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 85px, rgba(0, 0, 0, 0) 220px);
+  mask-image: radial-gradient(circle at 156px 116px, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72px, rgba(0, 0, 0, 0.45) 105px, rgba(0, 0, 0, 0) 155px);
+  -webkit-mask-image: radial-gradient(circle at 156px 116px, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 72px, rgba(0, 0, 0, 0.45) 105px, rgba(0, 0, 0, 0) 155px);
 }
 
 .keyboard-row {
@@ -1719,25 +1719,30 @@
   border: 1.5px solid #2d2d30;
   box-sizing: border-box;
   box-shadow: 
-    0 0 15px rgba(255, 255, 255, 0.2), 
     inset 0 1.5px 1px #ffffff, 
     inset 0 -2px 1.5px #d2d2d7;
   flex-shrink: 0;
+  overflow: hidden;
   transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.08s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Limit hover / active animations & cursor pointer to just the main two active keys */
+/* Limit hover / active animations, bloom glow, & cursor pointer to just the main two active keys */
 .mac-key-cap.control-key,
 .mac-key-cap.option-key {
   cursor: pointer;
   pointer-events: auto;
+  box-shadow: 
+    0 0 22px rgba(255, 255, 255, 0.45), 
+    0 0 35px rgba(255, 255, 255, 0.2),
+    inset 0 1.5px 1px #ffffff, 
+    inset 0 -2px 1.5px #d2d2d7;
 }
 
 .mac-key-cap.control-key:active,
 .mac-key-cap.option-key:active {
   transform: translateY(2.5px);
   box-shadow: 
-    0 0 8px rgba(255, 255, 255, 0.1), 
+    0 0 12px rgba(255, 255, 255, 0.25), 
     inset 0 1px 1px #ffffff, 
     inset 0 -1px 1px #d2d2d7;
 }
@@ -1758,6 +1763,11 @@
   color: #424245;
   user-select: none;
   line-height: 1;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .mac-key-cap .globe-svg {
@@ -1781,11 +1791,12 @@
   text-transform: lowercase;
   user-select: none;
   line-height: 1;
+  white-space: nowrap;
 }
 
 /* Specific key styles */
 .mac-key-cap.shift-key {
-  width: 108px;
+  width: 126px;
 }
 
 .mac-key-cap.letter-key {
