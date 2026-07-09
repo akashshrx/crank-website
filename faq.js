@@ -204,24 +204,30 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // Glassmorphic Accordion expanding logic
+  // Glassmorphic Accordion expanding logic (Card-Wide Click)
   // ==========================================
-  const triggers = document.querySelectorAll('.faq-trigger');
+  const faqItems = document.querySelectorAll('.faq-item');
   
-  triggers.forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const faqItem = trigger.parentElement;
-      const contentBox = trigger.nextElementSibling;
+  faqItems.forEach(faqItem => {
+    faqItem.addEventListener('click', (e) => {
+      // Prevent toggling when clicking inside the content box (allows text selection)
+      if (e.target.closest('.faq-content-box')) {
+        return;
+      }
+
+      const trigger = faqItem.querySelector('.faq-trigger');
+      const contentBox = faqItem.querySelector('.faq-content-box');
       const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
       
       // Close other accordion items for clean UX
-      document.querySelectorAll('.faq-trigger').forEach(otherTrigger => {
-        if (otherTrigger !== trigger) {
+      faqItems.forEach(otherItem => {
+        if (otherItem !== faqItem) {
+          const otherTrigger = otherItem.querySelector('.faq-trigger');
+          const otherContent = otherItem.querySelector('.faq-content-box');
           otherTrigger.setAttribute('aria-expanded', 'false');
-          const otherContent = otherTrigger.nextElementSibling;
           otherContent.setAttribute('aria-hidden', 'true');
           gsap.to(otherContent, { height: 0, duration: 0.35, ease: "power2.out" });
-          otherTrigger.parentElement.classList.remove('faq-active');
+          otherItem.classList.remove('faq-active');
         }
       });
 
