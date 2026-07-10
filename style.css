@@ -2139,8 +2139,8 @@
    ========================================== */
 .faq-header-block {
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto 3rem auto;
+  max-width: 640px;
+  margin: 0 auto 2.25rem auto;
   padding: 0 1rem;
 }
 
@@ -2162,12 +2162,12 @@
 }
 
 .faq-accordion-container {
-  max-width: 800px;
-  margin: 0 auto 4rem auto;
+  max-width: 640px;
+  margin: 0 auto 2.5rem auto;
   padding: 0 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.5rem;
 }
 
 .faq-item {
@@ -2192,7 +2192,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1.5rem;
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 1.25rem;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -2254,7 +2254,7 @@
 }
 
 .faq-answer-inner {
-  padding: 0 1.25rem 1rem 1.25rem;
+  padding: 0 1.25rem 0.85rem 1.25rem;
 }
 
 .faq-answer-inner p {
