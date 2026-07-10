@@ -88,106 +88,113 @@
     </div>
 
     <!-- FAQ Accordion List -->
+    <!-- FAQ Accordion List (2-Column Grid Layout) -->
     <div class="faq-accordion-container">
       
-      <!-- Q1 -->
-      <div class="glass-card faq-item">
-        <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1">
-          <span class="faq-question-text">Is Glide always watching my screen?</span>
-          <span class="faq-icon-wrapper">
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </button>
-        <div id="faq-ans-1" class="faq-content-box" aria-hidden="true">
-          <div class="faq-answer-inner">
-            <p>No. Glide only looks at your screen when you explicitly ask it to or when using on-device background memory. This memory only scans text locally and never saves images. Nothing ever leaves your Mac. You can also turn this off completely anytime using the Incognito toggle in Settings.</p>
+      <!-- Left Column (Q1, Q3, Q5) -->
+      <div class="faq-column">
+        <!-- Q1 -->
+        <div class="glass-card faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-1">
+            <span class="faq-question-text">Is Glide always watching my screen?</span>
+            <span class="faq-icon-wrapper">
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div id="faq-ans-1" class="faq-content-box" aria-hidden="true">
+            <div class="faq-answer-inner">
+              <p>No. Glide only looks at your screen when you explicitly ask it to or when using on-device background memory. This memory only scans text locally and never saves images. Nothing ever leaves your Mac. You can also turn this off completely anytime using the Incognito toggle in Settings.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="glass-card faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-3">
+            <span class="faq-question-text">Can Glide send emails or messages on my behalf?</span>
+            <span class="faq-icon-wrapper">
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div id="faq-ans-3" class="faq-content-box" aria-hidden="true">
+            <div class="faq-answer-inner">
+              <p>Glide can draft emails or messages for you with the subject, body, and recipients filled in, but it will never send them automatically. We deliberately design it so that any outgoing communication stops at your screen for you to review and send yourself.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="glass-card faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-5">
+            <span class="faq-question-text">How does Glide decide when to just answer me versus deploy a background agent?</span>
+            <span class="faq-icon-wrapper">
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div id="faq-ans-5" class="faq-content-box" aria-hidden="true">
+            <div class="faq-answer-inner">
+              <p>For general questions, Glide answers you instantly. When you ask it to perform a task on your computer, it deploys a background helper so you can keep working uninterrupted. You will see a small progress icon while the helper runs, followed by a gentle chime when finished.</p>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Q2 -->
-      <div class="glass-card faq-item">
-        <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-2">
-          <span class="faq-question-text">If I ask Glide to "invite Sara to lunch," does it actually email her?</span>
-          <span class="faq-icon-wrapper">
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </button>
-        <div id="faq-ans-2" class="faq-content-box" aria-hidden="true">
-          <div class="faq-answer-inner">
-            <p>Glide will create the calendar event and look up Sara in your contacts to attach her. However, because of macOS security limits, it cannot send the invite directly. Instead, her email is noted in the event details so you can send it manually. We hope to support direct invites as soon as platform rules allow.</p>
+      <!-- Right Column (Q2, Q4, Q6) -->
+      <div class="faq-column">
+        <!-- Q2 -->
+        <div class="glass-card faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-2">
+            <span class="faq-question-text">If I ask Glide to "invite Sara to lunch," does it actually email her?</span>
+            <span class="faq-icon-wrapper">
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div id="faq-ans-2" class="faq-content-box" aria-hidden="true">
+            <div class="faq-answer-inner">
+              <p>Glide will create the calendar event and look up Sara in your contacts to attach her. However, because of macOS security limits, it cannot send the invite directly. Instead, her email is noted in the event details so you can send it manually. We hope to support direct invites as soon as platform rules allow.</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Q3 -->
-      <div class="glass-card faq-item">
-        <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-3">
-          <span class="faq-question-text">Can Glide send emails or messages on my behalf?</span>
-          <span class="faq-icon-wrapper">
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </button>
-        <div id="faq-ans-3" class="faq-content-box" aria-hidden="true">
-          <div class="faq-answer-inner">
-            <p>Glide can draft emails or messages for you with the subject, body, and recipients filled in, but it will never send them automatically. We deliberately design it so that any outgoing communication stops at your screen for you to review and send yourself.</p>
+        <!-- Q4 -->
+        <div class="glass-card faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-4">
+            <span class="faq-question-text">What stops Glide from doing something destructive, like deleting my files or meetings?</span>
+            <span class="faq-icon-wrapper">
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div id="faq-ans-4" class="faq-content-box" aria-hidden="true">
+            <div class="faq-answer-inner">
+              <p>We protect your system with two safety nets. First, sensitive actions like deleting files or calendar events always prompt you for explicit approval first. Second, almost any action Glide performs can be instantly reversed with a single tap of the Undo button.</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Q4 -->
-      <div class="glass-card faq-item">
-        <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-4">
-          <span class="faq-question-text">What stops Glide from doing something destructive, like deleting my files or meetings?</span>
-          <span class="faq-icon-wrapper">
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </button>
-        <div id="faq-ans-4" class="faq-content-box" aria-hidden="true">
-          <div class="faq-answer-inner">
-            <p>We protect your system with two safety nets. First, sensitive actions like deleting files or calendar events always prompt you for explicit approval first. Second, almost any action Glide performs can be instantly reversed with a single tap of the Undo button.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q5 -->
-      <div class="glass-card faq-item">
-        <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-5">
-          <span class="faq-question-text">How does Glide decide when to just answer me versus deploy a background agent?</span>
-          <span class="faq-icon-wrapper">
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </button>
-        <div id="faq-ans-5" class="faq-content-box" aria-hidden="true">
-          <div class="faq-answer-inner">
-            <p>For general questions, Glide answers you instantly. When you ask it to perform a task on your computer, it deploys a background helper so you can keep working uninterrupted. You will see a small progress icon while the helper runs, followed by a gentle chime when finished.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Q6 -->
-      <div class="glass-card faq-item">
-        <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-6">
-          <span class="faq-question-text">If I ask Glide something harmful or inappropriate, what happens?</span>
-          <span class="faq-icon-wrapper">
-            <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </span>
-        </button>
-        <div id="faq-ans-6" class="faq-content-box" aria-hidden="true">
-          <div class="faq-answer-inner">
-            <p>Glide will decline the request with a simple, friendly statement like "I can't help with that" without any lecture or judgment. We check all requests to make sure nothing harmful is run on your system.</p>
+        <!-- Q6 -->
+        <div class="glass-card faq-item">
+          <button class="faq-trigger" aria-expanded="false" aria-controls="faq-ans-6">
+            <span class="faq-question-text">If I ask Glide something harmful or inappropriate, what happens?</span>
+            <span class="faq-icon-wrapper">
+              <svg class="faq-chevron" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div id="faq-ans-6" class="faq-content-box" aria-hidden="true">
+            <div class="faq-answer-inner">
+              <p>Glide will decline the request with a simple, friendly statement like "I can't help with that" without any lecture or judgment. We check all requests to make sure nothing harmful is run on your system.</p>
+            </div>
           </div>
         </div>
       </div>
