@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://useglide.com/sitemap.xml
+Sitemap: https://getglide.netlify.app/sitemap.xml
