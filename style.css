@@ -1966,8 +1966,8 @@
 }
 
 .pill-icon {
-  width: clamp(1.6rem, 2.24vw, 2.24rem);
-  height: clamp(1.6rem, 2.24vw, 2.24rem);
+  width: clamp(1.28rem, 1.79vw, 1.79rem);
+  height: clamp(1.28rem, 1.79vw, 1.79rem);
   flex-shrink: 0;
   display: block;
 }
