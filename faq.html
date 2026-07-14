@@ -244,7 +244,10 @@
   <!-- macOS Dock Footer -->
   <footer class="dock-footer">
     <div class="dock-container">
-      <span class="dock-text">ALL RIGHT RESERVED</span>
+      <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-end;">
+        <span>GLIDE INC. © <span id="footer-year">2026</span></span>
+        <span>ALL RIGHT RESERVED</span>
+      </div>
       
       <div class="dock-icon-wrapper">
         <a href="https://black-yak.spcf.app/download/mac" download class="btn-download" aria-label="Download Glide app">
@@ -254,8 +257,7 @@
         </a>
       </div>
       
-      <div class="dock-text" style="display: flex; gap: 16px; align-items: center;" id="footer-copyright">
-        <span>GLIDE INC. © <span id="footer-year">2026</span></span>
+      <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-start;" id="footer-copyright">
         <a href="privacy.html" class="footer-sublink">Privacy Policy</a>
       </div>
     </div>
