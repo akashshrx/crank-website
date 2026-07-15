@@ -345,6 +345,17 @@
     -webkit-backdrop-filter: blur(4px);
   }
 
+  @media (min-width: 769px) {
+    .header-container {
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding-inline 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .header-container:hover {
+      width: calc(782px * 1.15);
+      height: calc(64px * 1.15);
+      padding-inline: 3rem;
+    }
+  }
+
   .site-header .btn-primary {
     box-shadow: 
       0 2px 6px rgba(0, 0, 0, 0.02),
