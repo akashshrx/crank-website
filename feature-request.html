@@ -106,7 +106,7 @@
     }
 
     .container {
-      max-width: 760px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 40px 24px 80px 24px;
     }
@@ -852,6 +852,34 @@
         order: -1;
       }
     }
+
+    /* Two-column board grid layout */
+    .board-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .board-sidebar .form-section,
+    .board-sidebar .promo-banner {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 900px) {
+      .board-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+      .board-sidebar {
+        order: -1;
+        width: 100%;
+      }
+      .board-main {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -874,7 +902,7 @@
 
   <div class="sky-header">
     <canvas id="webgl-canvas"></canvas>
-    <div style="position: relative; z-index: 10; max-width: 760px; margin: 0 auto; padding: 40px 24px; display: flex; justify-content: space-between; align-items: center;">
+    <div style="position: relative; z-index: 10; max-width: 1000px; margin: 0 auto; padding: 40px 24px; display: flex; justify-content: space-between; align-items: center;">
       <a href="index.html" class="logo-link">
         <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24" id="privacy-logo">
         <span id="privacy-logo-text">Glide</span>
@@ -892,30 +920,38 @@
     <!-- Validation Notification Banner -->
     <div id="validation-alert" class="validation-alert"></div>
 
-    <!-- Dynamic Form Area / Promo Area -->
-    <div id="form-container"></div>
+    <div class="board-layout">
+      <!-- Main Content (Left Column) -->
+      <div class="board-main">
+        <!-- Filter/Search Controls -->
+        <div class="filters-bar">
+          <div class="filters-title">
+            Showing 
+            <select id="sort-select" style="font-family: inherit; font-size: inherit; border: none; background: transparent; font-weight: 700; color: inherit; border-bottom: 1.5px solid currentColor; cursor: pointer; padding: 0 4px;">
+              <option value="top">Top Voted</option>
+              <option value="trending">Newest</option>
+            </select>
+            requests
+          </div>
+          <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="search-input" class="search-input" placeholder="Search requests...">
+          </div>
+        </div>
 
-    <!-- Filter/Search Controls -->
-    <div class="filters-bar">
-      <div class="filters-title">
-        Showing 
-        <select id="sort-select" style="font-family: inherit; font-size: inherit; border: none; background: transparent; font-weight: 700; color: inherit; border-bottom: 1.5px solid currentColor; cursor: pointer; padding: 0 4px;">
-          <option value="top">Top Voted</option>
-          <option value="trending">Newest</option>
-        </select>
-        requests
+        <!-- Requests Board List -->
+        <div id="requests-list" class="requests-list"></div>
       </div>
-      <div class="search-wrapper">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" id="search-input" class="search-input" placeholder="Search requests...">
+
+      <!-- Sidebar (Right Column) -->
+      <div class="board-sidebar">
+        <!-- Dynamic Form Area / Promo Area -->
+        <div id="form-container"></div>
       </div>
     </div>
-
-    <!-- Requests Board List -->
-    <div id="requests-list" class="requests-list"></div>
   </div>
 
   <!-- Auth Modal -->
