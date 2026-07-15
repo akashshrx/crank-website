@@ -350,8 +350,8 @@
       transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding-inline 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .header-container:hover {
-      width: calc(782px * 1.15);
-      height: calc(64px * 1.15);
+      width: calc(782px * 1.05);
+      height: calc(64px * 1.05);
       padding-inline: 3rem;
     }
   }
