@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feature Requests - Glide: Personal desktop agents in 1-click</title>
+  <meta name="description" content="Glide feature request board. Suggest and upvote features to help shape the future of personal desktop agents.">
+  <link rel="canonical" href="https://getglide.netlify.app/feature-request.html">
+  <script src="analytics.bundled.js"></script>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://getglide.netlify.app/feature-request.html">
+  <meta property="og:site_name" content="Glide">
+  <meta property="og:title" content="Feature Requests - Glide: Personal desktop agents in 1-click">
+  <meta property="og:description" content="Glide feature request board. Suggest and upvote features to help shape the future of personal desktop agents.">
+  <meta property="og:image" content="https://getglide.netlify.app/cloud.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Feature Requests - Glide: Personal desktop agents in 1-click">
+  <meta name="twitter:description" content="Glide feature request board. Suggest and upvote features to help shape the future of personal desktop agents.">
+  <meta name="twitter:image" content="https://getglide.netlify.app/cloud.png">
+  <link rel="icon" type="image/png" href="logo_white.png?v=1">
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Figtree:wght@300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background-color: #fcfcf9;
+      color: #2b2b29;
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body.space-night-theme {
+      background-color: #040914;
+      color: #e0e0e0;
+    }
+
+    body.space-night-theme .sky-header::after {
+      background: linear-gradient(to bottom, transparent, #040914);
+    }
+    
+    body.space-night-theme a.inline-link {
+      color: #4a90e2;
+    }
+
+    body.space-night-theme #privacy-logo-text {
+      color: #ffffff;
+    }
+
+    body.space-night-theme h1,
+    body.space-night-theme h2,
+    body.space-night-theme h3,
+    body.space-night-theme strong {
+      color: #ffffff;
+    }
+
+    body.space-night-theme p,
+    body.space-night-theme li {
+      color: #cccccc;
+    }
+
+    .sky-header {
+      position: relative;
+      width: 100%;
+      height: 20vh;
+      min-height: 200px;
+      overflow: hidden;
+      background: #87CEEB;
+    }
+    
+    body.space-night-theme .sky-header {
+      background: #09122c;
+    }
+
+    #webgl-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    .sky-header::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(to bottom, transparent, #fcfcf9);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 24px 80px 24px;
+    }
+
+    .logo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Figtree', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #121210;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .logo-link:hover {
+      opacity: 0.8;
+    }
+
+    .logo-link img {
+      display: block;
+      width: 24px;
+      height: 24px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: #121210;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    p.intro-text {
+      margin-bottom: 2.5rem;
+      color: #5b5b58;
+      font-size: 1.05rem;
+    }
+
+    body.space-night-theme p.intro-text {
+      color: #aaaaaa;
+    }
+
+    /* Auth Buttons */
+    .btn-auth-outline {
+      padding: 8px 16px;
+      border: 1.5px solid #dcdcd8;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      color: #121210;
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+    
+    body.space-night-theme .btn-auth-outline {
+      border-color: #333b4d;
+      color: #ffffff;
+    }
+
+    .btn-auth-outline:hover {
+      background: rgba(18, 18, 16, 0.05);
+      border-color: #121210;
+    }
+    
+    body.space-night-theme .btn-auth-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #ffffff;
+    }
+
+    .btn-auth-primary {
+      padding: 8px 16px;
+      background: #0088cc;
+      color: #ffffff;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-auth-primary:hover {
+      background: #0077b3;
+    }
+
+    .user-profile-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #121210;
+    }
+
+    body.space-night-theme .user-profile-bar {
+      color: #ffffff;
+    }
+
+    .btn-logout {
+      font-size: 13px;
+      color: #888888;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .btn-logout:hover {
+      color: #ff3b30;
+      border-bottom-color: #ff3b30;
+    }
+
+    /* Form Section */
+    .form-section {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(18, 18, 16, 0.08);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 3rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    body.space-night-theme .form-section {
+      background: rgba(256, 256, 256, 0.03);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #121210;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    body.space-night-theme .form-label {
+      color: #ffffff;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(18, 18, 16, 0.12);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      background: #ffffff;
+      color: #121210;
+      transition: all 0.2s ease;
+    }
+
+    body.space-night-theme .form-control {
+      background: rgba(4, 9, 20, 0.5);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .form-control:focus {
+      border-color: #0088cc;
+      box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.15);
+      outline: none;
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 1.5rem;
+    }
+
+    .btn-cancel {
+      padding: 10px 20px;
+      border: 1px solid rgba(18, 18, 16, 0.12);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #555555;
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+
+    body.space-night-theme .btn-cancel {
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #cccccc;
+    }
+
+    .btn-cancel:hover {
+      background: rgba(18, 18, 16, 0.04);
+    }
+
+    body.space-night-theme .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .btn-submit {
+      padding: 10px 24px;
+      background: #0088cc;
+      color: #ffffff;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background: #0077b3;
+    }
+
+    /* Non-logged in banner */
+    .promo-banner {
+      background: rgba(0, 136, 204, 0.05);
+      border: 1.5px dashed rgba(0, 136, 204, 0.25);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .promo-banner h3 {
+      font-family: 'Figtree', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0088cc;
+      margin-bottom: 8px;
+    }
+
+    .promo-banner p {
+      font-size: 14.5px;
+      color: #555555;
+      margin-bottom: 16px;
+    }
+
+    body.space-night-theme .promo-banner p {
+      color: #bbbbbb;
+    }
+
+    .promo-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* Filters Bar */
+    .filters-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 16px;
+    }
+
+    .filters-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #555555;
+    }
+
+    body.space-night-theme .filters-title {
+      color: #aaaaaa;
+    }
+
+    .select-sort {
+      font-weight: 700;
+      color: #121210;
+      cursor: pointer;
+      border-bottom: 1.5px solid #121210;
+      padding-bottom: 2px;
+    }
+
+    body.space-night-theme .select-sort {
+      color: #ffffff;
+      border-bottom-color: #ffffff;
+    }
+
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px 8px 36px;
+      border: 1px solid rgba(18, 18, 16, 0.12);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14.5px;
+      background: #ffffff;
+      color: #121210;
+      transition: all 0.2s ease;
+    }
+
+    body.space-night-theme .search-input {
+      background: rgba(4, 9, 20, 0.5);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .search-input:focus {
+      border-color: #0088cc;
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* Feature Requests List */
+    .requests-list {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(18, 18, 16, 0.08);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.6);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    body.space-night-theme .requests-list {
+      background: rgba(256, 256, 256, 0.02);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .request-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 24px;
+      border-bottom: 1px solid rgba(18, 18, 16, 0.08);
+      transition: background-color 0.2s ease;
+    }
+
+    body.space-night-theme .request-card {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .request-card:last-child {
+      border-bottom: none;
+    }
+
+    .request-card:hover {
+      background-color: rgba(18, 18, 16, 0.015);
+    }
+
+    body.space-night-theme .request-card:hover {
+      background-color: rgba(255, 255, 255, 0.01);
+    }
+
+    .request-main {
+      flex: 1;
+      padding-right: 24px;
+    }
+
+    .request-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #121210;
+      margin-bottom: 4px;
+      line-height: 1.35;
+    }
+
+    body.space-night-theme .request-title {
+      color: #ffffff;
+    }
+
+    .request-description {
+      font-size: 14.5px;
+      color: #555555;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    body.space-night-theme .request-description {
+      color: #aaaaaa;
+    }
+
+    .request-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: #888888;
+    }
+
+    .request-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Vote Widget */
+    .vote-widget {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 56px;
+      border: 1px solid rgba(18, 18, 16, 0.1);
+      border-radius: 8px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+
+    body.space-night-theme .vote-widget {
+      background: rgba(4, 9, 20, 0.4);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .vote-widget:hover {
+      border-color: #0088cc;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 136, 204, 0.08);
+    }
+
+    .vote-widget.voted {
+      background: #0088cc;
+      border-color: #0088cc;
+      color: #ffffff !important;
+    }
+
+    .vote-widget.voted .vote-count,
+    .vote-widget.voted .vote-arrow {
+      color: #ffffff !important;
+      fill: #ffffff !important;
+      stroke: #ffffff !important;
+    }
+
+    .vote-arrow {
+      width: 14px;
+      height: 14px;
+      stroke: #555555;
+      stroke-width: 3px;
+      fill: none;
+      transition: stroke 0.2s ease;
+    }
+
+    body.space-night-theme .vote-arrow {
+      stroke: #bbbbbb;
+    }
+
+    .vote-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: #121210;
+      margin-top: 2px;
+    }
+
+    body.space-night-theme .vote-count {
+      color: #ffffff;
+    }
+
+    .brand-emphasis {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.35em;
+      color: #121210;
+      display: inline-block;
+      transform: translateY(2px);
+      margin-right: 0.1em;
+    }
+
+    body.space-night-theme .brand-emphasis {
+      color: #ffffff;
+    }
+
+    /* Modal Styling */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: #ffffff;
+      border: 1px solid rgba(18, 18, 16, 0.08);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      transform: translateY(20px);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+
+    body.space-night-theme .modal-content {
+      background: #0d1527;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-backdrop.open .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-family: 'Figtree', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #121210;
+      margin-bottom: 12px;
+    }
+
+    body.space-night-theme .modal-title {
+      color: #ffffff;
+    }
+
+    .modal-description {
+      font-size: 14.5px;
+      color: #555555;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    body.space-night-theme .modal-description {
+      color: #aaaaaa;
+    }
+
+    .modal-login-btn {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-login-btn.google {
+      background: #ffffff;
+      color: #121210;
+      border: 1.5px solid #dcdcd8;
+    }
+
+    .modal-login-btn.google:hover {
+      background: #f7f7f5;
+      border-color: #aaaaaa;
+    }
+
+    .modal-login-btn.github {
+      background: #24292e;
+      color: #ffffff;
+      border: none;
+    }
+
+    .modal-login-btn.github:hover {
+      background: #1a1e22;
+    }
+
+    .btn-modal-close {
+      background: transparent;
+      border: none;
+      color: #888888;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      text-decoration: underline;
+    }
+
+    .btn-modal-close:hover {
+      color: #121210;
+    }
+
+    body.space-night-theme .btn-modal-close:hover {
+      color: #ffffff;
+    }
+
+    /* Community validation alerts */
+    .validation-alert {
+      background: rgba(255, 59, 48, 0.08);
+      border: 1px solid rgba(255, 59, 48, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #ff3b30;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      display: none;
+    }
+
+    /* macOS Dock Footer - Light Theme */
+    .dock-footer {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin-inline: auto;
+      display: flex;
+      justify-content: center;
+      padding-top: 80px;
+      padding-bottom: 60px;
+      pointer-events: auto;
+      z-index: 10;
+    }
+
+    .dock-container {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 3rem;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .dock-container > .dock-text:first-child {
+      text-align: right;
+    }
+
+    .dock-container > .dock-text:last-child {
+      text-align: left;
+    }
+
+    .dock-text {
+      font-family: 'Figtree', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #777777;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .dock-text a.footer-sublink {
+      color: #777777;
+      text-decoration: none;
+      transition: color 0.2s ease;
+      margin-left: 16px;
+    }
+
+    .dock-text a.footer-sublink:hover {
+      color: #000000;
+    }
+
+    .dock-icon-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dock-icon {
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
+    }
+
+    .dock-icon:hover {
+      transform: scale(1.2) translateY(-6px);
+    }
+
+    .glide-dock-img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    /* macOS Dock Footer - Dark Theme overrides */
+    body.space-night-theme .dock-text {
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    body.space-night-theme .dock-text a.footer-sublink {
+      color: #ffffff;
+    }
+
+    body.space-night-theme .dock-text a.footer-sublink:hover {
+      color: #cccccc;
+    }
+
+    body.space-night-theme .dock-icon {
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+    }
+
+    @media (max-width: 768px) {
+      .dock-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        width: 100%;
+      }
+      
+      .dock-container > .dock-text:first-child,
+      .dock-container > .dock-text:last-child {
+        text-align: center;
+        white-space: normal;
+        line-height: 1.45;
+      }
+      
+      .dock-icon-wrapper {
+        order: -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const isNight = new Date().getHours() >= 18 || new Date().getHours() < 6;
+    if (isNight) {
+      document.body.classList.add('space-night-theme');
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      if (isNight) {
+        const logoImg = document.getElementById('privacy-logo');
+        if (logoImg) logoImg.src = 'logo_white.png?v=59';
+        const dockLogoImg = document.getElementById('privacy-dock-logo');
+        if (dockLogoImg) dockLogoImg.src = 'logo_white.png?v=59';
+      }
+      const footerYear = document.getElementById('footer-year');
+      if (footerYear) footerYear.textContent = new Date().getFullYear();
+    });
+  </script>
+
+  <div class="sky-header">
+    <canvas id="webgl-canvas"></canvas>
+    <div style="position: relative; z-index: 10; max-width: 760px; margin: 0 auto; padding: 40px 24px; display: flex; justify-content: space-between; align-items: center;">
+      <a href="index.html" class="logo-link">
+        <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24" id="privacy-logo">
+        <span id="privacy-logo-text">Glide</span>
+      </a>
+      <div id="auth-header-actions" style="display: flex; gap: 12px; align-items: center;">
+        <!-- Auth buttons or user info will render here -->
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Feature Requests</h1>
+    <p class="intro-text">Before submitting a feature request, please search existing suggestions first. Log in with Google or GitHub to submit and vote on new capabilities!</p>
+
+    <!-- Validation Notification Banner -->
+    <div id="validation-alert" class="validation-alert"></div>
+
+    <!-- Dynamic Form Area / Promo Area -->
+    <div id="form-container"></div>
+
+    <!-- Filter/Search Controls -->
+    <div class="filters-bar">
+      <div class="filters-title">
+        Showing 
+        <select id="sort-select" style="font-family: inherit; font-size: inherit; border: none; background: transparent; font-weight: 700; color: inherit; border-bottom: 1.5px solid currentColor; cursor: pointer; padding: 0 4px;">
+          <option value="top">Top Voted</option>
+          <option value="trending">Newest</option>
+        </select>
+        requests
+      </div>
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="search-input" class="search-input" placeholder="Search requests...">
+      </div>
+    </div>
+
+    <!-- Requests Board List -->
+    <div id="requests-list" class="requests-list"></div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-title">Sign in to Glide</div>
+      <div class="modal-description">Log in with Google or GitHub to submit feature requests and vote on existing ideas.</div>
+      <button class="modal-login-btn google" id="btn-login-google">
+        <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l3.66-2.85z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+      <button class="modal-login-btn github" id="btn-login-github">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        </svg>
+        Continue with GitHub
+      </button>
+      <br>
+      <button class="btn-modal-close" id="btn-modal-close">Close</button>
+    </div>
+  </div>
+
+  <!-- macOS Dock Footer -->
+  <footer class="dock-footer">
+    <div class="dock-container">
+      <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-end;">
+        <span>GLIDE INC. © <span id="footer-year">2026</span></span>
+        <span>ALL RIGHT RESERVED</span>
+      </div>
+      
+      <div class="dock-icon-wrapper">
+        <a href="https://black-yak.spcf.app/download/mac" download class="btn-download" aria-label="Download Glide app">
+          <div class="dock-icon">
+            <img src="logo_dark.png?v=59" alt="Glide Logo" class="glide-dock-img" width="44" height="44" id="privacy-dock-logo">
+          </div>
+        </a>
+      </div>
+      
+      <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-start;" id="footer-copyright">
+        <a href="faq.html" class="footer-sublink">FAQ</a>
+        <a href="privacy.html" class="footer-sublink">Privacy Policy</a>
+        <a href="feature-request.html" class="footer-sublink">Feature Requests</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js for WebGL Background Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="sky.js?v=39"></script>
+  <script src="ImprovedNoise.js"></script>
+  
+  <!-- Board Functionality Script -->
+  <script>
+    // List of common offensive/bad words for moderation filter check
+    const OFFENSIVE_WORDS = [
+      'fuck', 'shit', 'bitch', 'asshole', 'cunt', 'bastard', 'porn', 'nude', 'xxx', 
+      'dick', 'pussy', 'nigger', 'faggot', 'crap', 'whore', 'slut', 'cock', 'boobs'
+    ];
+
+    // Default Initial Features (Derived from reference image with 'Glide' product name alignment)
+    const DEFAULT_FEATURES = [
+      {
+        id: 'feat_1',
+        title: 'Connect Your AI Subscriptions',
+        description: 'Having the ability to connect your ChatGPT and Claude Subscription directly inside Glide would be extremely useful.',
+        votes: 13,
+        voters: [],
+        author: 'Sarah Jenkins',
+        date: new Date(Date.now() - 4 * 86400000).toISOString()
+      },
+      {
+        id: 'feat_2',
+        title: 'Optimize Glide for the MacBook notch',
+        description: 'I would love a feature that optimises how Glide works with the notch or lets us customise it ourselves. I know it\'s a very tiny detail but would be a great visual integration.',
+        votes: 7,
+        voters: [],
+        author: 'Marcus Aurelius',
+        date: new Date(Date.now() - 2 * 86400000).toISOString()
+      },
+      {
+        id: 'feat_3',
+        title: 'Edit suggestions',
+        description: 'The suggestions Glide is offering are great.. but sometimes just a little off. It would be great to edit the suggestion in-place instead of just approving or denying.',
+        votes: 5,
+        voters: [],
+        author: 'Alex Carter',
+        date: new Date(Date.now() - 1 * 86400000).toISOString()
+      },
+      {
+        id: 'feat_4',
+        title: 'Allow disabling proactive suggested agents',
+        description: 'Please add a setting to turn off Glide\'s proactive suggestions and "suggested agents" pop-ups while I browse. I prefer to invoke the agent manually.',
+        votes: 2,
+        voters: [],
+        author: 'Linus Torvalds',
+        date: new Date(Date.now() - 0.5 * 86400000).toISOString()
+      }
+    ];
+
+    // State Management
+    let userState = {
+      loggedIn: false,
+      username: '',
+      provider: ''
+    };
+
+    let features = [];
+
+    // Load Initial State
+    function initializeBoard() {
+      // Load Auth
+      const savedAuth = localStorage.getItem('glide_auth');
+      if (savedAuth) {
+        userState = JSON.parse(savedAuth);
+      }
+
+      // Load Features
+      const savedFeatures = localStorage.getItem('glide_features');
+      if (savedFeatures) {
+        features = JSON.parse(savedFeatures);
+      } else {
+        features = DEFAULT_FEATURES;
+        localStorage.setItem('glide_features', JSON.stringify(features));
+      }
+
+      renderAuthUI();
+      renderForm();
+      renderList();
+    }
+
+    // Modal Control
+    const authModal = document.getElementById('auth-modal');
+    
+    function openAuthModal() {
+      authModal.classList.add('open');
+    }
+    
+    function closeAuthModal() {
+      authModal.classList.remove('open');
+    }
+
+    document.getElementById('btn-modal-close').addEventListener('click', closeAuthModal);
+
+    // Simulated Logins
+    document.getElementById('btn-login-google').addEventListener('click', () => {
+      simulateLogin('Google', 'Google User');
+    });
+
+    document.getElementById('btn-login-github').addEventListener('click', () => {
+      simulateLogin('GitHub', 'GitHub Developer');
+    });
+
+    function simulateLogin(provider, defaultName) {
+      userState = {
+        loggedIn: true,
+        username: defaultName + ' (' + provider + ')',
+        provider: provider
+      };
+      localStorage.setItem('glide_auth', JSON.stringify(userState));
+      closeAuthModal();
+      
+      // Amplitude Tracking integration
+      if (window.amplitude) {
+        window.amplitude.track('user_logged_in', { provider: provider });
+      }
+
+      initializeBoard();
+    }
+
+    function logout() {
+      userState = {
+        loggedIn: false,
+        username: '',
+        provider: ''
+      };
+      localStorage.removeItem('glide_auth');
+      initializeBoard();
+    }
+
+    // Render Auth UI in Header
+    function renderAuthUI() {
+      const wrapper = document.getElementById('auth-header-actions');
+      if (!wrapper) return;
+
+      if (userState.loggedIn) {
+        wrapper.innerHTML = `
+          <div class="user-profile-bar">
+            <span>👋 ${userState.username}</span>
+            <span class="btn-logout" onclick="logout()">Log out</span>
+          </div>
+        `;
+      } else {
+        wrapper.innerHTML = `
+          <button class="btn-auth-outline" onclick="openAuthModal()">Log in</button>
+          <button class="btn-auth-primary" onclick="openAuthModal()">Sign up</button>
+        `;
+      }
+    }
+
+    // Render Form or Prompt Area
+    function renderForm() {
+      const container = document.getElementById('form-container');
+      if (!container) return;
+
+      if (userState.loggedIn) {
+        container.innerHTML = `
+          <div class="form-section">
+            <h2 style="font-family: 'Figtree', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-main);">Suggest a feature</h2>
+            <form id="new-feature-form" onsubmit="handleFormSubmit(event)">
+              <div class="form-group">
+                <label class="form-label">Title</label>
+                <input type="text" id="post-title" class="form-control" placeholder="Short, descriptive title" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Details</label>
+                <textarea id="post-description" class="form-control" placeholder="Any additional details..." required></textarea>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="resetForm()">Cancel</button>
+                <button type="submit" class="btn-submit">Submit Request</button>
+              </div>
+            </form>
+          </div>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="promo-banner">
+            <h3>Suggest a new capability</h3>
+            <p>You must be logged in with Google or GitHub to request new features or vote on ideas.</p>
+            <div class="promo-buttons">
+              <button class="btn-auth-primary" onclick="openAuthModal()">Log in / Sign up</button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function resetForm() {
+      const form = document.getElementById('new-feature-form');
+      if (form) form.reset();
+      hideAlert();
+    }
+
+    function showAlert(message) {
+      const alertBox = document.getElementById('validation-alert');
+      if (alertBox) {
+        alertBox.textContent = message;
+        alertBox.style.display = 'block';
+        window.scrollTo({ top: alertBox.offsetTop - 100, behavior: 'smooth' });
+      }
+    }
+
+    function hideAlert() {
+      const alertBox = document.getElementById('validation-alert');
+      if (alertBox) {
+        alertBox.style.display = 'none';
+      }
+    }
+
+    // Moderation check before posting
+    function containsOffensiveLanguage(text) {
+      const cleanText = text.toLowerCase();
+      // Match whole words to avoid sub-string false positives
+      return OFFENSIVE_WORDS.some(word => {
+        const regex = new RegExp('\\b' + word + '\\b', 'i');
+        return regex.test(cleanText);
+      });
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      hideAlert();
+
+      const titleInput = document.getElementById('post-title');
+      const descInput = document.getElementById('post-description');
+      
+      const title = titleInput.value.trim();
+      const description = descInput.value.trim();
+
+      // Check offensive language
+      if (containsOffensiveLanguage(title) || containsOffensiveLanguage(description)) {
+        showAlert('Your post contains terms that do not comply with our community guidelines. Please revise.');
+        return;
+      }
+
+      // Add to list
+      const newFeature = {
+        id: 'feat_' + Date.now(),
+        title: title,
+        description: description,
+        votes: 1, // Automatically starts with 1 vote from author
+        voters: [userState.username], // Author has voted
+        author: userState.username,
+        date: new Date().toISOString()
+      };
+
+      features.unshift(newFeature);
+      localStorage.setItem('glide_features', JSON.stringify(features));
+
+      // Tracking submission
+      if (window.amplitude) {
+        window.amplitude.track('feature_submitted', { title: title });
+      }
+
+      resetForm();
+      renderList();
+    }
+
+    // Voting Handler
+    function handleVote(featureId, event) {
+      event.stopPropagation();
+      
+      if (!userState.loggedIn) {
+        openAuthModal();
+        return;
+      }
+
+      const feature = features.find(f => f.id === featureId);
+      if (!feature) return;
+
+      // Initialize voters array if missing
+      if (!feature.voters) feature.voters = [];
+
+      const voterIndex = feature.voters.indexOf(userState.username);
+      if (voterIndex > -1) {
+        // Remove vote
+        feature.voters.splice(voterIndex, 1);
+        feature.votes = Math.max(0, feature.votes - 1);
+      } else {
+        // Add vote
+        feature.voters.push(userState.username);
+        feature.votes += 1;
+      }
+
+      localStorage.setItem('glide_features', JSON.stringify(features));
+      
+      if (window.amplitude) {
+        window.amplitude.track('feature_voted', { featureId: featureId, totalVotes: feature.votes });
+      }
+
+      renderList();
+    }
+
+    // Search and Sort logic
+    const searchInput = document.getElementById('search-input');
+    const sortSelect = document.getElementById('sort-select');
+
+    if (searchInput) searchInput.addEventListener('input', renderList);
+    if (sortSelect) sortSelect.addEventListener('change', renderList);
+
+    function renderList() {
+      const listContainer = document.getElementById('requests-list');
+      if (!listContainer) return;
+
+      const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      const sortBy = sortSelect ? sortSelect.value : 'top';
+
+      // Filter
+      let filtered = features.filter(feat => {
+        return feat.title.toLowerCase().includes(searchTerm) || 
+               feat.description.toLowerCase().includes(searchTerm);
+      });
+
+      // Sort
+      if (sortBy === 'top') {
+        // Highest votes first
+        filtered.sort((a, b) => b.votes - a.votes);
+      } else {
+        // Newest first (by date)
+        filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+      }
+
+      if (filtered.length === 0) {
+        listContainer.innerHTML = `
+          <div style="padding: 40px; text-align: center; color: #888888; font-size: 14.5px;">
+            No feature requests match your search. Be the first to suggest it!
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = filtered.map(feat => {
+        const hasVoted = feat.voters && feat.voters.includes(userState.username);
+        return `
+          <div class="request-card">
+            <div class="request-main">
+              <div class="request-title">${escapeHTML(feat.title)}</div>
+              <div class="request-description">${escapeHTML(feat.description)}</div>
+              <div class="request-meta">
+                <div class="request-meta-item">
+                  <span>👤 Suggested by ${escapeHTML(feat.author)}</span>
+                </div>
+                <div class="request-meta-item">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.7;">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>0 comments</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="vote-widget ${hasVoted ? 'voted' : ''}" onclick="handleVote('${feat.id}', event)">
+              <svg class="vote-arrow" viewBox="0 0 24 24">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+              <div class="vote-count">${feat.votes}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+
+    // Boot Board
+    initializeBoard();
+  </script>
+
+  <!-- Three.js Ambient Sky background loop init -->
+  <script>
+    (async function init() {
+      // Wait for layout to settle
+      await new Promise(r => setTimeout(r, 50));
+      
+      const container = document.querySelector('.sky-header');
+      const canvas = document.getElementById('webgl-canvas');
+      if (!canvas || !container || typeof THREE === 'undefined') return;
+
+      // Use container dimensions for sizing
+      const w = container.offsetWidth;
+      const h = container.offsetHeight;
+      if (w === 0 || h === 0) return;
+
+      const scene = new THREE.Scene();
+      
+      // Camera
+      const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 200);
+      camera.position.set(0, 0, 10);
+      
+      // Renderer
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance"
+      });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.0;
+      
+      // Load cloud texture
+      const textureLoader = new THREE.TextureLoader();
+      const cloudTexture = textureLoader.load('cloud.png');
+      
+      // Sky Background
+      const skyBackground = new THREE.SkyBackground();
+      scene.add(skyBackground);
+      skyBackground.updateViewport(camera);
+
+      // Apply Night Theme based on current class
+      const isNightTheme = document.body.classList.contains('space-night-theme');
+      if (isNightTheme) {
+        skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#09122c'));
+        skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#1a295c'));
+        skyBackground.material.uniforms.uStarOpacity.value = 1.0;
+      }
+      
+      // Clouds
+      const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
+      scene.add(clouds);
+      clouds.position.set(0, 0, 0);
+      
+      // Resize handler
+      function onWindowResize() {
+        const cw = container.offsetWidth;
+        const ch = container.offsetHeight;
+        camera.aspect = cw / ch;
+        camera.updateProjectionMatrix();
+        renderer.setSize(cw, ch);
+        skyBackground.updateViewport(camera);
+        clouds.resize(camera);
+      }
+      window.addEventListener('resize', onWindowResize);
+      
+      // Animation Loop
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        const dt = clock.getDelta();
+        clouds.update(dt);
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
