@@ -334,43 +334,42 @@
     /* Delightful hover interaction for Creator Program links */
     .creator-link-wrapper {
       position: relative;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
     }
 
     .creator-hover-blob {
       position: absolute;
       left: 50%;
-      bottom: calc(100% + 8px);
-      transform: translateX(-50%) rotate(5deg) scale(0);
-      transform-origin: bottom center;
-      background: #00b49d; /* Accent Teal */
-      color: #ffffff;
+      top: calc(100% + 6px);
+      transform: translateX(-50%) scale(0);
+      transform-origin: top center;
+      background-image: url('cloud_hover.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #3a3a3a;
       font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      padding: 6px 14px;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+      width: 220px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px 12px 24px;
+      text-align: center;
       white-space: nowrap;
-      border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
-      box-shadow: 0 4px 15px rgba(0, 180, 157, 0.3);
       opacity: 0;
       pointer-events: none;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
-      z-index: 1000;
-    }
-
-    .creator-hover-blob::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 6px;
-      border-style: solid;
-      border-color: #00b49d transparent transparent transparent;
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
+      z-index: 10000;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
     }
 
     .creator-link-wrapper:hover .creator-hover-blob {
-      transform: translateX(-50%) rotate(-4deg) scale(1.15);
+      transform: translateX(-50%) scale(1);
       opacity: 1;
     }
   </style>
@@ -532,10 +531,15 @@
         skyBackground.material.uniforms.uStarOpacity.value = 1.0;
       }
       
-      // Clouds
+      // Clouds — shift upward so they're visible in the small header viewport
       const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
       scene.add(clouds);
-      clouds.position.set(0, 0, 0);
+      // Compute the world-space viewport height at the cloud plane distance
+      const fovRad = (camera.fov * Math.PI) / 180;
+      const cloudDist = 7.4;
+      const worldH = 2 * Math.tan(fovRad / 2) * cloudDist;
+      // Move clouds up so the distribution center aligns with the visible header
+      clouds.position.set(0, worldH * 2.5, 0);
       
       // Resize handler
       function onWindowResize() {
