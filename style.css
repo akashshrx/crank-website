@@ -1756,7 +1756,15 @@
   font-weight: 800;
   color: #ffffff;
   letter-spacing: -0.03em;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.questions-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 2.5rem;
+  line-height: 1.5;
 }
 
 .keyboard-board {
