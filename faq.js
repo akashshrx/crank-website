@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Load dynamic textures
     const textureLoader = new THREE.TextureLoader();
-    const cloudTexture = textureLoader.load('cloud.png');
+    const cloudTexture = textureLoader.load(window.CLOUD_TEXTURE_BASE64 || 'cloud.png');
     
     // 1. Gradient Sky Background (Linear Mix)
     const skyBackground = new THREE.SkyBackground();

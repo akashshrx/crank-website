@@ -2317,12 +2317,9 @@
   align-items: center;
 }
 
+/* Shared cloud blob appearance */
 .creator-hover-blob {
   position: absolute;
-  left: 50%;
-  top: calc(100% + 6px);
-  transform: translateX(-50%) scale(0);
-  transform-origin: top center;
   /* Photo-realistic cloud background */
   background-image: url('cloud_hover.png');
   background-size: contain;
@@ -2345,12 +2342,34 @@
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
+  transform: scale(0);
+  transform-origin: top center;
   transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
   z-index: 10000;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
 }
 
+/* Nav blob (JS-positioned, outside masked header-container) */
+#nav-cloud-blob {
+  transform: translateX(-50%) scale(0);
+}
+
+#nav-cloud-blob.visible {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+
+/* Footer blobs (CSS-positioned via wrapper hover) */
+.creator-link-wrapper .creator-hover-blob {
+  left: 50%;
+  bottom: calc(100% + 6px);
+  top: auto;
+  transform: translateX(-50%) scale(0);
+  transform-origin: bottom center;
+}
+
 .creator-link-wrapper:hover .creator-hover-blob {
   transform: translateX(-50%) scale(1);
   opacity: 1;
+}
 }

@@ -91,15 +91,14 @@
       <nav class="nav-links">
         <a href="#efficiency">How it works</a>
         <a href="faq.html">FAQ</a>
-        <div class="creator-link-wrapper">
-          <a href="creator.html">Creators</a>
-          <div class="creator-hover-blob">Be the wind on our back</div>
-        </div>
+        <a href="creator.html" id="creators-nav-link">Creators</a>
       </nav>
       <div class="header-actions">
         <a href="https://black-yak.spcf.app/download/mac" download class="btn btn-primary btn-sm btn-download">Download</a>
       </div>
     </div>
+    <!-- Cloud hover blob lives OUTSIDE the masked header-container so it's not clipped -->
+    <div class="creator-hover-blob" id="nav-cloud-blob">Be the wind on our back</div>
   </header>
 
   <!-- Main Content Container -->
@@ -543,6 +542,6 @@
   <script src="ImprovedNoise.js"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=60"></script>
+  <script src="app.js?v=61"></script>
 </body>
 </html>

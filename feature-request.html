@@ -832,6 +832,49 @@
       filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
     }
 
+    /* Delightful hover interaction for Creator Program links */
+    .creator-link-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .creator-hover-blob {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 6px);
+      top: auto;
+      transform: translateX(-50%) scale(0);
+      transform-origin: bottom center;
+      background-image: url('cloud_hover.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      color: #3a3a3a;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+      width: 220px;
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px 12px 24px;
+      text-align: center;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
+      z-index: 10000;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
+    }
+
+    .creator-link-wrapper:hover .creator-hover-blob {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+
     @media (max-width: 768px) {
       .dock-container {
         display: flex;
@@ -998,6 +1041,10 @@
       <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-start;" id="footer-copyright">
         <a href="faq.html" class="footer-sublink">FAQ</a>
         <a href="privacy.html" class="footer-sublink">Privacy Policy</a>
+        <div class="creator-link-wrapper">
+          <a href="creator.html" class="footer-sublink">Creator Program</a>
+          <div class="creator-hover-blob">Be the wind on our back</div>
+        </div>
       </div>
     </div>
   </footer>
@@ -1413,7 +1460,7 @@
       
       // Load cloud texture
       const textureLoader = new THREE.TextureLoader();
-      const cloudTexture = textureLoader.load('cloud.png');
+      const cloudTexture = textureLoader.load(window.CLOUD_TEXTURE_BASE64 || 'cloud.png');
       
       // Sky Background
       const skyBackground = new THREE.SkyBackground();

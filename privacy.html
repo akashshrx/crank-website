@@ -341,9 +341,10 @@
     .creator-hover-blob {
       position: absolute;
       left: 50%;
-      top: calc(100% + 6px);
+      bottom: calc(100% + 6px);
+      top: auto;
       transform: translateX(-50%) scale(0);
-      transform-origin: top center;
+      transform-origin: bottom center;
       background-image: url('cloud_hover.png');
       background-size: contain;
       background-repeat: no-repeat;
@@ -515,7 +516,7 @@
       
       // Load cloud texture
       const textureLoader = new THREE.TextureLoader();
-      const cloudTexture = textureLoader.load('cloud.png');
+      const cloudTexture = textureLoader.load(window.CLOUD_TEXTURE_BASE64 || 'cloud.png');
       
       // Sky Background
       const skyBackground = new THREE.SkyBackground();
