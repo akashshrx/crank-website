@@ -25,7 +25,7 @@ Wispr Flow and Glide achieve their premium look by pairing a traditional, elegan
     *   **Desktop Hover Effect:** When hovering over the notch, it expands dynamically left, right, and down by **5%** (width scales to `821.1px` and height to `67.2px`) with a smooth CSS cubic-bezier transition, returning to default sizes on hover-out.
     *   **Mobile Screens:** Scaled notch is deactivated on screen widths under `768px`, fallback to standard full-width rounded pill.
 *   **Prompt Pills (Stack Section):**
-    *   **Icons:** Always use official, pixel-perfect multicolor or monochrome brand SVG vector paths directly inline (Figma, Notion, Slack, GitHub, Linear, HubSpot, Apple).
+    *   **Icons:** Always use official, 100% accurate brand SVG vector paths directly inline (Figma, Notion, Slack, GitHub, Linear, HubSpot, Apple Chrome, Apple Safari, Apple Notes, Adobe Acrobat, etc.). Never use hand-drawn approximations, simplified circle-based drafts, or custom reconstructions of third-party brand logos as they render deformed/mangled. Ensure perfect brand geometry, colors, and styling by retrieving the vector code directly from official developer resources (e.g. Simple Icons, upload.wikimedia.org, or official brand assets).
     *   **Sizing:** Kept compact (`clamp(1.28rem, 1.79vw, 1.79rem)`) without background boxes for a clean, minimalist layout.
     *   **LinkedIn Logo:** Rendered in monochrome white (`#fff`) to align perfectly with the surrounding prompt layouts.
 
