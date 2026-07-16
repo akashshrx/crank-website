@@ -1230,9 +1230,13 @@
       font-size: clamp(2rem, 11vw, 3rem);
     }
     
+    .capabilities-section {
+      padding-inline: 1.5rem;
+    }
+
     .capabilities-grid {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 3rem;
     }
     
     .hotkey-grid {
@@ -1999,6 +2003,7 @@
   font-size: 1.35em;
   padding-right: 0.15em;
   margin-right: 0.25em; /* Extra visual spacing */
+  white-space: nowrap; /* Prevent mobile wrapping inside highlights */
 }
 
 .shimmer-target {
