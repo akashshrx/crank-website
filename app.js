@@ -490,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const target = this.getAttribute('href');
       if (target && target !== '#') {
-        lenis.scrollTo(target);
+        lenis.scrollTo(target, { duration: 1.6 });
       }
     });
   });
@@ -640,21 +640,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       updateTheme(isNightBoot, false);
     }, 100);
-  }
-
-  // Creator hover blob interaction — positioned outside the masked header-container
-  const creatorsLink = document.getElementById('creators-nav-link');
-  const navCloudBlob = document.getElementById('nav-cloud-blob');
-  if (creatorsLink && navCloudBlob) {
-    creatorsLink.addEventListener('mouseenter', () => {
-      const rect = creatorsLink.getBoundingClientRect();
-      const headerRect = document.querySelector('.site-header').getBoundingClientRect();
-      navCloudBlob.style.left = (rect.left + rect.width / 2 - headerRect.left) + 'px';
-      navCloudBlob.style.top = (rect.bottom - headerRect.top + 6) + 'px';
-      navCloudBlob.classList.add('visible');
-    });
-    creatorsLink.addEventListener('mouseleave', () => {
-      navCloudBlob.classList.remove('visible');
-    });
   }
 });

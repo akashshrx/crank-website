@@ -778,14 +778,20 @@
     }
 
     .dock-text a.footer-sublink {
-      color: #777777;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      color: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
       text-decoration: none;
-      transition: color 0.2s ease;
-      margin-left: 16px;
+      text-shadow: inherit;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
     }
 
     .dock-text a.footer-sublink:hover {
       color: #000000;
+      text-decoration: underline;
     }
 
     .dock-icon-wrapper {
@@ -821,58 +827,16 @@
     }
 
     body.space-night-theme .dock-text a.footer-sublink {
-      color: #ffffff;
+      color: inherit;
     }
 
     body.space-night-theme .dock-text a.footer-sublink:hover {
-      color: #cccccc;
+      color: #ffffff;
+      text-shadow: 0 1px 5px rgba(255, 255, 255, 0.4);
     }
 
     body.space-night-theme .dock-icon {
       filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
-    }
-
-    /* Delightful hover interaction for Creator Program links */
-    .creator-link-wrapper {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    .creator-hover-blob {
-      position: absolute;
-      left: 50%;
-      bottom: calc(100% + 6px);
-      top: auto;
-      transform: translateX(-50%) scale(0);
-      transform-origin: bottom center;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Cdefs%3E%3Cfilter id='b' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='7'/%3E%3C/filter%3E%3C/defs%3E%3Cellipse cx='100' cy='50' rx='70' ry='32' fill='rgba(255,255,255,0.7)' filter='url(%23b)'/%3E%3Ccircle cx='70' cy='48' r='26' fill='rgba(255,255,255,0.94)' filter='url(%23b)'/%3E%3Ccircle cx='100' cy='38' r='32' fill='rgba(255,255,255,0.97)' filter='url(%23b)'/%3E%3Ccircle cx='130' cy='46' r='25' fill='rgba(255,255,255,0.92)' filter='url(%23b)'/%3E%3Ccircle cx='85' cy='56' r='24' fill='rgba(240,245,252,0.95)' filter='url(%23b)'/%3E%3Ccircle cx='115' cy='54' r='24' fill='rgba(240,245,252,0.94)' filter='url(%23b)'/%3E%3C/svg%3E");
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      color: #1a1a18;
-      font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
-      font-weight: 700;
-      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
-      width: 220px;
-      height: 110px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 24px 12px 24px;
-      text-align: center;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
-      z-index: 10000;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
-    }
-
-    .creator-link-wrapper:hover .creator-hover-blob {
-      transform: translateX(-50%) scale(1);
-      opacity: 1;
     }
 
     @media (max-width: 768px) {
@@ -1041,10 +1005,7 @@
       <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-start;" id="footer-copyright">
         <a href="faq.html" class="footer-sublink">FAQ</a>
         <a href="privacy.html" class="footer-sublink">Privacy Policy</a>
-        <div class="creator-link-wrapper">
-          <a href="creator.html" class="footer-sublink">Creator Program</a>
-          <div class="creator-hover-blob">Be the wind on our back</div>
-        </div>
+        <a href="creator.html" class="footer-sublink">Creator Program</a>
       </div>
     </div>
   </footer>
