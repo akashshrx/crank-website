@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Privacy Policy - Glide: Personal desktop agents in 1-click</title>
-  <meta name="description" content="Glide's privacy policy and security practices. Learn about how we store text only, never save images, and ensure all data remains on your Mac.">
-  <link rel="canonical" href="https://getglide.netlify.app/privacy.html">
+  <title>Creator Program - Glide: Personal desktop agents in 1-click</title>
+  <meta name="description" content="Glide Creator Program. We are looking for Instagram and TikTok creators with high engagement and millions of views to promote Glide. Earn $30-$2000 per video plus equity.">
+  <link rel="canonical" href="https://getglide.netlify.app/creator.html">
   <script src="analytics.bundled.js"></script>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://getglide.netlify.app/privacy.html">
+  <meta property="og:url" content="https://getglide.netlify.app/creator.html">
   <meta property="og:site_name" content="Glide">
-  <meta property="og:title" content="Privacy Policy - Glide: Personal desktop agents in 1-click">
-  <meta property="og:description" content="Glide's privacy policy and security practices. Learn about how we store text only, never save images, and ensure all data remains on your Mac.">
+  <meta property="og:title" content="Creator Program - Glide: Personal desktop agents in 1-click">
+  <meta property="og:description" content="Glide Creator Program. We are looking for Instagram and TikTok creators with high engagement and millions of views to promote Glide. Earn $30-$2000 per video plus equity.">
   <meta property="og:image" content="https://getglide.netlify.app/cloud.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Privacy Policy - Glide: Personal desktop agents in 1-click">
-  <meta name="twitter:description" content="Glide's privacy policy and security practices. Learn about how we store text only, never save images, and ensure all data remains on your Mac.">
+  <meta name="twitter:title" content="Creator Program - Glide: Personal desktop agents in 1-click">
+  <meta name="twitter:description" content="Glide Creator Program. We are looking for Instagram and TikTok creators with high engagement and millions of views to promote Glide. Earn $30-$2000 per video plus equity.">
   <meta name="twitter:image" content="https://getglide.netlify.app/cloud.png">
   <link rel="icon" type="image/png" href="logo_white.png?v=1">
   
@@ -40,6 +40,7 @@
       line-height: 1.7;
       font-size: 16px;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     body.space-night-theme {
@@ -69,14 +70,6 @@
     body.space-night-theme p,
     body.space-night-theme li {
       color: #cccccc;
-    }
-
-    body.space-night-theme .footer {
-      border-top-color: #333333;
-    }
-
-    body.space-night-theme .footer-link:hover {
-      color: #ffffff;
     }
 
     .sky-header {
@@ -127,8 +120,8 @@
       font-weight: 700;
       color: #121210;
       text-decoration: none;
-      margin-bottom: 2.5rem;
       transition: opacity 0.2s ease;
+      margin-bottom: 2.5rem;
     }
 
     .logo-link:hover {
@@ -172,6 +165,11 @@
       color: #444444;
     }
 
+    body.space-night-theme p,
+    body.space-night-theme li {
+      color: #bbbbbb;
+    }
+
     ul {
       margin-bottom: 1.5rem;
       padding-left: 1.5rem;
@@ -187,22 +185,15 @@
       font-weight: 600;
     }
 
-    a.inline-link {
-      color: #0099e6;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s ease;
-    }
-
-    a.inline-link:hover {
-      border-bottom-color: #0099e6;
+    body.space-night-theme strong {
+      color: #ffffff;
     }
 
     .brand-emphasis {
       font-family: 'Caveat', cursive;
       font-weight: 700;
       font-size: 1.35em;
-      color: #000000;
+      color: #121210;
       display: inline-block;
       transform: translateY(2px);
       margin-right: 0.1em;
@@ -212,7 +203,60 @@
       color: #ffffff;
     }
 
-    /* macOS Dock Footer - Light Theme */
+    .inline-link {
+      color: #0088cc;
+      text-decoration: underline;
+      transition: opacity 0.2s ease;
+    }
+
+    .inline-link:hover {
+      opacity: 0.8;
+    }
+
+    /* Delightful hover interaction for Creator Program links */
+    .creator-link-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .creator-hover-blob {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 8px);
+      transform: translateX(-50%) rotate(5deg) scale(0);
+      transform-origin: bottom center;
+      background: #00b49d; /* Accent Teal */
+      color: #ffffff;
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      white-space: nowrap;
+      border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
+      box-shadow: 0 4px 15px rgba(0, 180, 157, 0.3);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
+      z-index: 1000;
+    }
+
+    .creator-hover-blob::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: #00b49d transparent transparent transparent;
+    }
+
+    .creator-link-wrapper:hover .creator-hover-blob {
+      transform: translateX(-50%) rotate(-4deg) scale(1.15);
+      opacity: 1;
+    }
+
+    /* macOS Dock Footer */
     .dock-footer {
       position: relative;
       width: 100%;
@@ -330,49 +374,6 @@
         order: -1;
       }
     }
-
-    /* Delightful hover interaction for Creator Program links */
-    .creator-link-wrapper {
-      position: relative;
-      display: inline-block;
-    }
-
-    .creator-hover-blob {
-      position: absolute;
-      left: 50%;
-      bottom: calc(100% + 8px);
-      transform: translateX(-50%) rotate(5deg) scale(0);
-      transform-origin: bottom center;
-      background: #00b49d; /* Accent Teal */
-      color: #ffffff;
-      font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
-      font-weight: 700;
-      padding: 6px 14px;
-      white-space: nowrap;
-      border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
-      box-shadow: 0 4px 15px rgba(0, 180, 157, 0.3);
-      opacity: 0;
-      pointer-events: none;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s ease;
-      z-index: 1000;
-    }
-
-    .creator-hover-blob::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border-width: 6px;
-      border-style: solid;
-      border-color: #00b49d transparent transparent transparent;
-    }
-
-    .creator-link-wrapper:hover .creator-hover-blob {
-      transform: translateX(-50%) rotate(-4deg) scale(1.15);
-      opacity: 1;
-    }
   </style>
 </head>
 <body>
@@ -404,51 +405,28 @@
   </div>
 
   <div class="container">
-    <h1>Privacy Policy</h1>
-
-    <p>At Glide, we <span class="brand-emphasis">prioritize your privacy</span> and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data <span class="brand-emphasis">under your control</span> while maintaining compliance with relevant frameworks, including the General Data Protection Regulation (GDPR).</p>
-
-    <p>This Privacy Policy applies to the Glide website and application service, governing the use of services provided by Glide to its users.</p>
-
-    <h2>1. Notice</h2>
-    <p>Whenever we collect information that could be used to personally identify you, we will explicitly ask for your provision and permission. This policy ensures that you are <span class="brand-emphasis">fully informed and consenting</span> to the collection of your personal data. Such requests occur when explicit confirmation of your permission is required to proceed, such as signing in with your Google account or managing your billing profile.</p>
-
-    <h2>2. Your Consent</h2>
-    <p>You always have the option to <span class="brand-emphasis">grant or withhold permission</span> for us to process your information. If you opt not to provide essential information required for our service (such as Google authentication or billing details), we will not be able to grant you access to the features of Glide that depend on this information.</p>
-
-    <h2>3. Usage & Processing</h2>
+    <h1>Creator Program</h1>
     
-    <h3>3.1 Transient Payloads (Processed in the Moment)</h3>
-    <p>Glide operates with a modern cloud-based architecture to deliver high-agency capabilities. When you invoke commands or trigger workflows, payloads containing screenshots, active application contexts, and voice or text prompts are transiently transmitted through our secure backend to our AI providers. <strong><span class="brand-emphasis">We do NOT store or persist</span> your prompts, chat history, or screen contexts anywhere on our servers.</strong> Payloads are processed on-the-fly to return your response and are immediately discarded.</p>
+    <p>Are you a creator on <strong>Instagram</strong> or <strong>TikTok</strong>? Do you love productivity hacks, cutting-edge AI, and beautifully designed native desktop experiences? Let's build the future of desktop workflow automation together.</p>
 
-    <h3>3.2 Authentication & Billing Data</h3>
-    <p>We collect and retain limited data necessary for accounts and subscription management:</p>
+    <p>We are seeking highly engaged visual storytellers to join the Glide Creator Program and show the world how personal desktop agents are changing how we work, dictate, and build.</p>
+
+    <h2>What We Offer</h2>
     <ul>
-      <li><strong>Google OAuth:</strong> We authenticate users via Google Sign-In. We store basic metadata associated with your Google account (such as email address and name) to verify access.</li>
-      <li><strong>Stripe:</strong> We utilize Stripe for payment and subscription processing. Billing details and transaction identifiers are handled securely by Stripe in accordance with their industry standards.</li>
+      <li><strong>Premium Compensation:</strong> We pay anywhere from <span class="brand-emphasis"><strong>$30 to $2,000 per video</strong></span>. The exact rate is flexible and scales based on your audience size, video production value, and historical engagement metrics.</li>
+      <li><strong>Long-Term Partnerships:</strong> We are looking to cultivate true, multi-month brand ambassadors. For creators who align deeply with Glide's vision and drive consistent growth, we offer partnerships that involve <span class="brand-emphasis"><strong>equity ownership in the company</strong></span>.</li>
+      <li><strong>First-Access Tools:</strong> Get early beta access to new features, system agent workflows, and direct access to the design team.</li>
     </ul>
 
-    <h3>3.3 Third-Party AI Providers</h3>
-    <p>Glide relies on third-party AI partners (including Anthropic, OpenAI, and ElevenLabs) to power assistant features, voice outputs, and system actions. Payload contexts are securely proxied to these partners for immediate response generation. <span class="brand-emphasis">We do not sell your data</span> under any circumstances.</p>
-
-    <h3>3.4 Data Security</h3>
-    <p>All transient payloads and retained credential metadata are <span class="brand-emphasis">encrypted during transit</span> (using Transport Layer Security/TLS) and protected with industry-standard security software and practices.</p>
-
-    <h2>4. Retention of Information</h2>
-    <p>We retain account and billing identifiers for as long as necessary to provide you with Glide's services. All personally identifiable information will be <span class="brand-emphasis">deleted upon account deletion</span>. Following your request, your account data will be permanently purged within 14 days, except where extended retention is required to fulfill legal compliance obligations.</p>
-
-    <h2>5. Your Rights</h2>
-    <p>In accordance with data protection regulations (including GDPR), you are entitled to several rights regarding your data:</p>
+    <h2>Requirements</h2>
     <ul>
-      <li><strong>Right of Access:</strong> You can request a copy of the personally identifiable information we retain.</li>
-      <li><strong>Right to Rectification:</strong> You can correct or adjust any inaccurate metadata.</li>
-      <li><strong>Right to Erasure:</strong> You can request the deletion of all personally identifiable information we store.</li>
-      <li><strong>Right to Restriction of Processing:</strong> You can request that we stop processing your information if it is inaccurate or unlawfully handled.</li>
+      <li><strong>Active Audiences:</strong> Creators on Instagram Reels and TikTok.</li>
+      <li><strong>High Engagement:</strong> We prioritize creators who have exceptional engagement rates and a track record of videos with millions of views. We seek genuine viewer connection over empty follower counts.</li>
+      <li><strong>Focus Areas:</strong> Tech tutorials, developer setups, design workflows, lifehacks, macOS customization, or productivity tips.</li>
     </ul>
-    <p>To exercise any of these rights, please contact us using the email link below.</p>
 
-    <h2>6. Contact</h2>
-    <p>Should you have any inquiries or comments regarding our Privacy Policy, please reach out to us at <a href="mailto:privacy@glide.inc" class="inline-link">privacy@glide.inc</a>.</p>
+    <h2>Contact Us</h2>
+    <p>If you're ready to partner with us, please reach out to our partnerships lead at <a href="mailto:creators@glide.inc" class="inline-link">creators@glide.inc</a> with a link to your profiles, your media kit (including engagement rate screenshots), and a brief sentence on why you use Glide.</p>
   </div>
 
   <!-- macOS Dock Footer -->
@@ -523,10 +501,9 @@
       scene.add(skyBackground);
       skyBackground.updateViewport(camera);
 
-      // Apply Night Theme if after 6 PM or before 6 AM
-      const hour = new Date().getHours();
-      const isNight = hour >= 18 || hour < 6;
-      if (isNight) {
+      // Apply Night Theme based on current class
+      const isNightTheme = document.body.classList.contains('space-night-theme');
+      if (isNightTheme) {
         skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#09122c'));
         skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#1a295c'));
         skyBackground.material.uniforms.uStarOpacity.value = 1.0;
