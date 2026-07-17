@@ -11,8 +11,8 @@ window.CLOUD_TEXTURE_BASE64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQA
       
       const material = new THREE.ShaderMaterial({
         uniforms: {
-          uSkyColor:       { value: new THREE.Color('#0099e6') },
-          uSkyColorBottom: { value: new THREE.Color('#b8dffa') },
+          uSkyColor:       { value: new THREE.Color('#0088cc') },
+          uSkyColorBottom: { value: new THREE.Color('#9bcbf5') },
           uTime:           { value: 0 },
           uStarOpacity:    { value: 0 }
         },

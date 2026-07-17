@@ -49,9 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define theme color presets
     const themes = {
       day: {
-        topStart: new THREE.Color('#0099e6'),
+        topStart: new THREE.Color('#0088cc'),
         topEnd: new THREE.Color('#002d5a'),
-        bottomStart: new THREE.Color('#b8dffa'),
+        bottomStart: new THREE.Color('#9bcbf5'),
         bottomEnd: new THREE.Color('#005099'),
         minStars: 0.0,
         maxStars: 1.0
