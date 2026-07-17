@@ -2232,8 +2232,8 @@ body.space-night-theme .footer-sublink:hover {
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(245, 245, 247, 0.12);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.2s ease;
 }
 
@@ -2242,8 +2242,8 @@ body.space-night-theme .footer-sublink:hover {
 }
 
 .faq-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(245, 245, 247, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
   transform: translateY(-1px);
 }
 
@@ -2278,8 +2278,8 @@ body.space-night-theme .footer-sublink:hover {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease, border-color 0.3s ease;
   flex-shrink: 0;
 }
@@ -2296,13 +2296,13 @@ body.space-night-theme .footer-sublink:hover {
 }
 
 .faq-trigger[aria-expanded="true"] .faq-icon-wrapper {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .faq-item.faq-active {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
+  background: rgba(245, 245, 247, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
   box-shadow: 
     0 10px 30px rgba(0, 0, 0, 0.12),
     0 1px 3px rgba(0, 0, 0, 0.04);
@@ -2321,7 +2321,7 @@ body.space-night-theme .footer-sublink:hover {
 
 .faq-answer-inner p {
   font-family: var(--font-sans);
-  font-size: clamp(0.9rem, 1.8vw, 1rem);
+  font-size: clamp(1.05rem, 2vw, 1.15rem);
   line-height: 1.6;
   color: var(--text-subtle);
   font-weight: 400;
