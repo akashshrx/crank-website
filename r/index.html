@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You have been invited to Glide</title>
+  <meta name="description" content="Your friend gave you a month of Glide. Download the app, sign in, and enter your invite code to claim it.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=59">
+  <link rel="icon" type="image/png" href="/logo_white.png?v=2">
+  <style>
+    .referral-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .referral-card {
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .referral-logo { width: 44px; height: 44px; opacity: 0.92; }
+    .referral-title {
+      font-family: var(--font-sans);
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .referral-title em {
+      font-family: 'Caveat', cursive;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 1.15em;
+    }
+    .referral-sub {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.55;
+      opacity: 0.72;
+      max-width: 40ch;
+    }
+    .referral-code-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid var(--border-color-glow, rgba(255,255,255,0.15));
+      border-radius: 14px;
+      padding: 16px 22px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+      background: rgba(255,255,255,0.03);
+    }
+    .referral-code-box:hover { border-color: rgba(255,255,255,0.35); transform: translateY(-1px); }
+    .referral-code {
+      font-family: var(--font-mono);
+      font-size: clamp(1.4rem, 4.5vw, 2rem);
+      font-weight: 500;
+      letter-spacing: 0.14em;
+    }
+    .referral-copy {
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.6;
+      min-width: 62px;
+      text-align: left;
+    }
+    .referral-steps {
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      opacity: 0.62;
+      max-width: 44ch;
+    }
+    .referral-cta { margin-top: 6px; }
+  </style>
+</head>
+<body data-cursor-color="blue">
+  <main class="referral-page">
+    <div class="referral-card">
+      <img class="referral-logo" src="/logo_white.png" alt="Glide">
+      <h1 class="referral-title">Your friend gave you <em>a month of Glide</em></h1>
+      <p class="referral-sub">Glide is a voice-first agent that lives in your Mac's notch. Download it, sign in with Google, and enter this invite code when you do.</p>
+      <div class="referral-code-box" id="code-box" title="Copy the code">
+        <span class="referral-code" id="code">&nbsp;</span>
+        <span class="referral-copy" id="copy-label">Copy</span>
+      </div>
+      <p class="referral-steps">When you subscribe, you and your friend both get a whole month free. The code goes in the sign-in screen the first time you open Glide.</p>
+      <a href="https://black-yak.spcf.app/download/mac" download class="btn btn-primary btn-lg referral-cta">Download Glide for Mac</a>
+    </div>
+  </main>
+  <script>
+    (function () {
+      var seg = window.location.pathname.split("/").filter(Boolean);
+      var raw = seg.length > 1 ? seg[seg.length - 1] : "";
+      var code = (raw || "").toUpperCase().replace(/[^A-Z2-9]/g, "");
+      var el = document.getElementById("code");
+      var box = document.getElementById("code-box");
+      var label = document.getElementById("copy-label");
+      if (code.length >= 4) {
+        el.textContent = code;
+        box.addEventListener("click", function () {
+          navigator.clipboard.writeText(code).then(function () {
+            label.textContent = "Copied";
+            setTimeout(function () { label.textContent = "Copy"; }, 1600);
+          });
+        });
+      } else {
+        el.textContent = "ASK YOUR FRIEND";
+        el.style.fontSize = "1rem";
+        el.style.letterSpacing = "0.08em";
+        label.style.display = "none";
+        box.style.cursor = "default";
+      }
+    })();
+  </script>
+</body>
+</html>
