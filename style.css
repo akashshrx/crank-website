@@ -356,18 +356,25 @@
     }
   }
 
-  .site-header .btn-primary {
+  .site-header .btn-primary,
+  .site-header .btn-download {
+    background: #0088cc !important;
+    color: #ffffff !important;
+    font-weight: 700;
     box-shadow: 
-      0 2px 6px rgba(0, 0, 0, 0.02),
-      0 4px 10px rgba(0, 0, 0, 0.02),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      0 4px 14px rgba(0, 136, 204, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35) !important;
+    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .site-header .btn-primary:hover:not(:disabled) {
+  .site-header .btn-primary:hover:not(:disabled),
+  .site-header .btn-download:hover:not(:disabled) {
+    background: #0099e6 !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
     box-shadow: 
-      0 4px 10px rgba(0, 0, 0, 0.04),
-      0 6px 15px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      0 6px 20px rgba(0, 153, 230, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
   }
 
   .logo {
