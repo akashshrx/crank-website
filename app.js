@@ -641,4 +641,20 @@ document.addEventListener('DOMContentLoaded', () => {
       updateTheme(isNightBoot, false);
     }, 100);
   }
+
+  // Dictation Fn Key Click Listener
+  const dictationFnKey = document.getElementById('dictation-fn-key');
+  if (dictationFnKey) {
+    const triggerFnPress = () => {
+      dictationFnKey.classList.add('key-pressed');
+      setTimeout(() => dictationFnKey.classList.remove('key-pressed'), 150);
+    };
+    dictationFnKey.addEventListener('click', triggerFnPress);
+    dictationFnKey.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerFnPress();
+      }
+    });
+  }
 });
