@@ -2482,36 +2482,40 @@ body.space-night-theme .footer-sublink:hover {
 /* Micro USPs on the right side */
 .dictation-micro-usps {
   display: flex;
-  gap: 0.5rem 0.65rem;
+  gap: 0.65rem;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  max-width: 366px;
+  max-width: 386px;
+  margin-top: 0.5rem;
 }
 
 .dictation-usp-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.35rem 0.75rem;
+  gap: 0.5rem;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  padding: 0.45rem 0.95rem;
   border-radius: 100px;
   font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
   letter-spacing: -0.01em;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
-.usp-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #38bdf8;
-  box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+.dictation-usp-pill:hover {
+  transform: translateY(-2px);
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.dictation-usp-pill svg {
   flex-shrink: 0;
 }
 
