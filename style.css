@@ -2408,31 +2408,54 @@ body.space-night-theme .footer-sublink:hover {
   box-sizing: border-box;
 }
 
-.dictation-card {
-  width: 100%;
-  box-sizing: border-box;
+.dictation-card.col-span-2 {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  padding: 3.5rem 3rem;
 }
 
-.dictation-keyboard-side {
-  flex-shrink: 0;
+.dictation-left-side {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
   width: 100%;
 }
 
 .dictation-board {
   margin-top: 0 !important;
-  flex-shrink: 0;
+  align-self: flex-start;
 }
 
-.dictation-right-content {
+.dictation-right-side {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
   width: 100%;
-  gap: 2rem;
+  height: 100%;
+}
+
+.dictation-usps-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.dictation-usp-text {
+  font-family: var(--font-sans);
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  text-align: right;
+  white-space: nowrap;
 }
 
 /* White keycap Fn key styles (matching Control & Option keys) */
@@ -2483,62 +2506,25 @@ body.space-night-theme .footer-sublink:hover {
   opacity: 0.15 !important;
 }
 
-/* Bold Prominent USPs side-by-side with Keyboard */
-.dictation-usps-bold {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  align-items: flex-end;
-}
-
-.bold-usp-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-  background: rgba(56, 189, 248, 0.08);
-  border: 1px solid rgba(56, 189, 248, 0.22);
-  padding: 0.6rem 1.1rem;
-  border-radius: 100px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
-  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-}
-
-.bold-usp-item:hover {
-  transform: translateX(-4px);
-  background: rgba(56, 189, 248, 0.14);
-  border-color: rgba(56, 189, 248, 0.45);
-}
-
-.usp-bold-text {
-  font-family: var(--font-sans);
-  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-}
-
-.bold-usp-item svg {
-  flex-shrink: 0;
-  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
-}
-
 @media (max-width: 900px) {
-  .dictation-card {
+  .dictation-card.col-span-2 {
     grid-template-columns: 1fr !important;
     text-align: center;
     gap: 2.5rem;
   }
-  .dictation-right-content {
-    flex-direction: column-reverse !important;
+  .dictation-left-side {
     align-items: center !important;
-    justify-content: center !important;
-    gap: 1.5rem !important;
+    text-align: center !important;
   }
-  .dictation-usps-bold {
+  .dictation-board {
+    align-self: center !important;
+  }
+  .dictation-right-side {
     align-items: center !important;
+  }
+  .dictation-usps-right {
+    align-items: center !important;
+    text-align: center !important;
   }
 }
 }
