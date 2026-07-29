@@ -47,17 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Define theme color presets
     const themes = {
       day: {
-        topStart: new THREE.Color('#0099e6'),
+        topStart: new THREE.Color('#0088cc'),   // Vivid sky top
         topEnd: new THREE.Color('#002d5a'),
-        bottomStart: new THREE.Color('#b8dffa'),
+        bottomStart: new THREE.Color('#002d5a'), // Darker blue bottom (matches home darker end)
         bottomEnd: new THREE.Color('#005099'),
         minStars: 0.0,
         maxStars: 1.0
       },
       night: {
-        topStart: new THREE.Color('#09122c'),
+        topStart: new THREE.Color('#040a1c'),
         topEnd: new THREE.Color('#040a1c'),
-        bottomStart: new THREE.Color('#1c3260'),
+        bottomStart: new THREE.Color('#0e1b38'),
         bottomEnd: new THREE.Color('#0e1b38'),
         minStars: 0.85,
         maxStars: 1.0
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const dt = Math.min((time - lastTime) / 1000, 0.1);
       lastTime = time;
 
-      // Update Sky uniforms
+      // Update Sky uniforms — feed distinct top and bottom colours for proper gradient
       if (skyBackground && skyBackground.material.uniforms) {
         skyBackground.material.uniforms.uTime.value = time * 0.001;
         skyBackground.material.uniforms.uSkyColor.value.copy(window.activeTheme.topStart);
