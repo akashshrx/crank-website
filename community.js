@@ -147,9 +147,9 @@
     }
 
     // ----------------------------------------------------
-    // 3. Murmuration Flocking System (Leader + 35 Follower Planes)
+    // 3. Murmuration Flocking System (Leader + 17 Follower Planes = 18 Total)
     // ----------------------------------------------------
-    const FLOCK_SIZE = 36;
+    const FLOCK_SIZE = 18;
     const flock = [];
 
     // Leader Plane
@@ -169,21 +169,21 @@
       wavePhase: 0
     });
 
-    // Followers (35 Paper Planes)
+    // Followers (17 Paper Planes - Spaced out for airy elegance)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh();
       const scale = 0.14 + Math.random() * 0.12; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
-      // Distribute in an organic V-formation / flock cluster behind leader
-      const layer = Math.floor(i / 4);
+      // Distribute in a wide, spacious 3D starling murmuration behind leader
+      const layer = Math.floor(i / 3);
       const side = (i % 2 === 0 ? 1 : -1);
-      const rowOffset = (i % 4);
+      const rowOffset = (i % 3);
 
-      const offsetX = side * (0.6 + layer * 0.5 + Math.random() * 0.25);
-      const offsetY = (Math.random() - 0.5) * 1.1;
-      const offsetZ = - (layer * 0.8 + rowOffset * 0.3 + Math.random() * 0.35);
+      const offsetX = side * (1.2 + layer * 1.0 + Math.random() * 0.5);
+      const offsetY = (Math.random() - 0.5) * 2.2;
+      const offsetZ = - (layer * 1.5 + rowOffset * 0.6 + Math.random() * 0.6);
 
       flock.push({
         mesh: mesh,

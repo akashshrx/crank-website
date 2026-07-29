@@ -153,6 +153,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (userPrefersNight) {
       updateTheme(true, false);
     }
+  } else {
+    // Global fallback for Theme Toggle Buttons when basic WebGL is skipped (e.g. Community Page)
+    const dayBtn = document.getElementById('theme-btn-day');
+    const nightBtn = document.getElementById('theme-btn-night');
+
+    if (dayBtn) {
+      dayBtn.addEventListener('click', () => {
+        document.body.classList.remove('space-night-theme');
+        dayBtn.classList.add('active');
+        if (nightBtn) nightBtn.classList.remove('active');
+      });
+    }
+
+    if (nightBtn) {
+      nightBtn.addEventListener('click', () => {
+        document.body.classList.add('space-night-theme');
+        nightBtn.classList.add('active');
+        if (dayBtn) dayBtn.classList.remove('active');
+      });
+    }
+  }
 
     // Animation Loop
     let lastTime = performance.now();
