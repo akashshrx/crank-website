@@ -24,10 +24,10 @@
   <meta name="twitter:image" content="https://justglide.app/cloud.png">
   <link rel="icon" type="image/png" href="logo_white.png?v=1">
   
-  <!-- Fonts (Figtree, EB Garamond, Caveat) -->
+  <!-- Brand Fonts (Figtree, Caveat) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css?v=59">
@@ -41,38 +41,58 @@
       padding: 0;
     }
 
+    .sky-header {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      min-height: 140px;
+      margin-top: 74px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #70c4ff 0%, #bce3ff 100%);
+    }
+
+    body.space-night-theme .sky-header {
+      background: linear-gradient(180deg, #09122c 0%, #1a295c 100%);
+    }
+
+    .sky-header canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
     .container {
-      max-width: 780px;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 130px 1.5rem 80px;
+      padding: 40px 1.5rem 80px;
       box-sizing: border-box;
     }
 
-    .container h1 {
-      font-family: 'EB Garamond', serif;
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .page-title {
+      font-family: var(--font-sans);
+      font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
       color: #121210;
       margin-bottom: 1.5rem;
       line-height: 1.15;
     }
 
     .container h2 {
-      font-family: 'EB Garamond', serif;
-      font-size: 1.85rem;
-      font-weight: 700;
+      font-family: var(--font-sans);
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
       color: #121210;
-      margin-top: 2.5rem;
+      margin-top: 2.25rem;
       margin-bottom: 1rem;
-      letter-spacing: -0.01em;
     }
 
     .container p {
       font-family: var(--font-sans);
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       line-height: 1.7;
-      color: #444440;
+      color: #333330;
       margin-bottom: 1.25rem;
     }
 
@@ -85,13 +105,13 @@
       font-family: var(--font-sans);
       font-size: 1.05rem;
       line-height: 1.7;
-      color: #444440;
+      color: #333330;
       margin-bottom: 0.85rem;
     }
 
     .caveat-highlight {
       font-family: 'Caveat', cursive;
-      font-size: 1.4rem;
+      font-size: 1.45rem;
       font-weight: 700;
       color: #0088cc;
       display: inline-block;
@@ -118,7 +138,7 @@
 </head>
 <body class="creator-page">
 
-  <!-- Standard Header Navigation -->
+  <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-container">
       <a href="index.html" class="logo" id="header-logo">
@@ -147,8 +167,13 @@
     </div>
   </header>
 
-  <div class="container">
-    <h1>Creator Program</h1>
+  <!-- Top Cloud Window Header -->
+  <div class="sky-header">
+    <canvas id="webgl-canvas"></canvas>
+  </div>
+
+  <main class="container">
+    <h1 class="page-title">Creator <span class="caveat-highlight">Program</span></h1>
     
     <p>Are you a creator on <strong>Instagram</strong> or <strong>TikTok</strong>? Do you love productivity hacks, cutting-edge AI, and beautifully designed native desktop experiences? Let's build the future of desktop workflow automation together.</p>
 
@@ -170,7 +195,7 @@
 
     <h2>Contact Us</h2>
     <p>If you're ready to partner with us, please reach out to our partnerships lead at <a href="mailto:creators@glide.inc" class="inline-link">creators@glide.inc</a> with a link to your profiles, your media kit (including engagement rate screenshots), and a brief sentence on why you use Glide.</p>
-  </div>
+  </main>
 
   <!-- macOS Dock Footer -->
   <footer class="dock-footer">
@@ -190,7 +215,75 @@
     </div>
   </footer>
 
+  <!-- Three.js & Sky Canvas Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="sky.js?v=39"></script>
+  <script src="ImprovedNoise.js"></script>
   <script>
+    (async function initSkyHeader() {
+      await new Promise(r => setTimeout(r, 50));
+      const container = document.querySelector('.sky-header');
+      const canvas = document.getElementById('webgl-canvas');
+      if (!canvas || !container || typeof THREE === 'undefined') return;
+
+      const w = container.offsetWidth;
+      const h = container.offsetHeight;
+      if (w === 0 || h === 0) return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 200);
+      camera.position.set(0, 0, 10);
+      
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance"
+      });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const textureLoader = new THREE.TextureLoader();
+      const cloudTexture = textureLoader.load(window.CLOUD_TEXTURE_BASE64 || 'cloud.png');
+      
+      const skyBackground = new THREE.SkyBackground();
+      scene.add(skyBackground);
+      skyBackground.updateViewport(camera);
+
+      const isNightTheme = document.body.classList.contains('space-night-theme');
+      if (isNightTheme) {
+        skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#09122c'));
+        skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#1a295c'));
+        skyBackground.material.uniforms.uStarOpacity.value = 1.0;
+      }
+
+      const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
+      scene.add(clouds);
+      const fovRad2 = (camera.fov * Math.PI) / 180;
+      const cloudDist = 7.4;
+      const worldH = 2 * Math.tan(fovRad2 / 2) * cloudDist;
+      clouds.position.set(0, worldH * 2.5, 0);
+
+      function onResize() {
+        const cw = container.offsetWidth;
+        const ch = container.offsetHeight;
+        camera.aspect = cw / ch;
+        camera.updateProjectionMatrix();
+        renderer.setSize(cw, ch);
+        skyBackground.updateViewport(camera);
+        clouds.resize(camera);
+      }
+      window.addEventListener('resize', onResize);
+
+      const clock = new THREE.Clock();
+      function animate() {
+        requestAnimationFrame(animate);
+        clouds.update(clock.getDelta());
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+
     const footerYear = document.getElementById('footer-year');
     if (footerYear) footerYear.textContent = new Date().getFullYear();
 
