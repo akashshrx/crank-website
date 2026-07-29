@@ -234,6 +234,8 @@
     const dayBtn = document.getElementById('theme-btn-day');
     const nightBtn = document.getElementById('theme-btn-night');
 
+    let isSelfUpdatingClass = false;
+
     // Standardized 2.2s GSAP Color Interpolation (Identical to Home Screen)
     function updateTheme(isNight, transition = true) {
       const target = isNight ? themes.night : themes.day;
@@ -264,23 +266,33 @@
         activeThemeColors.ambientColor.copy(target.ambientColor);
       }
 
-      if (isNight) {
-        document.body.classList.add('space-night-theme');
-        if (dayBtn) dayBtn.classList.remove('active');
-        if (nightBtn) nightBtn.classList.add('active');
-      } else {
-        document.body.classList.remove('space-night-theme');
-        if (dayBtn) dayBtn.classList.add('active');
-        if (nightBtn) nightBtn.classList.remove('active');
+      const currentlyNight = document.body.classList.contains('space-night-theme');
+      if (isNight !== currentlyNight) {
+        isSelfUpdatingClass = true;
+        if (isNight) {
+          document.body.classList.add('space-night-theme');
+        } else {
+          document.body.classList.remove('space-night-theme');
+        }
+        setTimeout(() => { isSelfUpdatingClass = false; }, 50);
       }
+
+      if (dayBtn) dayBtn.classList.toggle('active', !isNight);
+      if (nightBtn) nightBtn.classList.toggle('active', isNight);
     }
 
     if (dayBtn) {
-      dayBtn.addEventListener('click', () => updateTheme(false));
+      dayBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        updateTheme(false, true);
+      });
     }
 
     if (nightBtn) {
-      nightBtn.addEventListener('click', () => updateTheme(true));
+      nightBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        updateTheme(true, true);
+      });
     }
 
     // Initialize initial state based on current body class
@@ -288,6 +300,7 @@
     updateTheme(initialNight, false);
 
     const themeObserver = new MutationObserver(() => {
+      if (isSelfUpdatingClass) return;
       const isNight = document.body.classList.contains('space-night-theme');
       updateTheme(isNight, true);
     });
