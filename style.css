@@ -2440,12 +2440,22 @@ body.space-night-theme .footer-sublink:hover {
   animation: rotate-border 7.2s linear infinite;
 }
 
-.faq-item:hover,
-.faq-item.faq-active {
+.faq-item:hover {
   transform: translateY(-4px);
   border-color: rgba(255, 255, 255, 0.18);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 0 12px 32px rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(5, 5, 8, 0.18);
+}
+
+.faq-item.faq-active {
+  transform: translateY(-4px);
+  background: rgba(8, 10, 18, 0.72) !important;
+  backdrop-filter: blur(32px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(160%) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    0 20px 48px rgba(0, 0, 0, 0.35);
 }
 
 .faq-item:hover::before,
@@ -2509,11 +2519,13 @@ body.space-night-theme .footer-sublink:hover {
 }
 
 .faq-item.faq-active {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border-color: rgba(255, 255, 255, 0.15) !important;
+  background: rgba(8, 10, 18, 0.72) !important;
+  backdrop-filter: blur(32px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(160%) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
   box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.15),
-    0 12px 32px rgba(0, 0, 0, 0.15);
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    0 20px 48px rgba(0, 0, 0, 0.35);
 }
 
 .faq-content-box {
