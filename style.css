@@ -1043,24 +1043,60 @@
     margin: 0 auto;
   }
 
-  .dock-container > .dock-text:first-child {
-    text-align: right;
+  .dock-text-left {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-end;
   }
 
-  .dock-container > .dock-text:last-child {
-    text-align: left;
+  .dock-text-right {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .dock-text {
     font-family: var(--font-sans);
     font-size: 0.85rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #121210;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     user-select: none;
     white-space: nowrap;
+    text-shadow: none;
+  }
+
+  .footer-sublink {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: #555550;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease, text-shadow 0.2s ease;
+  }
+
+  .footer-sublink:hover {
+    color: #0088cc;
+    text-decoration: underline;
+  }
+
+  body.space-night-theme .dock-text {
+    color: #ffffff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  body.space-night-theme .footer-sublink {
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  body.space-night-theme .footer-sublink:hover {
+    color: #ffffff;
+    text-shadow: 0 1px 5px rgba(255, 255, 255, 0.4);
   }
 
   .dock-icon-wrapper {
