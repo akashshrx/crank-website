@@ -146,6 +146,9 @@
       return group;
     }
 
+    // Helper Object for Smooth Quaternion Slerp Rotations
+    const dummyLook = new THREE.Object3D();
+
     // ----------------------------------------------------
     // 3. Murmuration Flocking System (Leader + 17 Follower Planes = 18 Total)
     // ----------------------------------------------------
@@ -162,17 +165,17 @@
       mesh: leaderMesh,
       isLeader: true,
       pos: new THREE.Vector3(1.2, 0.6, 2.5),
-      targetPos: new THREE.Vector3(),
-      prevPos: new THREE.Vector3(),
+      targetPos: new THREE.Vector3(1.2, 0.6, 2.5),
+      prevPos: new THREE.Vector3(1.2, 0.6, 2.5),
       scale: leaderScale,
       offset: new THREE.Vector3(0, 0, 0),
       wavePhase: 0
     });
 
-    // Followers (17 Paper Planes - Spaced out for airy elegance)
+    // Followers (17 Paper Planes - Extra spacious distribution)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh();
-      const scale = 0.14 + Math.random() * 0.12; // Varied sizes for depth perspective
+      const scale = 0.13 + Math.random() * 0.12; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
@@ -181,9 +184,9 @@
       const side = (i % 2 === 0 ? 1 : -1);
       const rowOffset = (i % 3);
 
-      const offsetX = side * (1.2 + layer * 1.0 + Math.random() * 0.5);
-      const offsetY = (Math.random() - 0.5) * 2.2;
-      const offsetZ = - (layer * 1.5 + rowOffset * 0.6 + Math.random() * 0.6);
+      const offsetX = side * (1.8 + layer * 1.5 + Math.random() * 0.8);
+      const offsetY = (Math.random() - 0.5) * 3.2;
+      const offsetZ = - (layer * 2.2 + rowOffset * 0.8 + Math.random() * 0.8);
 
       flock.push({
         mesh: mesh,
@@ -199,7 +202,7 @@
     }
 
     // ----------------------------------------------------
-    // 4. Animation Loop & Automatic Murmuration Math
+    // 4. Animation Loop & Smooth Organic Murmuration Math
     // ----------------------------------------------------
     const clock = new THREE.Clock();
     let time = 0;
@@ -208,7 +211,7 @@
       requestAnimationFrame(animate);
 
       const delta = clock.getDelta();
-      time += delta * 0.85;
+      time += delta * 0.75; // Smooth, relaxed speed
 
       // Update Sky Shader & Cloud Sprites
       if (skyBackground.material && skyBackground.material.uniforms.uTime) {
@@ -216,44 +219,45 @@
       }
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (Autonomous Sweeping 3D Path) ---
+      // --- LEADER FLIGHT TRAJECTORY (Harmonic Organic Curves) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Smooth, autonomous 3D Lissajous flight path
-      const radiusX = 5.2;
-      const radiusY = 2.4;
-      const radiusZ = 1.2;
+      // Smooth, harmonic 3D flight trajectory without hard corners
+      const t = time * 0.32;
+      leader.targetPos.x = Math.sin(t) * 6.5 + Math.sin(t * 0.5) * 2.2;
+      leader.targetPos.y = Math.sin(t * 0.7) * 2.8 + Math.cos(t * 0.4) * 0.9;
+      leader.targetPos.z = Math.cos(t * 0.5) * 1.5 + 2.0;
 
-      leader.pos.x = Math.sin(time * 0.45) * radiusX + Math.cos(time * 0.2) * 1.2;
-      leader.pos.y = Math.sin(time * 0.65 + 0.3) * radiusY + Math.sin(time * 0.3) * 0.8;
-      leader.pos.z = Math.cos(time * 0.35) * radiusZ + 2.5;
-
+      // Exponential position smoothing
+      leader.pos.lerp(leader.targetPos, 0.05);
       leader.mesh.position.copy(leader.pos);
 
-      // Compute velocity vector & orientation for Leader
+      // Smooth Quaternion Slerp for Leader Rotation (Eliminates snaps/hard corners)
       const leaderVel = new THREE.Vector3().subVectors(leader.pos, leader.prevPos);
-      if (leaderVel.lengthSq() > 0.00001) {
+      if (leaderVel.lengthSq() > 0.000001) {
         const lookTarget = new THREE.Vector3().addVectors(leader.pos, leaderVel);
-        leader.mesh.lookAt(lookTarget);
+        dummyLook.position.copy(leader.pos);
+        dummyLook.lookAt(lookTarget);
 
-        // Banking / Roll angle proportional to lateral turn curvature
-        const turnCurvature = Math.cos(time * 0.45);
-        leader.mesh.rotateOnAxis(new THREE.Vector3(0, 0, 1), -turnCurvature * 0.45);
+        // Gentle banking roll
+        const turnCurvature = Math.cos(t * 0.7);
+        dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), -turnCurvature * 0.4);
+
+        leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.08);
       }
 
-      // --- FOLLOWER FLOCK (Murmuration Wave Sync) ---
-      // Transform local offsets based on Leader's orientation matrix
+      // --- FOLLOWER FLOCK (Smooth Wave Sync & Quaternion Slerping) ---
       const leaderMatrix = leader.mesh.matrixWorld;
 
       for (let i = 1; i < FLOCK_SIZE; i++) {
         const boid = flock[i];
         boid.prevPos.copy(boid.pos);
 
-        // Dynamic 3D Starling Murmuration Wave Equations
-        const waveX = Math.sin(time * 2.2 + boid.wavePhase) * 0.45;
-        const waveY = Math.cos(time * 1.8 + boid.wavePhase * 1.3) * 0.55;
-        const waveZ = Math.sin(time * 2.6 + boid.wavePhase * 0.7) * 0.35;
+        // Organic Starling Murmuration Wave Equations
+        const waveX = Math.sin(t * 1.8 + boid.wavePhase) * 0.6;
+        const waveY = Math.cos(t * 1.4 + boid.wavePhase * 1.3) * 0.7;
+        const waveZ = Math.sin(t * 2.0 + boid.wavePhase * 0.7) * 0.5;
 
         // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
@@ -265,20 +269,22 @@
         // Transform local offset to world space aligned with leader direction
         const worldTarget = localOffset.applyMatrix4(leaderMatrix);
         
-        // Fluid exponential interpolation (boid smoothing)
-        const lerpSpeed = 0.08 + Math.sin(time + i) * 0.02;
-        boid.pos.lerp(worldTarget, lerpSpeed);
+        // Fluid position lerp
+        boid.pos.lerp(worldTarget, 0.05);
         boid.mesh.position.copy(boid.pos);
 
-        // Orientation alignment with velocity vector
+        // Smooth Quaternion Slerp for Follower Rotations
         const boidVel = new THREE.Vector3().subVectors(boid.pos, boid.prevPos);
-        if (boidVel.lengthSq() > 0.000005) {
+        if (boidVel.lengthSq() > 0.000001) {
           const boidLook = new THREE.Vector3().addVectors(boid.pos, boidVel);
-          boid.mesh.lookAt(boidLook);
+          dummyLook.position.copy(boid.pos);
+          dummyLook.lookAt(boidLook);
 
-          // Synchronized flock wing roll
-          const rollAngle = Math.sin(time * 2.0 + boid.wavePhase) * 0.3;
-          boid.mesh.rotateOnAxis(new THREE.Vector3(0, 0, 1), rollAngle);
+          // Synchronized organic wing roll
+          const rollAngle = Math.sin(t * 1.5 + boid.wavePhase) * 0.25;
+          dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), rollAngle);
+
+          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.07);
         }
       }
 
@@ -301,7 +307,10 @@
     }
     window.addEventListener('resize', onResize);
 
-    // Theme Switcher Sync (Day / Space Night Mode)
+    // Theme Switcher Sync & Direct Button Handlers (Day / Space Night Mode)
+    const dayBtn = document.getElementById('theme-btn-day');
+    const nightBtn = document.getElementById('theme-btn-night');
+
     function applyThemeSettings() {
       const isNight = document.body.classList.contains('space-night-theme');
       if (isNight) {
@@ -310,13 +319,31 @@
         skyBackground.material.uniforms.uStarOpacity.value = 1.0;
         dirLight.intensity = 0.8;
         ambientLight.color.setHex(0x1e293b);
+        if (dayBtn) dayBtn.classList.remove('active');
+        if (nightBtn) nightBtn.classList.add('active');
       } else {
         skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#70c4ff'));
         skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#bce3ff'));
         skyBackground.material.uniforms.uStarOpacity.value = 0.0;
         dirLight.intensity = 1.3;
         ambientLight.color.setHex(0xdbeafe);
+        if (dayBtn) dayBtn.classList.add('active');
+        if (nightBtn) nightBtn.classList.remove('active');
       }
+    }
+
+    if (dayBtn) {
+      dayBtn.addEventListener('click', () => {
+        document.body.classList.remove('space-night-theme');
+        applyThemeSettings();
+      });
+    }
+
+    if (nightBtn) {
+      nightBtn.addEventListener('click', () => {
+        document.body.classList.add('space-night-theme');
+        applyThemeSettings();
+      });
     }
 
     applyThemeSettings();
