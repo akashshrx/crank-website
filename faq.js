@@ -255,4 +255,45 @@ document.addEventListener('DOMContentLoaded', () => {
   if (footerYear) {
     footerYear.textContent = new Date().getFullYear();
   }
+
+  // Mobile Navigation Menu Toggle Listener
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.toggle('mobile-open');
+      const hamburger = mobileMenuBtn.querySelector('.hamburger-icon');
+      const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+      if (hamburger && closeIcon) {
+        hamburger.style.display = isOpen ? 'none' : 'block';
+        closeIcon.style.display = isOpen ? 'block' : 'none';
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.site-header')) {
+        navLinks.classList.remove('mobile-open');
+        const hamburger = mobileMenuBtn.querySelector('.hamburger-icon');
+        const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+        if (hamburger && closeIcon) {
+          hamburger.style.display = 'block';
+          closeIcon.style.display = 'none';
+        }
+      }
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('mobile-open');
+        const hamburger = mobileMenuBtn.querySelector('.hamburger-icon');
+        const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+        if (hamburger && closeIcon) {
+          hamburger.style.display = 'block';
+          closeIcon.style.display = 'none';
+        }
+      });
+    });
+  }
 });

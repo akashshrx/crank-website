@@ -798,7 +798,55 @@
     margin-bottom: 0.5rem;
   }
 
-  /* Responsive styling */
+  /* Mobile Menu Toggle Button */
+  .mobile-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #121210;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  body.space-night-theme .mobile-menu-toggle {
+    color: #ffffff;
+  }
+
+  .mobile-menu-toggle:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  body.space-night-theme .mobile-menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Tablet responsive adjustments (769px to 1024px) */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .header-container {
+      width: calc(100% - 2rem);
+      max-width: 782px;
+      padding-inline: 1.5rem;
+    }
+
+    .nav-links {
+      gap: 1.25rem;
+    }
+
+    .logo {
+      font-size: 1.15rem;
+    }
+
+    .site-header .btn-sm {
+      padding: 0.35rem 0.85rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* Mobile Responsive styling (<= 768px) */
   @media (max-width: 768px) {
     .site-header {
       background: transparent;
@@ -807,26 +855,96 @@
     }
     
     .header-container {
-      width: auto;
-      margin-inline: 1rem;
-      height: 48px;
+      width: calc(100% - 1.5rem);
+      margin-inline: auto;
+      height: 52px;
       margin-top: 10px;
-      border-radius: 24px;
-      background: rgba(255, 255, 255, 0.75);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        0 8px 32px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
       background-image: none;
       mask-image: none;
       -webkit-mask-image: none;
-      padding-inline: 1rem;
+      padding-inline: 1rem 0.75rem;
+    }
+
+    body.space-night-theme .header-container {
+      background: rgba(10, 18, 42, 0.88);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    body.space-night-theme .logo {
+      color: #ffffff;
+    }
+
+    .logo {
+      font-size: 1.1rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .mobile-menu-toggle {
+      display: inline-flex;
     }
 
     .nav-links {
       display: none;
+    }
+
+    /* Mobile Expandable Menu Dropdown */
+    .nav-links.mobile-open {
+      display: flex !important;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 20px;
+      padding: 1.25rem 1.5rem;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+      text-align: center;
+      z-index: 1001;
+      animation: mobileMenuSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body.space-night-theme .nav-links.mobile-open {
+      background: rgba(12, 22, 50, 0.95);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-links.mobile-open a {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #121210;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    body.space-night-theme .nav-links.mobile-open a {
+      color: #ffffff;
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .nav-links.mobile-open a:last-child {
+      border-bottom: none;
     }
 
     .hero-section {
