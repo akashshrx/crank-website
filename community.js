@@ -237,18 +237,18 @@
     // 4. Animation Loop & Gradual Bezier Motion Math
     // ----------------------------------------------------
     
-    // Standardized Theme Color Presets (Matching app.js & faq.js)
+    // Standardized Theme Color Presets (Darker gradient end colors from home screen)
     const themes = {
       day: {
-        topStart: new THREE.Color('#70c4ff'),
-        bottomStart: new THREE.Color('#bce3ff'),
+        topStart: new THREE.Color('#002d5a'),   // Darker blue end color from home light mode top
+        bottomStart: new THREE.Color('#005099'),// Darker blue end color from home light mode bottom
         starOpacity: 0.0,
         dirIntensity: 1.3,
         ambientColor: new THREE.Color('#dbeafe')
       },
       night: {
-        topStart: new THREE.Color('#09122c'),
-        bottomStart: new THREE.Color('#1a295c'),
+        topStart: new THREE.Color('#040a1c'),   // Darker midnight end color from home dark mode top
+        bottomStart: new THREE.Color('#0e1b38'),// Darker night horizon end color from home dark mode bottom
         starOpacity: 1.0,
         dirIntensity: 0.8,
         ambientColor: new THREE.Color('#1e293b')
