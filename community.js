@@ -338,22 +338,6 @@
     });
     themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
-    // ----------------------------------------------------
-    // Silky Smooth, Gradual 3D Catmull-Rom Bezier Path Setup
-    // ----------------------------------------------------
-    const flightControlPoints = [
-      new THREE.Vector3( -2.6,   0.4,  2.2 ),
-      new THREE.Vector3( -1.5,   1.2,  2.6 ),
-      new THREE.Vector3(  0.8,   1.4,  2.4 ),
-      new THREE.Vector3(  2.6,   0.6,  2.0 ),
-      new THREE.Vector3(  2.2,  -0.8,  2.2 ),
-      new THREE.Vector3(  0.2,  -1.3,  2.6 ),
-      new THREE.Vector3( -1.8,  -0.9,  2.5 ),
-      new THREE.Vector3( -2.8,  -0.2,  2.1 )
-    ];
-
-    const leaderSpline = new THREE.CatmullRomCurve3(flightControlPoints, true, 'centripetal');
-
     const clock = new THREE.Clock();
     let time = 0;
 
@@ -373,36 +357,42 @@
 
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (Ultra-Gradual 3D Catmull-Rom Bezier Path) ---
+      // --- LEADER FLIGHT TRAJECTORY (Infinitely Smooth C^infty Fourier Harmonic Curve) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Loop progress along continuous closed Bezier curve (0.021 loopSpeed for 30% faster sweeping motion)
-      const loopSpeed = 0.021;
-      const pathProgress = (time * loopSpeed) % 1.0;
+      // Continuous time harmonic phase angles (Infinitely smooth, zero joints, zero jerk!)
+      const f1 = time * 0.22;
+      const f2 = time * 0.11;
+      const f3 = time * 0.16;
 
-      // Sample position and forward tangent along the Bezier curve
-      const splinePoint = leaderSpline.getPointAt(pathProgress);
-      const splineTangent = leaderSpline.getTangentAt(pathProgress).normalize();
+      // Analytical 3D Curve Position (Strictly bounded on-screen)
+      leader.targetPos.x = Math.sin(f1) * 2.85 + Math.sin(f2) * 0.85;
+      leader.targetPos.y = Math.cos(f3) * 1.15 + Math.sin(f1 * 0.6) * 0.45;
+      leader.targetPos.z = Math.cos(f2) * 0.75 + 2.1;
 
-      leader.targetPos.copy(splinePoint);
-      leader.pos.lerp(leader.targetPos, 0.025); // Heavy inertia smoothing (eliminates sudden speed jumps)
+      // Heavy inertia position smoothing for silky buttery glide
+      leader.pos.lerp(leader.targetPos, 0.035);
       leader.mesh.position.copy(leader.pos);
 
-      // Orient leader along the smooth Bezier tangent vector
-      const lookTarget = new THREE.Vector3().addVectors(leader.pos, splineTangent);
+      // Analytical 1st Derivative Velocity Vector (Exact forward orientation)
+      const velX = Math.cos(f1) * (2.85 * 0.22) + Math.cos(f2) * (0.85 * 0.11);
+      const velY = -Math.sin(f3) * (1.15 * 0.16) + Math.cos(f1 * 0.6) * (0.45 * 0.132);
+      const velZ = -Math.sin(f2) * (0.75 * 0.11);
+      const smoothVel = new THREE.Vector3(velX, velY, velZ).normalize();
+
+      // Analytical 2nd Derivative Centripetal Acceleration (Exact banking)
+      const accelX = -Math.sin(f1) * (2.85 * 0.0484) - Math.sin(f2) * (0.85 * 0.0121);
+      const targetBank = THREE.MathUtils.clamp(-accelX * 18.0, -0.55, 0.55);
+
+      // Smooth orientation slerping along analytical velocity vector
+      const lookTarget = new THREE.Vector3().addVectors(leader.pos, smoothVel);
       dummyLook.position.copy(leader.pos);
       dummyLook.lookAt(lookTarget);
 
-      // Calculate smooth aerodynamic banking roll based on curve curvature
-      const nextProgress = (pathProgress + 0.008) % 1.0;
-      const nextTangent = leaderSpline.getTangentAt(nextProgress).normalize();
-      const crossBank = new THREE.Vector3().crossVectors(splineTangent, nextTangent);
-      const targetBank = THREE.MathUtils.clamp(crossBank.y * 28.0, -0.55, 0.55);
-
-      leader.currentBank += (targetBank - leader.currentBank) * 0.04;
+      leader.currentBank += (targetBank - leader.currentBank) * 0.05;
       dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), leader.currentBank);
-      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.04);
+      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.05);
 
       // --- FOLLOWER FLOCK (Gradual Organic Weaving & High-Inertia Lerping) ---
       const leaderMatrix = leader.mesh.matrixWorld;
@@ -411,10 +401,10 @@
         const boid = flock[i];
         boid.prevPos.copy(boid.pos);
 
-        // Individualized 3D Organic Weaving Equations along Bezier path
-        const waveX = Math.sin(pathProgress * 8.0 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
-        const waveY = Math.cos(pathProgress * 6.0 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
-        const waveZ = Math.sin(pathProgress * 9.0 + boid.wavePhaseX * 0.5) * 0.35;
+        // Individualized 3D Organic Weaving Equations
+        const waveX = Math.sin(time * 0.6 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
+        const waveY = Math.cos(time * 0.45 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
+        const waveZ = Math.sin(time * 0.7 + boid.wavePhaseX * 0.5) * 0.35;
 
         // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
@@ -438,11 +428,11 @@
           dummyLook.lookAt(boidLook);
 
           // Synchronized organic wing roll per boid
-          const targetRoll = Math.sin(pathProgress * 6.0 + boid.wavePhaseX) * 0.22;
+          const targetRoll = Math.sin(time * 0.5 + boid.wavePhaseX) * 0.22;
           boid.currentBank += (targetRoll - boid.currentBank) * 0.04;
           dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), boid.currentBank);
 
-          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.035);
+          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.04);
         }
       }
 
