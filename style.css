@@ -2385,26 +2385,20 @@ body.space-night-theme .footer-sublink:hover {
 }
 
 .faq-accordion-container {
-  max-width: 1000px;
+  max-width: 820px;
   margin: 0 auto 2.5rem auto;
   padding: 0 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1.25rem;
-  align-items: start;
+  align-items: stretch;
 }
 
 .faq-column {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .faq-accordion-container {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
+  gap: 1.25rem;
+  width: 100%;
 }
 
 .faq-item {

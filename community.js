@@ -18,8 +18,8 @@
     // 1. Scene, Camera, Renderer & Lighting Setup
     // ----------------------------------------------------
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 300);
-    camera.position.set(0, 0, 14);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.set(0, 0, 10);
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
@@ -38,7 +38,6 @@
     const textureLoader = new THREE.TextureLoader();
     const cloudTexture = textureLoader.load(window.CLOUD_TEXTURE_BASE64 || 'cloud.png');
     const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
-    clouds.position.set(0, 0, -15);
     scene.add(clouds);
 
     // Dynamic 3D Lights
@@ -155,14 +154,14 @@
 
     // Leader Plane
     const leaderMesh = createPaperPlaneMesh();
-    const leaderScale = 0.32;
+    const leaderScale = 0.28;
     leaderMesh.scale.set(leaderScale, leaderScale, leaderScale);
     scene.add(leaderMesh);
 
     flock.push({
       mesh: leaderMesh,
       isLeader: true,
-      pos: new THREE.Vector3(1.5, 0.8, 3.5),
+      pos: new THREE.Vector3(1.2, 0.6, 2.5),
       targetPos: new THREE.Vector3(),
       prevPos: new THREE.Vector3(),
       scale: leaderScale,
@@ -173,7 +172,7 @@
     // Followers (35 Paper Planes)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh();
-      const scale = 0.16 + Math.random() * 0.14; // Varied sizes for depth perspective
+      const scale = 0.14 + Math.random() * 0.12; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
@@ -182,9 +181,9 @@
       const side = (i % 2 === 0 ? 1 : -1);
       const rowOffset = (i % 4);
 
-      const offsetX = side * (0.65 + layer * 0.55 + Math.random() * 0.3);
-      const offsetY = (Math.random() - 0.5) * 1.2;
-      const offsetZ = - (layer * 0.85 + rowOffset * 0.35 + Math.random() * 0.4);
+      const offsetX = side * (0.6 + layer * 0.5 + Math.random() * 0.25);
+      const offsetY = (Math.random() - 0.5) * 1.1;
+      const offsetZ = - (layer * 0.8 + rowOffset * 0.3 + Math.random() * 0.35);
 
       flock.push({
         mesh: mesh,
@@ -199,16 +198,8 @@
       });
     }
 
-    // Interactive Mouse Tilt Effect
-    let mouseX = 0;
-    let mouseY = 0;
-    window.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    });
-
     // ----------------------------------------------------
-    // 4. Animation Loop & Murmuration Math
+    // 4. Animation Loop & Automatic Murmuration Math
     // ----------------------------------------------------
     const clock = new THREE.Clock();
     let time = 0;
@@ -219,21 +210,24 @@
       const delta = clock.getDelta();
       time += delta * 0.85;
 
-      // Update Sky & Cloud shaders
+      // Update Sky Shader & Cloud Sprites
+      if (skyBackground.material && skyBackground.material.uniforms.uTime) {
+        skyBackground.material.uniforms.uTime.value = time;
+      }
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (Sweeping 3D Path in Front of Clouds) ---
+      // --- LEADER FLIGHT TRAJECTORY (Autonomous Sweeping 3D Path) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Fluid 3D trajectory positioned in front of cloud layer (Z: 2.0 to 4.5)
-      const radiusX = 6.2;
-      const radiusY = 2.8;
+      // Smooth, autonomous 3D Lissajous flight path
+      const radiusX = 5.2;
+      const radiusY = 2.4;
       const radiusZ = 1.2;
 
-      leader.pos.x = Math.sin(time * 0.48) * radiusX + Math.cos(time * 0.22) * 1.4 + mouseX * 1.2;
-      leader.pos.y = Math.sin(time * 0.68 + 0.3) * radiusY + Math.sin(time * 0.32) * 0.9 - mouseY * 1.0;
-      leader.pos.z = Math.cos(time * 0.38) * radiusZ + 3.2; // Keep in front of cloud rendering layer
+      leader.pos.x = Math.sin(time * 0.45) * radiusX + Math.cos(time * 0.2) * 1.2;
+      leader.pos.y = Math.sin(time * 0.65 + 0.3) * radiusY + Math.sin(time * 0.3) * 0.8;
+      leader.pos.z = Math.cos(time * 0.35) * radiusZ + 2.5;
 
       leader.mesh.position.copy(leader.pos);
 
