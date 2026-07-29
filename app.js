@@ -482,6 +482,37 @@ document.addEventListener('DOMContentLoaded', () => {
       "+=0.3"
     )
     .to({}, { duration: 0.4 }); // Hold state
+
+    // Glassmorphic appear animation for "One more thing..." eyebrow label on scroll
+    gsap.fromTo(".dictation-eyebrow", 
+      {
+        opacity: 0,
+        y: 35,
+        scale: 0.75,
+        filter: "blur(10px)"
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
+        duration: 1.0,
+        ease: "back.out(1.7)",
+        scrollTrigger: {
+          trigger: ".dictation-section",
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+          onEnter: () => {
+            const eyebrow = document.querySelector('.dictation-eyebrow');
+            if (eyebrow) eyebrow.classList.add('is-visible');
+          },
+          onLeaveBack: () => {
+            const eyebrow = document.querySelector('.dictation-eyebrow');
+            if (eyebrow) eyebrow.classList.remove('is-visible');
+          }
+        }
+      }
+    );
   }
 
   // Smooth scroll for nav links using Lenis

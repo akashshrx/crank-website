@@ -2616,14 +2616,56 @@ body.space-night-theme .footer-sublink:hover {
 }
 
 .dictation-eyebrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: #38bdf8;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 0.45rem 1.25rem;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 0 24px rgba(56, 189, 248, 0.2);
+  position: relative;
+  overflow: hidden;
+  will-change: transform, opacity, filter;
+  opacity: 0;
+}
+
+.dictation-eyebrow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+}
+
+.dictation-eyebrow.is-visible::after {
+  animation: glassShimmer 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+@keyframes glassShimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
 }
 
 .dictation-title {
