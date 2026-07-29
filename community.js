@@ -12,6 +12,8 @@
     const canvas = document.getElementById('webgl-canvas');
     if (!canvas || typeof THREE === 'undefined') return;
 
+    canvas.style.opacity = '1';
+
     // ----------------------------------------------------
     // 1. Scene, Camera, Renderer & Lighting Setup
     // ----------------------------------------------------
@@ -152,7 +154,7 @@
 
     // Leader Plane
     const leaderMesh = createPaperPlaneMesh();
-    const leaderScale = 0.22;
+    const leaderScale = 0.28;
     leaderMesh.scale.set(leaderScale, leaderScale, leaderScale);
     scene.add(leaderMesh);
 
@@ -167,10 +169,10 @@
       wavePhase: 0
     });
 
-    // Followers
+    // Followers (35 Paper Planes)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh();
-      const scale = 0.10 + Math.random() * 0.09; // Varied sizes for depth perspective
+      const scale = 0.14 + Math.random() * 0.12; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
@@ -179,9 +181,9 @@
       const side = (i % 2 === 0 ? 1 : -1);
       const rowOffset = (i % 4);
 
-      const offsetX = side * (0.8 + layer * 0.75 + Math.random() * 0.4);
-      const offsetY = (Math.random() - 0.5) * 1.5;
-      const offsetZ = - (layer * 1.2 + rowOffset * 0.5 + Math.random() * 0.6);
+      const offsetX = side * (1.0 + layer * 0.85 + Math.random() * 0.5);
+      const offsetY = (Math.random() - 0.5) * 1.8;
+      const offsetZ = - (layer * 1.4 + rowOffset * 0.6 + Math.random() * 0.8);
 
       flock.push({
         mesh: mesh,
