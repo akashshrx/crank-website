@@ -38,6 +38,7 @@
     const textureLoader = new THREE.TextureLoader();
     const cloudTexture = textureLoader.load(window.CLOUD_TEXTURE_BASE64 || 'cloud.png');
     const clouds = new THREE.Clouds(cloudTexture, skyBackground, camera);
+    clouds.position.set(0, 0, -15);
     scene.add(clouds);
 
     // Dynamic 3D Lights
