@@ -204,6 +204,95 @@
     // ----------------------------------------------------
     // 4. Animation Loop & Bounded Organic Murmuration Math
     // ----------------------------------------------------
+    
+    // Standardized Theme Color Presets (Matching app.js & faq.js)
+    const themes = {
+      day: {
+        topStart: new THREE.Color('#70c4ff'),
+        bottomStart: new THREE.Color('#bce3ff'),
+        starOpacity: 0.0,
+        dirIntensity: 1.3,
+        ambientColor: new THREE.Color('#dbeafe')
+      },
+      night: {
+        topStart: new THREE.Color('#09122c'),
+        bottomStart: new THREE.Color('#1a295c'),
+        starOpacity: 1.0,
+        dirIntensity: 0.8,
+        ambientColor: new THREE.Color('#1e293b')
+      }
+    };
+
+    const activeThemeColors = {
+      topStart: themes.day.topStart.clone(),
+      bottomStart: themes.day.bottomStart.clone(),
+      starOpacity: 0.0,
+      dirIntensity: 1.3,
+      ambientColor: themes.day.ambientColor.clone()
+    };
+
+    const dayBtn = document.getElementById('theme-btn-day');
+    const nightBtn = document.getElementById('theme-btn-night');
+
+    // Standardized 2.2s GSAP Color Interpolation (Identical to Home Screen)
+    function updateTheme(isNight, transition = true) {
+      const target = isNight ? themes.night : themes.day;
+
+      if (transition && typeof gsap !== 'undefined') {
+        gsap.to(activeThemeColors.topStart, {
+          r: target.topStart.r, g: target.topStart.g, b: target.topStart.b,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors.bottomStart, {
+          r: target.bottomStart.r, g: target.bottomStart.g, b: target.bottomStart.b,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors, {
+          starOpacity: target.starOpacity,
+          dirIntensity: target.dirIntensity,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors.ambientColor, {
+          r: target.ambientColor.r, g: target.ambientColor.g, b: target.ambientColor.b,
+          duration: 2.2, ease: "power2.out"
+        });
+      } else {
+        activeThemeColors.topStart.copy(target.topStart);
+        activeThemeColors.bottomStart.copy(target.bottomStart);
+        activeThemeColors.starOpacity = target.starOpacity;
+        activeThemeColors.dirIntensity = target.dirIntensity;
+        activeThemeColors.ambientColor.copy(target.ambientColor);
+      }
+
+      if (isNight) {
+        document.body.classList.add('space-night-theme');
+        if (dayBtn) dayBtn.classList.remove('active');
+        if (nightBtn) nightBtn.classList.add('active');
+      } else {
+        document.body.classList.remove('space-night-theme');
+        if (dayBtn) dayBtn.classList.add('active');
+        if (nightBtn) nightBtn.classList.remove('active');
+      }
+    }
+
+    if (dayBtn) {
+      dayBtn.addEventListener('click', () => updateTheme(false));
+    }
+
+    if (nightBtn) {
+      nightBtn.addEventListener('click', () => updateTheme(true));
+    }
+
+    // Initialize initial state based on current body class
+    const initialNight = document.body.classList.contains('space-night-theme');
+    updateTheme(initialNight, false);
+
+    const themeObserver = new MutationObserver(() => {
+      const isNight = document.body.classList.contains('space-night-theme');
+      updateTheme(isNight, true);
+    });
+    themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
     const clock = new THREE.Clock();
     let time = 0;
 
@@ -310,93 +399,5 @@
       clouds.resize(camera);
     }
     window.addEventListener('resize', onResize);
-
-    // Standardized Theme Color Presets (Matching app.js & faq.js)
-    const themes = {
-      day: {
-        topStart: new THREE.Color('#70c4ff'),
-        bottomStart: new THREE.Color('#bce3ff'),
-        starOpacity: 0.0,
-        dirIntensity: 1.3,
-        ambientColor: new THREE.Color('#dbeafe')
-      },
-      night: {
-        topStart: new THREE.Color('#09122c'),
-        bottomStart: new THREE.Color('#1a295c'),
-        starOpacity: 1.0,
-        dirIntensity: 0.8,
-        ambientColor: new THREE.Color('#1e293b')
-      }
-    };
-
-    const activeThemeColors = {
-      topStart: themes.day.topStart.clone(),
-      bottomStart: themes.day.bottomStart.clone(),
-      starOpacity: 0.0,
-      dirIntensity: 1.3,
-      ambientColor: themes.day.ambientColor.clone()
-    };
-
-    const dayBtn = document.getElementById('theme-btn-day');
-    const nightBtn = document.getElementById('theme-btn-night');
-
-    // Standardized 2.2s GSAP Color Interpolation (Identical to Home Screen)
-    function updateTheme(isNight, transition = true) {
-      const target = isNight ? themes.night : themes.day;
-
-      if (transition && typeof gsap !== 'undefined') {
-        gsap.to(activeThemeColors.topStart, {
-          r: target.topStart.r, g: target.topStart.g, b: target.topStart.b,
-          duration: 2.2, ease: "power2.out"
-        });
-        gsap.to(activeThemeColors.bottomStart, {
-          r: target.bottomStart.r, g: target.bottomStart.g, b: target.bottomStart.b,
-          duration: 2.2, ease: "power2.out"
-        });
-        gsap.to(activeThemeColors, {
-          starOpacity: target.starOpacity,
-          dirIntensity: target.dirIntensity,
-          duration: 2.2, ease: "power2.out"
-        });
-        gsap.to(activeThemeColors.ambientColor, {
-          r: target.ambientColor.r, g: target.ambientColor.g, b: target.ambientColor.b,
-          duration: 2.2, ease: "power2.out"
-        });
-      } else {
-        activeThemeColors.topStart.copy(target.topStart);
-        activeThemeColors.bottomStart.copy(target.bottomStart);
-        activeThemeColors.starOpacity = target.starOpacity;
-        activeThemeColors.dirIntensity = target.dirIntensity;
-        activeThemeColors.ambientColor.copy(target.ambientColor);
-      }
-
-      if (isNight) {
-        document.body.classList.add('space-night-theme');
-        if (dayBtn) dayBtn.classList.remove('active');
-        if (nightBtn) nightBtn.classList.add('active');
-      } else {
-        document.body.classList.remove('space-night-theme');
-        if (dayBtn) dayBtn.classList.add('active');
-        if (nightBtn) nightBtn.classList.remove('active');
-      }
-    }
-
-    if (dayBtn) {
-      dayBtn.addEventListener('click', () => updateTheme(false));
-    }
-
-    if (nightBtn) {
-      nightBtn.addEventListener('click', () => updateTheme(true));
-    }
-
-    // Initialize initial state based on current body class
-    const initialNight = document.body.classList.contains('space-night-theme');
-    updateTheme(initialNight, false);
-
-    const themeObserver = new MutationObserver(() => {
-      const isNight = document.body.classList.contains('space-night-theme');
-      updateTheme(isNight, true);
-    });
-    themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   });
 })();
