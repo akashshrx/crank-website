@@ -178,7 +178,7 @@
 
     // Leader Plane
     const leaderMesh = createPaperPlaneMesh(0);
-    const leaderScale = 0.28;
+    const leaderScale = 0.364; // 30% larger (0.28 * 1.30)
     leaderMesh.scale.set(leaderScale, leaderScale, leaderScale);
     scene.add(leaderMesh);
 
@@ -193,10 +193,10 @@
       currentBank: 0
     });
 
-    // Followers (17 Paper Planes - Organic wide 3D starling cloud with subtle tints)
+    // Followers (17 Paper Planes - 30% larger, organic wide 3D starling cloud with subtle tints)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh(i);
-      const scale = 0.11 + Math.random() * 0.12; // Varied sizes for depth perspective
+      const scale = 0.143 + Math.random() * 0.156; // 30% larger scale range for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
