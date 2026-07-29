@@ -32,149 +32,99 @@
   <link rel="stylesheet" href="style.css?v=59">
 
   <style>
-    .privacy-container {
-      max-width: 860px;
+    body {
+      background-color: #ffffff !important;
+      color: #121210;
+      font-family: var(--font-sans);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 780px;
       margin: 0 auto;
       padding: 130px 1.5rem 80px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .privacy-header-block {
-      text-align: center;
-      margin-bottom: 3.5rem;
-    }
-
-    .privacy-page-title {
-      font-family: var(--font-sans);
-      font-size: clamp(2.4rem, 4.8vw, 3.8rem);
-      font-weight: 900;
-      color: var(--color-primary);
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-
-    .privacy-page-subtitle {
-      font-family: var(--font-sans);
-      font-size: 1.15rem;
-      color: var(--text-subtle);
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    .privacy-glass-card {
-      padding: 3rem;
-      margin-bottom: 2rem;
       box-sizing: border-box;
     }
 
-    .privacy-glass-card h2 {
-      font-family: var(--font-sans);
-      font-size: 1.6rem;
-      font-weight: 800;
+    .container h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
       letter-spacing: -0.02em;
-      color: var(--color-primary);
-      margin-bottom: 1.25rem;
-      margin-top: 1.5rem;
+      color: #121210;
+      margin-bottom: 1.5rem;
+      line-height: 1.15;
     }
 
-    .privacy-glass-card h2:first-child {
-      margin-top: 0;
+    .container h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #121210;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
     }
 
-    .privacy-glass-card h3 {
+    .container h3 {
       font-family: var(--font-sans);
       font-size: 1.25rem;
       font-weight: 700;
-      color: var(--color-primary);
-      margin-top: 1.5rem;
+      color: #121210;
+      margin-top: 1.75rem;
       margin-bottom: 0.75rem;
     }
 
-    .privacy-glass-card p {
+    .container p {
       font-family: var(--font-sans);
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       line-height: 1.7;
-      color: var(--text-muted);
+      color: #444440;
       margin-bottom: 1.25rem;
     }
 
-    .privacy-glass-card ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 1.5rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .container ul {
+      margin: 0 0 1.75rem 0;
+      padding-left: 1.25rem;
     }
 
-    .privacy-glass-card li {
+    .container li {
       font-family: var(--font-sans);
       font-size: 1.05rem;
-      line-height: 1.65;
-      color: var(--text-muted);
-      padding-left: 1.75rem;
-      position: relative;
+      line-height: 1.7;
+      color: #444440;
+      margin-bottom: 0.85rem;
     }
 
-    .privacy-glass-card li::before {
-      content: "✦";
-      position: absolute;
-      left: 0;
-      top: 0.1em;
-      color: #38bdf8;
-      font-size: 1.1rem;
+    .caveat-highlight {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0088cc;
+      display: inline-block;
+      padding: 0 2px;
+    }
+
+    .brand-emphasis {
+      font-weight: 700;
+      color: #121210;
+    }
+
+    .inline-link {
+      color: #0088cc;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+
+    .inline-link:hover {
+      color: #0099e6;
     }
   </style>
 </head>
-<body data-cursor-color="blue" class="privacy-page">
-
-  <!-- WebGL Background Canvas -->
-  <canvas id="webgl-canvas"></canvas>
-
-  <!-- Floating Theme Switcher (Day/Space Night) -->
-  <div class="theme-switcher">
-    <button id="theme-btn-day" class="theme-btn active" title="Day Mode">
-      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="5"></circle>
-        <line x1="12" y1="1" x2="12" y2="3"></line>
-        <line x1="12" y1="21" x2="12" y2="23"></line>
-        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-        <line x1="1" y1="12" x2="3" y2="12"></line>
-        <line x1="21" y1="12" x2="23" y2="12"></line>
-        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-      </svg>
-    </button>
-    <button id="theme-btn-night" class="theme-btn" title="Space Night Mode">
-      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="6" />
-        <path d="M2.07 16.24A10 10 0 0 1 21.93 7.76" />
-        <path d="M2.07 16.24a10 10 0 0 0 19.86-8.48" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Background SVG Grid -->
-  <div class="grid-backdrop" aria-hidden="true">
-    <svg width="100%" height="100%">
-      <defs>
-        <pattern id="grid-pattern" width="48" height="48" patternUnits="userSpaceOnUse">
-          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(18,18,16,0.025)" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#grid-pattern)" />
-    </svg>
-  </div>
-
-  <!-- Vertical Guide Lines -->
-  <div class="vertical-guides" aria-hidden="true">
-    <div class="guide-line left"></div>
-    <div class="guide-line right"></div>
-  </div>
+<body class="privacy-page">
 
   <!-- Header Navigation -->
   <header class="site-header">
@@ -205,46 +155,43 @@
     </div>
   </header>
 
-  <main class="privacy-container">
-    <div class="privacy-header-block">
-      <h1 class="privacy-page-title">Privacy <span class="caveat-highlight">Policy</span></h1>
-      <p class="privacy-page-subtitle">Your data stays under your control. Learn about how we process transient payloads securely.</p>
-    </div>
+  <div class="container">
+    <h1>Privacy Policy</h1>
 
-    <div class="glass-card bento-card privacy-glass-card">
-      <p>At Glide, we <span class="caveat-highlight">prioritize your privacy</span> and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data <span class="caveat-highlight">under your control</span> while maintaining compliance with relevant frameworks, including GDPR.</p>
+    <p>At Glide, we <span class="caveat-highlight">prioritize your privacy</span> and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data <span class="caveat-highlight">under your control</span> while maintaining compliance with relevant frameworks, including GDPR.</p>
 
-      <h2>1. Notice</h2>
-      <p>Whenever we collect information that could be used to personally identify you, we will explicitly ask for your provision and permission. This policy ensures that you are <span class="caveat-highlight">fully informed and consenting</span> to the collection of your personal data.</p>
+    <p>This Privacy Policy applies to the Glide website and application service, governing the use of services provided by Glide to its users.</p>
 
-      <h2>2. Your Consent</h2>
-      <p>You always have the option to <span class="caveat-highlight">grant or withhold permission</span> for us to process your information.</p>
+    <h2>1. Notice</h2>
+    <p>Whenever we collect information that could be used to personally identify you, we will explicitly ask for your provision and permission. This policy ensures that you are <span class="caveat-highlight">fully informed and consenting</span> to the collection of your personal data.</p>
 
-      <h2>3. Usage & Processing</h2>
-      
-      <h3>3.1 Transient Payloads (Processed in the Moment)</h3>
-      <p>Glide operates with a modern cloud-based architecture to deliver high-agency capabilities. When you invoke commands or trigger workflows, payloads containing screenshots, active application contexts, and voice or text prompts are transiently transmitted through our secure backend to our AI providers. <strong><span class="caveat-highlight">We do NOT store or persist</span> your prompts, chat history, or screen contexts anywhere on our servers.</strong> Payloads are processed on-the-fly to return your response and are immediately discarded.</p>
+    <h2>2. Your Consent</h2>
+    <p>You always have the option to <span class="caveat-highlight">grant or withhold permission</span> for us to process your information.</p>
 
-      <h3>3.2 Authentication & Billing Data</h3>
-      <p>We collect and retain limited data necessary for accounts and subscription management:</p>
-      <ul>
-        <li><strong>Google OAuth:</strong> We authenticate users via Google Sign-In. We store basic metadata associated with your Google account (email address and name) to verify access.</li>
-        <li><strong>Stripe:</strong> We utilize Stripe for payment processing. Billing details are handled securely by Stripe in accordance with PCI standards.</li>
-      </ul>
+    <h2>3. Usage & Processing</h2>
+    
+    <h3>3.1 Transient Payloads (Processed in the Moment)</h3>
+    <p>Glide operates with a modern cloud-based architecture to deliver high-agency capabilities. When you invoke commands or trigger workflows, payloads containing screenshots, active application contexts, and voice or text prompts are transiently transmitted through our secure backend to our AI providers. <strong><span class="caveat-highlight">We do NOT store or persist</span> your prompts, chat history, or screen contexts anywhere on our servers.</strong> Payloads are processed on-the-fly to return your response and are immediately discarded.</p>
 
-      <h3>3.3 Third-Party AI Providers</h3>
-      <p>Glide relies on third-party AI partners (including Anthropic, OpenAI, and ElevenLabs) to power assistant features, voice outputs, and system actions. Payload contexts are securely proxied to these partners for immediate response generation. <span class="caveat-highlight">We do not sell your data</span> under any circumstances.</p>
+    <h3>3.2 Authentication & Billing Data</h3>
+    <p>We collect and retain limited data necessary for accounts and subscription management:</p>
+    <ul>
+      <li><strong>Google OAuth:</strong> We authenticate users via Google Sign-In. We store basic metadata associated with your Google account (email address and name) to verify access.</li>
+      <li><strong>Stripe:</strong> We utilize Stripe for payment processing. Billing details are handled securely by Stripe in accordance with PCI standards.</li>
+    </ul>
 
-      <h3>3.4 Data Security</h3>
-      <p>All transient payloads and retained credential metadata are <span class="caveat-highlight">encrypted during transit</span> (using Transport Layer Security / TLS).</p>
+    <h3>3.3 Third-Party AI Providers</h3>
+    <p>Glide relies on third-party AI partners (including Anthropic, OpenAI, and ElevenLabs) to power assistant features, voice outputs, and system actions. Payload contexts are securely proxied to these partners for immediate response generation. <span class="caveat-highlight">We do not sell your data</span> under any circumstances.</p>
 
-      <h2>4. Retention of Information</h2>
-      <p>We retain account and billing identifiers for as long as necessary to provide you with Glide's services. All personally identifiable information will be <span class="caveat-highlight">deleted upon account deletion</span>.</p>
+    <h3>3.4 Data Security</h3>
+    <p>All transient payloads and retained credential metadata are <span class="caveat-highlight">encrypted during transit</span> (using Transport Layer Security / TLS).</p>
 
-      <h2>5. Your Rights</h2>
-      <p>In accordance with GDPR regulations, you are entitled to access, rectify, or erase your personally identifiable information at any time by contacting <a href="mailto:support@glide.inc" class="inline-link">support@glide.inc</a>.</p>
-    </div>
-  </main>
+    <h2>4. Retention of Information</h2>
+    <p>We retain account and billing identifiers for as long as necessary to provide you with Glide's services. All personally identifiable information will be <span class="caveat-highlight">deleted upon account deletion</span>.</p>
+
+    <h2>5. Your Rights</h2>
+    <p>In accordance with GDPR regulations, you are entitled to access, rectify, or erase your personally identifiable information at any time by contacting <a href="mailto:support@glide.inc" class="inline-link">support@glide.inc</a>.</p>
+  </div>
 
   <!-- macOS Dock Footer -->
   <footer class="dock-footer">
@@ -254,7 +201,7 @@
       </div>
       <div class="dock-icon-wrapper">
         <a href="index.html" class="dock-icon" title="Glide Home">
-          <img src="logo_dark.png?v=59" alt="Glide Dock Logo" class="glide-dock-img" id="faq-dock-logo">
+          <img src="logo_dark.png?v=59" alt="Glide Dock Logo" class="glide-dock-img" id="privacy-dock-logo">
         </a>
       </div>
       <div class="dock-text">
@@ -264,17 +211,24 @@
     </div>
   </footer>
 
-  <!-- GSAP & Lenis Libraries for Scroll Animations -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+  <script>
+    const footerYear = document.getElementById('footer-year');
+    if (footerYear) footerYear.textContent = new Date().getFullYear();
 
-  <!-- Three.js for WebGL Background Animations -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="sky.js?v=39"></script>
-  <script src="ImprovedNoise.js"></script>
-
-  <!-- FAQ / Theme JavaScript -->
-  <script src="faq.js"></script>
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    if (mobileMenuBtn && navLinks) {
+      mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = navLinks.classList.toggle('mobile-open');
+        const hamburger = mobileMenuBtn.querySelector('.hamburger-icon');
+        const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+        if (hamburger && closeIcon) {
+          hamburger.style.display = isOpen ? 'none' : 'block';
+          closeIcon.style.display = isOpen ? 'block' : 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
