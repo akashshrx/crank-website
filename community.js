@@ -172,21 +172,21 @@
       wavePhase: 0
     });
 
-    // Followers (17 Paper Planes - Bounded safely inside viewport)
+    // Followers (17 Paper Planes - Organic wide 3D starling cloud)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh();
-      const scale = 0.13 + Math.random() * 0.11; // Varied sizes for depth perspective
+      const scale = 0.11 + Math.random() * 0.12; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
-      // Distribute in a spacious, bounded 3D starling murmuration behind leader
-      const layer = Math.floor(i / 3);
-      const side = (i % 2 === 0 ? 1 : -1);
-      const rowOffset = (i % 3);
+      // Organic wide 3D spatial distribution (No rigid V-shape grid!)
+      const radius = 1.8 + Math.random() * 3.2; // Spacious 3D radius spread
+      const theta = Math.random() * Math.PI * 2; // Random angle around flight axis
+      const phi = (Math.random() - 0.5) * Math.PI * 0.85; // Random vertical inclination
 
-      const offsetX = side * (0.8 + layer * 0.65 + Math.random() * 0.35);
-      const offsetY = (Math.random() - 0.5) * 1.6;
-      const offsetZ = - (layer * 1.1 + rowOffset * 0.4 + Math.random() * 0.4);
+      const offsetX = Math.cos(theta) * radius * 1.7; // Wide lateral spread across screen
+      const offsetY = Math.sin(phi) * radius * 1.25;  // Wide vertical spread
+      const offsetZ = - (1.0 + Math.random() * 5.0); // Spacious trailing ribbon behind leader
 
       flock.push({
         mesh: mesh,
@@ -196,8 +196,13 @@
         prevPos: new THREE.Vector3(),
         scale: scale,
         offset: new THREE.Vector3(offsetX, offsetY, offsetZ),
-        wavePhase: Math.random() * Math.PI * 2,
-        delayFactor: 0.04 + layer * 0.02
+        wavePhaseX: Math.random() * Math.PI * 2,
+        wavePhaseY: Math.random() * Math.PI * 2,
+        waveSpeedX: 1.1 + Math.random() * 1.5,
+        waveSpeedY: 0.8 + Math.random() * 1.3,
+        waveAmpX: 0.65 + Math.random() * 0.75,
+        waveAmpY: 0.55 + Math.random() * 0.65,
+        lerpRate: 0.035 + Math.random() * 0.035
       });
     }
 
@@ -370,18 +375,17 @@
       dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), bankAmount);
       leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.08);
 
-      // --- FOLLOWER FLOCK (Smooth Wave Sync & Quaternion Slerping) ---
+      // --- FOLLOWER FLOCK (Organic Individualized Weaving & Fluid Boid Lerping) ---
       const leaderMatrix = leader.mesh.matrixWorld;
 
       for (let i = 1; i < FLOCK_SIZE; i++) {
         const boid = flock[i];
         boid.prevPos.copy(boid.pos);
 
-        // Organic Starling Murmuration Wave Equations along Bezier path
-        const waveOffset = pathProgress * 8.0 + boid.wavePhase;
-        const waveX = Math.sin(waveOffset) * 0.4;
-        const waveY = Math.cos(waveOffset * 1.3) * 0.45;
-        const waveZ = Math.sin(waveOffset * 0.7) * 0.35;
+        // Individualized 3D Organic Weaving Equations along Bezier path
+        const waveX = Math.sin(pathProgress * 12.0 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
+        const waveY = Math.cos(pathProgress * 9.0 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
+        const waveZ = Math.sin(pathProgress * 14.0 + boid.wavePhaseX * 0.5) * 0.45;
 
         // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
@@ -393,8 +397,8 @@
         // Transform local offset to world space aligned with leader direction
         const worldTarget = localOffset.applyMatrix4(leaderMatrix);
         
-        // Fluid position lerp (creates organic flocking lag)
-        boid.pos.lerp(worldTarget, 0.045);
+        // Fluid position lerp with unique boid lerp rates (creates organic flocking wave propagation)
+        boid.pos.lerp(worldTarget, boid.lerpRate);
         boid.mesh.position.copy(boid.pos);
 
         // Smooth Quaternion Slerp for Follower Rotations
@@ -404,8 +408,8 @@
           dummyLook.position.copy(boid.pos);
           dummyLook.lookAt(boidLook);
 
-          // Synchronized organic wing roll
-          const rollAngle = Math.sin(waveOffset * 0.8) * 0.25;
+          // Synchronized organic wing roll per boid
+          const rollAngle = Math.sin(pathProgress * 10.0 + boid.wavePhaseX) * 0.25;
           dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), rollAngle);
 
           boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.07);
