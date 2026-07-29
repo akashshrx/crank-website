@@ -265,18 +265,5 @@
 
   <!-- FAQ / Theme JavaScript -->
   <script src="faq.js"></script>
-  <script>
-    // Theme toggle logo sync for community page
-    window.addEventListener('DOMContentLoaded', () => {
-      const observer = new MutationObserver(() => {
-        const isNight = document.body.classList.contains('space-night-theme');
-        const commLogo = document.getElementById('community-logo-img');
-        if (commLogo) {
-          commLogo.src = isNight ? 'logo_white.png?v=59' : 'logo_dark.png?v=59';
-        }
-      });
-      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-    });
-  </script>
 </body>
 </html>

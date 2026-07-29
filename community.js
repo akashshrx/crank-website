@@ -154,14 +154,14 @@
 
     // Leader Plane
     const leaderMesh = createPaperPlaneMesh();
-    const leaderScale = 0.28;
+    const leaderScale = 0.32;
     leaderMesh.scale.set(leaderScale, leaderScale, leaderScale);
     scene.add(leaderMesh);
 
     flock.push({
       mesh: leaderMesh,
       isLeader: true,
-      pos: new THREE.Vector3(),
+      pos: new THREE.Vector3(1.5, 0.8, 3.5),
       targetPos: new THREE.Vector3(),
       prevPos: new THREE.Vector3(),
       scale: leaderScale,
@@ -172,7 +172,7 @@
     // Followers (35 Paper Planes)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh();
-      const scale = 0.14 + Math.random() * 0.12; // Varied sizes for depth perspective
+      const scale = 0.16 + Math.random() * 0.14; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
@@ -181,9 +181,9 @@
       const side = (i % 2 === 0 ? 1 : -1);
       const rowOffset = (i % 4);
 
-      const offsetX = side * (1.0 + layer * 0.85 + Math.random() * 0.5);
-      const offsetY = (Math.random() - 0.5) * 1.8;
-      const offsetZ = - (layer * 1.4 + rowOffset * 0.6 + Math.random() * 0.8);
+      const offsetX = side * (0.65 + layer * 0.55 + Math.random() * 0.3);
+      const offsetY = (Math.random() - 0.5) * 1.2;
+      const offsetZ = - (layer * 0.85 + rowOffset * 0.35 + Math.random() * 0.4);
 
       flock.push({
         mesh: mesh,
@@ -221,18 +221,18 @@
       // Update Sky & Cloud shaders
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (Sweeping 3D Path) ---
+      // --- LEADER FLIGHT TRAJECTORY (Sweeping 3D Path in Front of Clouds) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Fluid 3D Lissajous trajectory with gentle sinusoidal waves
-      const radiusX = 8.5;
-      const radiusY = 3.8;
-      const radiusZ = 4.0;
+      // Fluid 3D trajectory positioned in front of cloud layer (Z: 2.0 to 4.5)
+      const radiusX = 6.2;
+      const radiusY = 2.8;
+      const radiusZ = 1.2;
 
-      leader.pos.x = Math.sin(time * 0.45) * radiusX + Math.cos(time * 0.2) * 2.0 + mouseX * 1.5;
-      leader.pos.y = Math.sin(time * 0.65 + 0.4) * radiusY + Math.sin(time * 0.3) * 1.2 - mouseY * 1.2;
-      leader.pos.z = Math.cos(time * 0.35) * radiusZ - 1.5;
+      leader.pos.x = Math.sin(time * 0.48) * radiusX + Math.cos(time * 0.22) * 1.4 + mouseX * 1.2;
+      leader.pos.y = Math.sin(time * 0.68 + 0.3) * radiusY + Math.sin(time * 0.32) * 0.9 - mouseY * 1.0;
+      leader.pos.z = Math.cos(time * 0.38) * radiusZ + 3.2; // Keep in front of cloud rendering layer
 
       leader.mesh.position.copy(leader.pos);
 
