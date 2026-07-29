@@ -1061,28 +1061,47 @@
     font-family: var(--font-sans);
     font-size: 0.85rem;
     font-weight: 600;
-    color: #121210;
+    color: #ffffff;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     user-select: none;
     white-space: nowrap;
-    text-shadow: none;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 
   .footer-sublink {
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
-    color: #555550;
+    color: rgba(255, 255, 255, 0.85);
     letter-spacing: inherit;
     text-transform: inherit;
     text-decoration: none;
     transition: color 0.2s ease, text-shadow 0.2s ease;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 
   .footer-sublink:hover {
-    color: #0088cc;
+    color: #ffffff;
     text-decoration: underline;
+  }
+
+  /* White background pages (Creator Program & Privacy Policy) */
+  body.creator-page:not(.space-night-theme) .dock-text,
+  body.privacy-page:not(.space-night-theme) .dock-text {
+    color: #121210;
+    text-shadow: none;
+  }
+
+  body.creator-page:not(.space-night-theme) .footer-sublink,
+  body.privacy-page:not(.space-night-theme) .footer-sublink {
+    color: #444440;
+    text-shadow: none;
+  }
+
+  body.creator-page:not(.space-night-theme) .footer-sublink:hover,
+  body.privacy-page:not(.space-night-theme) .footer-sublink:hover {
+    color: #0088cc;
   }
 
   body.space-night-theme .dock-text {
@@ -1091,7 +1110,7 @@
   }
 
   body.space-night-theme .footer-sublink {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.85);
   }
 
   body.space-night-theme .footer-sublink:hover {
