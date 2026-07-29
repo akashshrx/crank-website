@@ -77,29 +77,34 @@
 
     const sharedPaperTexture = createPaperTexture();
 
-    // Subtle Color Variations for Paper Plane Flock
-    const TOP_TINTS = [
-      0xffffff, // Pure white
-      0xf2f7ff, // Soft ice white
-      0xeaf3fe, // Faint sky pearl
-      0xf7f9ff, // Clean paper white
-      0xebf1fa, // Soft platinum blue
-      0xf5f5fa  // Warm paper white
-    ];
-
-    const BOTTOM_TINTS = [
-      0x9fb2e8, // Periwinkle base
-      0x93a7e0, // Soft dusk blue
-      0x8b9ed8, // Lavender-slate
-      0xa5b7ee, // Bright sky shadow
-      0x889cd4  // Deep periwinkle
+    // Palette of 18 Distinct Coordinated Color Pairs (Top Wing Tint, Bottom/Keel Shadow Tint)
+    const PLANE_PALETTES = [
+      { top: 0xffffff, bottom: 0x9fb2e8 }, // 0: Pure White / Periwinkle (Leader)
+      { top: 0xe0f2fe, bottom: 0x7dd3fc }, // 1: Soft Sky Blue / Cyan Mist
+      { top: 0xf3e8ff, bottom: 0xc084fc }, // 2: Pastel Lavender / Purple Shadow
+      { top: 0xdcfce7, bottom: 0x86efac }, // 3: Soft Mint Ice / Emerald Shadow
+      { top: 0xffedd5, bottom: 0xfdba74 }, // 4: Sunset Warm / Coral Amber
+      { top: 0xfae8ff, bottom: 0xe879f9 }, // 5: Lilac Blush / Magenta Shadow
+      { top: 0xe0e7ff, bottom: 0xa5b4fc }, // 6: Soft Indigo / Periwinkle Deep
+      { top: 0xfef9c3, bottom: 0xfde047 }, // 7: Champagne Gold / Faint Sun
+      { top: 0xccfbf1, bottom: 0x5eead4 }, // 8: Arctic Teal / Soft Aquamarine
+      { top: 0xffe4e6, bottom: 0xf43f5e }, // 9: Coral Rose / Soft Pink Shadow
+      { top: 0xf1f5f9, bottom: 0x94a3b8 }, // 10: Slate Pearl / Dusk Steel
+      { top: 0xecfeff, bottom: 0x67e8f9 }, // 11: Electric Cyan / Lagoon Mist
+      { top: 0xfdf4ff, bottom: 0xf5d0fe }, // 12: Orchid Mist / Faint Violet
+      { top: 0xfff7ed, bottom: 0xffbed1 }, // 13: Peach Puff / Sunset Shadow
+      { top: 0xede9fe, bottom: 0x8b5cf6 }, // 14: Royal Violet / Deep Amethyst
+      { top: 0xf0fdf4, bottom: 0x4ade80 }, // 15: Spring Meadow / Soft Jade
+      { top: 0xfef2f2, bottom: 0xfca5a5 }, // 16: Rose Quartz / Faint Red Shadow
+      { top: 0xe0f2fe, bottom: 0x38bdf8 }  // 17: Deep Azure / Oceanic Shadow
     ];
 
     function createPaperPlaneMesh(index = 0) {
       const group = new THREE.Group();
 
-      const topColor = TOP_TINTS[index % TOP_TINTS.length];
-      const bottomColor = BOTTOM_TINTS[index % BOTTOM_TINTS.length];
+      const palette = PLANE_PALETTES[index % PLANE_PALETTES.length];
+      const topColor = palette.top;
+      const bottomColor = palette.bottom;
 
       const nose = [0, 0, 2];
       const tail = [0, 0.15, -1.5];
@@ -219,11 +224,11 @@
         offset: new THREE.Vector3(offsetX, offsetY, offsetZ),
         wavePhaseX: Math.random() * Math.PI * 2,
         wavePhaseY: Math.random() * Math.PI * 2,
-        waveSpeedX: 0.8 + Math.random() * 0.8,
-        waveSpeedY: 0.6 + Math.random() * 0.8,
+        waveSpeedX: 1.0 + Math.random() * 1.0,
+        waveSpeedY: 0.8 + Math.random() * 1.0,
         waveAmpX: 0.45 + Math.random() * 0.45,
         waveAmpY: 0.35 + Math.random() * 0.45,
-        lerpRate: 0.018 + Math.random() * 0.018,
+        lerpRate: 0.024 + Math.random() * 0.022,
         currentBank: 0
       });
     }
@@ -356,7 +361,7 @@
       requestAnimationFrame(animate);
 
       const delta = clock.getDelta();
-      time += delta * 0.45; // Relaxed, silky-smooth speed
+      time += delta * 0.585; // 30% faster time delta (0.45 * 1.30)
 
       // Continuously sync GSAP-animated theme colors to WebGL Shaders & Lights
       skyBackground.material.uniforms.uSkyColor.value.copy(activeThemeColors.topStart);
@@ -372,8 +377,8 @@
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Loop progress along continuous closed Bezier curve (0.016 loopSpeed for sweeping majestic motion)
-      const loopSpeed = 0.016;
+      // Loop progress along continuous closed Bezier curve (0.021 loopSpeed for 30% faster sweeping motion)
+      const loopSpeed = 0.021;
       const pathProgress = (time * loopSpeed) % 1.0;
 
       // Sample position and forward tangent along the Bezier curve
