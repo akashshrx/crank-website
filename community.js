@@ -345,7 +345,7 @@
       requestAnimationFrame(animate);
 
       const delta = clock.getDelta();
-      time += delta * 0.585; // 30% faster time delta (0.45 * 1.30)
+      time += delta * 0.70; // ~55% faster than original baseline for slightly quicker sweep
 
       // Continuously sync GSAP-animated theme colors to WebGL Shaders & Lights
       skyBackground.material.uniforms.uSkyColor.value.copy(activeThemeColors.topStart);
