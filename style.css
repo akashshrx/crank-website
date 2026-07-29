@@ -2648,7 +2648,7 @@ body.space-night-theme .footer-sublink:hover {
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 700;
-  color: #38bdf8;
+  color: #ffffff;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 1.25rem;
@@ -2660,8 +2660,7 @@ body.space-night-theme .footer-sublink:hover {
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 0 24px rgba(56, 189, 248, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
   position: relative;
   overflow: hidden;
   will-change: transform, opacity, filter;
