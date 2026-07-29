@@ -12,7 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Three.js WebGL Interactive Background Atmosphere (Skybox & Clouds)
   // ==========================================
   const canvas = document.getElementById('webgl-canvas');
-  if (canvas && typeof THREE !== 'undefined') {
+  const isCommunityPage = document.body.classList.contains('community-page');
+  
+  // Only initialize FAQ's basic sky background if NOT on the community page
+  if (canvas && typeof THREE !== 'undefined' && !isCommunityPage) {
     const scene = new THREE.Scene();
     
     // Camera
