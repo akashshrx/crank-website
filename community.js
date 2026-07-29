@@ -77,8 +77,29 @@
 
     const sharedPaperTexture = createPaperTexture();
 
-    function createPaperPlaneMesh() {
+    // Subtle Color Variations for Paper Plane Flock
+    const TOP_TINTS = [
+      0xffffff, // Pure white
+      0xf2f7ff, // Soft ice white
+      0xeaf3fe, // Faint sky pearl
+      0xf7f9ff, // Clean paper white
+      0xebf1fa, // Soft platinum blue
+      0xf5f5fa  // Warm paper white
+    ];
+
+    const BOTTOM_TINTS = [
+      0x9fb2e8, // Periwinkle base
+      0x93a7e0, // Soft dusk blue
+      0x8b9ed8, // Lavender-slate
+      0xa5b7ee, // Bright sky shadow
+      0x889cd4  // Deep periwinkle
+    ];
+
+    function createPaperPlaneMesh(index = 0) {
       const group = new THREE.Group();
+
+      const topColor = TOP_TINTS[index % TOP_TINTS.length];
+      const bottomColor = BOTTOM_TINTS[index % BOTTOM_TINTS.length];
 
       const nose = [0, 0, 2];
       const tail = [0, 0.15, -1.5];
@@ -96,13 +117,13 @@
       wingsGeom.computeVertexNormals();
 
       const topMat = new THREE.MeshPhongMaterial({
-        color: 0xffffff,
+        color: topColor,
         flatShading: true,
         side: THREE.BackSide,
         map: sharedPaperTexture,
         bumpMap: sharedPaperTexture,
         bumpScale: 0.015,
-        shininess: 5,
+        shininess: 6,
         polygonOffset: true,
         polygonOffsetFactor: 1,
         polygonOffsetUnits: 1
@@ -110,13 +131,13 @@
       group.add(new THREE.Mesh(wingsGeom, topMat));
 
       const bottomMat = new THREE.MeshPhongMaterial({
-        color: 0x9fb2e8, // Exact periwinkle shadow tone from home page
+        color: bottomColor,
         flatShading: true,
         side: THREE.FrontSide,
         map: sharedPaperTexture,
         bumpMap: sharedPaperTexture,
         bumpScale: 0.015,
-        shininess: 5,
+        shininess: 6,
         polygonOffset: true,
         polygonOffsetFactor: -1,
         polygonOffsetUnits: -1
@@ -133,13 +154,13 @@
       keelGeom.computeVertexNormals();
 
       const keelMat = new THREE.MeshPhongMaterial({
-        color: 0x9fb2e8,
+        color: bottomColor,
         flatShading: true,
         side: THREE.DoubleSide,
         map: sharedPaperTexture,
         bumpMap: sharedPaperTexture,
         bumpScale: 0.015,
-        shininess: 5
+        shininess: 6
       });
       group.add(new THREE.Mesh(keelGeom, keelMat));
 
@@ -156,7 +177,7 @@
     const flock = [];
 
     // Leader Plane
-    const leaderMesh = createPaperPlaneMesh();
+    const leaderMesh = createPaperPlaneMesh(0);
     const leaderScale = 0.28;
     leaderMesh.scale.set(leaderScale, leaderScale, leaderScale);
     scene.add(leaderMesh);
@@ -169,12 +190,12 @@
       prevPos: new THREE.Vector3(0.8, 0.4, 2.2),
       scale: leaderScale,
       offset: new THREE.Vector3(0, 0, 0),
-      wavePhase: 0
+      currentBank: 0
     });
 
-    // Followers (17 Paper Planes - Organic wide 3D starling cloud)
+    // Followers (17 Paper Planes - Organic wide 3D starling cloud with subtle tints)
     for (let i = 1; i < FLOCK_SIZE; i++) {
-      const mesh = createPaperPlaneMesh();
+      const mesh = createPaperPlaneMesh(i);
       const scale = 0.11 + Math.random() * 0.12; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
@@ -198,16 +219,17 @@
         offset: new THREE.Vector3(offsetX, offsetY, offsetZ),
         wavePhaseX: Math.random() * Math.PI * 2,
         wavePhaseY: Math.random() * Math.PI * 2,
-        waveSpeedX: 1.1 + Math.random() * 1.5,
-        waveSpeedY: 0.8 + Math.random() * 1.3,
-        waveAmpX: 0.65 + Math.random() * 0.75,
-        waveAmpY: 0.55 + Math.random() * 0.65,
-        lerpRate: 0.035 + Math.random() * 0.035
+        waveSpeedX: 0.8 + Math.random() * 0.8,
+        waveSpeedY: 0.6 + Math.random() * 0.8,
+        waveAmpX: 0.45 + Math.random() * 0.45,
+        waveAmpY: 0.35 + Math.random() * 0.45,
+        lerpRate: 0.018 + Math.random() * 0.018,
+        currentBank: 0
       });
     }
 
     // ----------------------------------------------------
-    // 4. Animation Loop & Bounded Organic Murmuration Math
+    // 4. Animation Loop & Gradual Bezier Motion Math
     // ----------------------------------------------------
     
     // Standardized Theme Color Presets (Matching app.js & faq.js)
@@ -312,17 +334,17 @@
     themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     // ----------------------------------------------------
-    // Organic 3D Catmull-Rom Bezier Murmuration Path Setup
+    // Silky Smooth, Gradual 3D Catmull-Rom Bezier Path Setup
     // ----------------------------------------------------
     const flightControlPoints = [
-      new THREE.Vector3( -2.8,   0.6,  2.0 ),
-      new THREE.Vector3( -1.2,   1.4,  2.8 ),
-      new THREE.Vector3(  1.5,   1.0,  2.2 ),
-      new THREE.Vector3(  3.2,   0.2,  1.8 ),
-      new THREE.Vector3(  2.2,  -1.2,  2.4 ),
-      new THREE.Vector3( -0.5,  -1.4,  2.8 ),
-      new THREE.Vector3( -2.5,  -0.4,  2.2 ),
-      new THREE.Vector3( -3.2,   0.2,  1.6 )
+      new THREE.Vector3( -2.6,   0.4,  2.2 ),
+      new THREE.Vector3( -1.5,   1.2,  2.6 ),
+      new THREE.Vector3(  0.8,   1.4,  2.4 ),
+      new THREE.Vector3(  2.6,   0.6,  2.0 ),
+      new THREE.Vector3(  2.2,  -0.8,  2.2 ),
+      new THREE.Vector3(  0.2,  -1.3,  2.6 ),
+      new THREE.Vector3( -1.8,  -0.9,  2.5 ),
+      new THREE.Vector3( -2.8,  -0.2,  2.1 )
     ];
 
     const leaderSpline = new THREE.CatmullRomCurve3(flightControlPoints, true, 'centripetal');
@@ -334,7 +356,7 @@
       requestAnimationFrame(animate);
 
       const delta = clock.getDelta();
-      time += delta * 0.75; // Smooth, relaxed speed
+      time += delta * 0.45; // Relaxed, silky-smooth speed
 
       // Continuously sync GSAP-animated theme colors to WebGL Shaders & Lights
       skyBackground.material.uniforms.uSkyColor.value.copy(activeThemeColors.topStart);
@@ -346,12 +368,12 @@
 
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (3D Catmull-Rom Bezier Spline) ---
+      // --- LEADER FLIGHT TRAJECTORY (Ultra-Gradual 3D Catmull-Rom Bezier Path) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Loop progress along continuous, closed Catmull-Rom Bezier Spline
-      const loopSpeed = 0.035; // Slower, sweeping, elegant flight
+      // Loop progress along continuous closed Bezier curve (0.016 loopSpeed for sweeping majestic motion)
+      const loopSpeed = 0.016;
       const pathProgress = (time * loopSpeed) % 1.0;
 
       // Sample position and forward tangent along the Bezier curve
@@ -359,7 +381,7 @@
       const splineTangent = leaderSpline.getTangentAt(pathProgress).normalize();
 
       leader.targetPos.copy(splinePoint);
-      leader.pos.lerp(leader.targetPos, 0.06);
+      leader.pos.lerp(leader.targetPos, 0.025); // Heavy inertia smoothing (eliminates sudden speed jumps)
       leader.mesh.position.copy(leader.pos);
 
       // Orient leader along the smooth Bezier tangent vector
@@ -367,15 +389,17 @@
       dummyLook.position.copy(leader.pos);
       dummyLook.lookAt(lookTarget);
 
-      // Calculate aerodynamic banking roll based on curve curvature
-      const nextTangent = leaderSpline.getTangentAt((pathProgress + 0.01) % 1.0).normalize();
+      // Calculate smooth aerodynamic banking roll based on curve curvature
+      const nextProgress = (pathProgress + 0.008) % 1.0;
+      const nextTangent = leaderSpline.getTangentAt(nextProgress).normalize();
       const crossBank = new THREE.Vector3().crossVectors(splineTangent, nextTangent);
-      const bankAmount = THREE.MathUtils.clamp(crossBank.y * 35.0, -0.65, 0.65);
+      const targetBank = THREE.MathUtils.clamp(crossBank.y * 28.0, -0.55, 0.55);
 
-      dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), bankAmount);
-      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.08);
+      leader.currentBank += (targetBank - leader.currentBank) * 0.04;
+      dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), leader.currentBank);
+      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.04);
 
-      // --- FOLLOWER FLOCK (Organic Individualized Weaving & Fluid Boid Lerping) ---
+      // --- FOLLOWER FLOCK (Gradual Organic Weaving & High-Inertia Lerping) ---
       const leaderMatrix = leader.mesh.matrixWorld;
 
       for (let i = 1; i < FLOCK_SIZE; i++) {
@@ -383,9 +407,9 @@
         boid.prevPos.copy(boid.pos);
 
         // Individualized 3D Organic Weaving Equations along Bezier path
-        const waveX = Math.sin(pathProgress * 12.0 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
-        const waveY = Math.cos(pathProgress * 9.0 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
-        const waveZ = Math.sin(pathProgress * 14.0 + boid.wavePhaseX * 0.5) * 0.45;
+        const waveX = Math.sin(pathProgress * 8.0 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
+        const waveY = Math.cos(pathProgress * 6.0 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
+        const waveZ = Math.sin(pathProgress * 9.0 + boid.wavePhaseX * 0.5) * 0.35;
 
         // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
@@ -397,7 +421,7 @@
         // Transform local offset to world space aligned with leader direction
         const worldTarget = localOffset.applyMatrix4(leaderMatrix);
         
-        // Fluid position lerp with unique boid lerp rates (creates organic flocking wave propagation)
+        // High-inertia fluid position lerp (creates gradual, silky-smooth murmuration wave propagation)
         boid.pos.lerp(worldTarget, boid.lerpRate);
         boid.mesh.position.copy(boid.pos);
 
@@ -409,10 +433,11 @@
           dummyLook.lookAt(boidLook);
 
           // Synchronized organic wing roll per boid
-          const rollAngle = Math.sin(pathProgress * 10.0 + boid.wavePhaseX) * 0.25;
-          dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), rollAngle);
+          const targetRoll = Math.sin(pathProgress * 6.0 + boid.wavePhaseX) * 0.22;
+          boid.currentBank += (targetRoll - boid.currentBank) * 0.04;
+          dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), boid.currentBank);
 
-          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.07);
+          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.035);
         }
       }
 
