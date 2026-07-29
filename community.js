@@ -306,6 +306,22 @@
     });
     themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
+    // ----------------------------------------------------
+    // Organic 3D Catmull-Rom Bezier Murmuration Path Setup
+    // ----------------------------------------------------
+    const flightControlPoints = [
+      new THREE.Vector3( -2.8,   0.6,  2.0 ),
+      new THREE.Vector3( -1.2,   1.4,  2.8 ),
+      new THREE.Vector3(  1.5,   1.0,  2.2 ),
+      new THREE.Vector3(  3.2,   0.2,  1.8 ),
+      new THREE.Vector3(  2.2,  -1.2,  2.4 ),
+      new THREE.Vector3( -0.5,  -1.4,  2.8 ),
+      new THREE.Vector3( -2.5,  -0.4,  2.2 ),
+      new THREE.Vector3( -3.2,   0.2,  1.6 )
+    ];
+
+    const leaderSpline = new THREE.CatmullRomCurve3(flightControlPoints, true, 'centripetal');
+
     const clock = new THREE.Clock();
     let time = 0;
 
@@ -325,33 +341,34 @@
 
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (Bounded On-Screen Harmonic Curves) ---
+      // --- LEADER FLIGHT TRAJECTORY (3D Catmull-Rom Bezier Spline) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Smooth 3D flight path strictly bounded inside viewport
-      const t = time * 0.32;
-      leader.targetPos.x = Math.sin(t) * 3.4 + Math.sin(t * 0.5) * 0.9;
-      leader.targetPos.y = Math.sin(t * 0.7) * 1.5 + Math.cos(t * 0.4) * 0.4;
-      leader.targetPos.z = Math.cos(t * 0.5) * 1.0 + 2.2;
+      // Loop progress along continuous, closed Catmull-Rom Bezier Spline
+      const loopSpeed = 0.035; // Slower, sweeping, elegant flight
+      const pathProgress = (time * loopSpeed) % 1.0;
 
-      // Position smoothing
-      leader.pos.lerp(leader.targetPos, 0.05);
+      // Sample position and forward tangent along the Bezier curve
+      const splinePoint = leaderSpline.getPointAt(pathProgress);
+      const splineTangent = leaderSpline.getTangentAt(pathProgress).normalize();
+
+      leader.targetPos.copy(splinePoint);
+      leader.pos.lerp(leader.targetPos, 0.06);
       leader.mesh.position.copy(leader.pos);
 
-      // Smooth Quaternion Slerp for Leader Rotation (Eliminates snaps/hard corners)
-      const leaderVel = new THREE.Vector3().subVectors(leader.pos, leader.prevPos);
-      if (leaderVel.lengthSq() > 0.000001) {
-        const lookTarget = new THREE.Vector3().addVectors(leader.pos, leaderVel);
-        dummyLook.position.copy(leader.pos);
-        dummyLook.lookAt(lookTarget);
+      // Orient leader along the smooth Bezier tangent vector
+      const lookTarget = new THREE.Vector3().addVectors(leader.pos, splineTangent);
+      dummyLook.position.copy(leader.pos);
+      dummyLook.lookAt(lookTarget);
 
-        // Gentle banking roll
-        const turnCurvature = Math.cos(t * 0.7);
-        dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), -turnCurvature * 0.4);
+      // Calculate aerodynamic banking roll based on curve curvature
+      const nextTangent = leaderSpline.getTangentAt((pathProgress + 0.01) % 1.0).normalize();
+      const crossBank = new THREE.Vector3().crossVectors(splineTangent, nextTangent);
+      const bankAmount = THREE.MathUtils.clamp(crossBank.y * 35.0, -0.65, 0.65);
 
-        leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.08);
-      }
+      dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), bankAmount);
+      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.08);
 
       // --- FOLLOWER FLOCK (Smooth Wave Sync & Quaternion Slerping) ---
       const leaderMatrix = leader.mesh.matrixWorld;
@@ -360,10 +377,11 @@
         const boid = flock[i];
         boid.prevPos.copy(boid.pos);
 
-        // Organic Starling Murmuration Wave Equations
-        const waveX = Math.sin(t * 1.8 + boid.wavePhase) * 0.45;
-        const waveY = Math.cos(t * 1.4 + boid.wavePhase * 1.3) * 0.5;
-        const waveZ = Math.sin(t * 2.0 + boid.wavePhase * 0.7) * 0.4;
+        // Organic Starling Murmuration Wave Equations along Bezier path
+        const waveOffset = pathProgress * 8.0 + boid.wavePhase;
+        const waveX = Math.sin(waveOffset) * 0.4;
+        const waveY = Math.cos(waveOffset * 1.3) * 0.45;
+        const waveZ = Math.sin(waveOffset * 0.7) * 0.35;
 
         // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
@@ -375,8 +393,8 @@
         // Transform local offset to world space aligned with leader direction
         const worldTarget = localOffset.applyMatrix4(leaderMatrix);
         
-        // Fluid position lerp
-        boid.pos.lerp(worldTarget, 0.05);
+        // Fluid position lerp (creates organic flocking lag)
+        boid.pos.lerp(worldTarget, 0.045);
         boid.mesh.position.copy(boid.pos);
 
         // Smooth Quaternion Slerp for Follower Rotations
@@ -387,7 +405,7 @@
           dummyLook.lookAt(boidLook);
 
           // Synchronized organic wing roll
-          const rollAngle = Math.sin(t * 1.5 + boid.wavePhase) * 0.25;
+          const rollAngle = Math.sin(waveOffset * 0.8) * 0.25;
           dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), rollAngle);
 
           boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.07);
