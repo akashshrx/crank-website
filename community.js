@@ -164,29 +164,29 @@
     flock.push({
       mesh: leaderMesh,
       isLeader: true,
-      pos: new THREE.Vector3(1.2, 0.6, 2.5),
-      targetPos: new THREE.Vector3(1.2, 0.6, 2.5),
-      prevPos: new THREE.Vector3(1.2, 0.6, 2.5),
+      pos: new THREE.Vector3(0.8, 0.4, 2.2),
+      targetPos: new THREE.Vector3(0.8, 0.4, 2.2),
+      prevPos: new THREE.Vector3(0.8, 0.4, 2.2),
       scale: leaderScale,
       offset: new THREE.Vector3(0, 0, 0),
       wavePhase: 0
     });
 
-    // Followers (17 Paper Planes - Extra spacious distribution)
+    // Followers (17 Paper Planes - Bounded safely inside viewport)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh();
-      const scale = 0.13 + Math.random() * 0.12; // Varied sizes for depth perspective
+      const scale = 0.13 + Math.random() * 0.11; // Varied sizes for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
-      // Distribute in a wide, spacious 3D starling murmuration behind leader
+      // Distribute in a spacious, bounded 3D starling murmuration behind leader
       const layer = Math.floor(i / 3);
       const side = (i % 2 === 0 ? 1 : -1);
       const rowOffset = (i % 3);
 
-      const offsetX = side * (1.8 + layer * 1.5 + Math.random() * 0.8);
-      const offsetY = (Math.random() - 0.5) * 3.2;
-      const offsetZ = - (layer * 2.2 + rowOffset * 0.8 + Math.random() * 0.8);
+      const offsetX = side * (0.8 + layer * 0.65 + Math.random() * 0.35);
+      const offsetY = (Math.random() - 0.5) * 1.6;
+      const offsetZ = - (layer * 1.1 + rowOffset * 0.4 + Math.random() * 0.4);
 
       flock.push({
         mesh: mesh,
@@ -202,7 +202,7 @@
     }
 
     // ----------------------------------------------------
-    // 4. Animation Loop & Smooth Organic Murmuration Math
+    // 4. Animation Loop & Bounded Organic Murmuration Math
     // ----------------------------------------------------
     const clock = new THREE.Clock();
     let time = 0;
@@ -213,23 +213,27 @@
       const delta = clock.getDelta();
       time += delta * 0.75; // Smooth, relaxed speed
 
-      // Update Sky Shader & Cloud Sprites
-      if (skyBackground.material && skyBackground.material.uniforms.uTime) {
-        skyBackground.material.uniforms.uTime.value = time;
-      }
+      // Continuously sync GSAP-animated theme colors to WebGL Shaders & Lights
+      skyBackground.material.uniforms.uSkyColor.value.copy(activeThemeColors.topStart);
+      skyBackground.material.uniforms.uSkyColorBottom.value.copy(activeThemeColors.bottomStart);
+      skyBackground.material.uniforms.uStarOpacity.value = activeThemeColors.starOpacity;
+      skyBackground.material.uniforms.uTime.value = time;
+      dirLight.intensity = activeThemeColors.dirIntensity;
+      ambientLight.color.copy(activeThemeColors.ambientColor);
+
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (Harmonic Organic Curves) ---
+      // --- LEADER FLIGHT TRAJECTORY (Bounded On-Screen Harmonic Curves) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Smooth, harmonic 3D flight trajectory without hard corners
+      // Smooth 3D flight path strictly bounded inside viewport
       const t = time * 0.32;
-      leader.targetPos.x = Math.sin(t) * 6.5 + Math.sin(t * 0.5) * 2.2;
-      leader.targetPos.y = Math.sin(t * 0.7) * 2.8 + Math.cos(t * 0.4) * 0.9;
-      leader.targetPos.z = Math.cos(t * 0.5) * 1.5 + 2.0;
+      leader.targetPos.x = Math.sin(t) * 3.4 + Math.sin(t * 0.5) * 0.9;
+      leader.targetPos.y = Math.sin(t * 0.7) * 1.5 + Math.cos(t * 0.4) * 0.4;
+      leader.targetPos.z = Math.cos(t * 0.5) * 1.0 + 2.2;
 
-      // Exponential position smoothing
+      // Position smoothing
       leader.pos.lerp(leader.targetPos, 0.05);
       leader.mesh.position.copy(leader.pos);
 
@@ -255,9 +259,9 @@
         boid.prevPos.copy(boid.pos);
 
         // Organic Starling Murmuration Wave Equations
-        const waveX = Math.sin(t * 1.8 + boid.wavePhase) * 0.6;
-        const waveY = Math.cos(t * 1.4 + boid.wavePhase * 1.3) * 0.7;
-        const waveZ = Math.sin(t * 2.0 + boid.wavePhase * 0.7) * 0.5;
+        const waveX = Math.sin(t * 1.8 + boid.wavePhase) * 0.45;
+        const waveY = Math.cos(t * 1.4 + boid.wavePhase * 1.3) * 0.5;
+        const waveZ = Math.sin(t * 2.0 + boid.wavePhase * 0.7) * 0.4;
 
         // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
@@ -294,7 +298,7 @@
     animate();
 
     // ----------------------------------------------------
-    // 5. Window Resize & Theme Integration
+    // 5. Window Resize & Standardized GSAP Theme Integration
     // ----------------------------------------------------
     function onResize() {
       const width = window.innerWidth;
@@ -307,49 +311,91 @@
     }
     window.addEventListener('resize', onResize);
 
-    // Theme Switcher Sync & Direct Button Handlers (Day / Space Night Mode)
+    // Standardized Theme Color Presets (Matching app.js & faq.js)
+    const themes = {
+      day: {
+        topStart: new THREE.Color('#70c4ff'),
+        bottomStart: new THREE.Color('#bce3ff'),
+        starOpacity: 0.0,
+        dirIntensity: 1.3,
+        ambientColor: new THREE.Color('#dbeafe')
+      },
+      night: {
+        topStart: new THREE.Color('#09122c'),
+        bottomStart: new THREE.Color('#1a295c'),
+        starOpacity: 1.0,
+        dirIntensity: 0.8,
+        ambientColor: new THREE.Color('#1e293b')
+      }
+    };
+
+    const activeThemeColors = {
+      topStart: themes.day.topStart.clone(),
+      bottomStart: themes.day.bottomStart.clone(),
+      starOpacity: 0.0,
+      dirIntensity: 1.3,
+      ambientColor: themes.day.ambientColor.clone()
+    };
+
     const dayBtn = document.getElementById('theme-btn-day');
     const nightBtn = document.getElementById('theme-btn-night');
 
-    function applyThemeSettings() {
-      const isNight = document.body.classList.contains('space-night-theme');
+    // Standardized 2.2s GSAP Color Interpolation (Identical to Home Screen)
+    function updateTheme(isNight, transition = true) {
+      const target = isNight ? themes.night : themes.day;
+
+      if (transition && typeof gsap !== 'undefined') {
+        gsap.to(activeThemeColors.topStart, {
+          r: target.topStart.r, g: target.topStart.g, b: target.topStart.b,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors.bottomStart, {
+          r: target.bottomStart.r, g: target.bottomStart.g, b: target.bottomStart.b,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors, {
+          starOpacity: target.starOpacity,
+          dirIntensity: target.dirIntensity,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors.ambientColor, {
+          r: target.ambientColor.r, g: target.ambientColor.g, b: target.ambientColor.b,
+          duration: 2.2, ease: "power2.out"
+        });
+      } else {
+        activeThemeColors.topStart.copy(target.topStart);
+        activeThemeColors.bottomStart.copy(target.bottomStart);
+        activeThemeColors.starOpacity = target.starOpacity;
+        activeThemeColors.dirIntensity = target.dirIntensity;
+        activeThemeColors.ambientColor.copy(target.ambientColor);
+      }
+
       if (isNight) {
-        skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#09122c'));
-        skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#1a295c'));
-        skyBackground.material.uniforms.uStarOpacity.value = 1.0;
-        dirLight.intensity = 0.8;
-        ambientLight.color.setHex(0x1e293b);
+        document.body.classList.add('space-night-theme');
         if (dayBtn) dayBtn.classList.remove('active');
         if (nightBtn) nightBtn.classList.add('active');
       } else {
-        skyBackground.material.uniforms.uSkyColor.value.copy(new THREE.Color('#70c4ff'));
-        skyBackground.material.uniforms.uSkyColorBottom.value.copy(new THREE.Color('#bce3ff'));
-        skyBackground.material.uniforms.uStarOpacity.value = 0.0;
-        dirLight.intensity = 1.3;
-        ambientLight.color.setHex(0xdbeafe);
+        document.body.classList.remove('space-night-theme');
         if (dayBtn) dayBtn.classList.add('active');
         if (nightBtn) nightBtn.classList.remove('active');
       }
     }
 
     if (dayBtn) {
-      dayBtn.addEventListener('click', () => {
-        document.body.classList.remove('space-night-theme');
-        applyThemeSettings();
-      });
+      dayBtn.addEventListener('click', () => updateTheme(false));
     }
 
     if (nightBtn) {
-      nightBtn.addEventListener('click', () => {
-        document.body.classList.add('space-night-theme');
-        applyThemeSettings();
-      });
+      nightBtn.addEventListener('click', () => updateTheme(true));
     }
 
-    applyThemeSettings();
+    // Initialize initial state based on current body class
+    const initialNight = document.body.classList.contains('space-night-theme');
+    updateTheme(initialNight, false);
 
     const themeObserver = new MutationObserver(() => {
-      applyThemeSettings();
+      const isNight = document.body.classList.contains('space-night-theme');
+      updateTheme(isNight, true);
     });
     themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   });
