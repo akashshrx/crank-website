@@ -357,35 +357,38 @@
 
       clouds.update(delta);
 
-      // --- LEADER FLIGHT TRAJECTORY (Infinitely Smooth C^infty Fourier Harmonic Curve) ---
+      // --- LEADER FLIGHT TRAJECTORY (Graceful 3D Infinity Lemniscate Murmuration Arc) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      // Continuous time harmonic phase angles (Infinitely smooth, zero joints, zero jerk!)
-      const f1 = time * 0.22;
-      const f2 = time * 0.11;
-      const f3 = time * 0.16;
+      // Master motion phase frequency
+      const tm = time * 0.26;
 
-      // Analytical 3D Curve Position (Strictly bounded on-screen)
-      leader.targetPos.x = Math.sin(f1) * 2.85 + Math.sin(f2) * 0.85;
-      leader.targetPos.y = Math.cos(f3) * 1.15 + Math.sin(f1 * 0.6) * 0.45;
-      leader.targetPos.z = Math.cos(f2) * 0.75 + 2.1;
+      // Elegant 3D Lemniscate of Gerono + Horizon Arc Swell (Wide, majestic 3D sweep)
+      // X: Wide horizon sweep left-to-right (-3.1 to +3.1)
+      leader.targetPos.x = Math.sin(tm) * 3.1;
 
-      // Heavy inertia position smoothing for silky buttery glide
-      leader.pos.lerp(leader.targetPos, 0.035);
+      // Y: Double-frequency figure-8 elevation arc (+ cresting climb into turns, gentle valley swoops)
+      leader.targetPos.y = Math.sin(2.0 * tm) * 1.25 + Math.cos(tm) * 0.35;
+
+      // Z: Dynamic depth breathing (closer to viewer on valley swoops, further back during high climbs)
+      leader.targetPos.z = 2.15 + Math.cos(2.0 * tm + 0.4) * 0.75;
+
+      // Silky inertia position lerping (delivers effortless, ethereal paper plane glide)
+      leader.pos.lerp(leader.targetPos, 0.038);
       leader.mesh.position.copy(leader.pos);
 
-      // Analytical 1st Derivative Velocity Vector (Exact forward orientation)
-      const velX = Math.cos(f1) * (2.85 * 0.22) + Math.cos(f2) * (0.85 * 0.11);
-      const velY = -Math.sin(f3) * (1.15 * 0.16) + Math.cos(f1 * 0.6) * (0.45 * 0.132);
-      const velZ = -Math.sin(f2) * (0.75 * 0.11);
+      // Exact Analytical Velocity Vector (Silky 1st Derivative for pitch/yaw orientation)
+      const velX = Math.cos(tm) * (3.1 * 0.26);
+      const velY = Math.cos(2.0 * tm) * (2.5 * 0.26) - Math.sin(tm) * (0.35 * 0.26);
+      const velZ = -Math.sin(2.0 * tm + 0.4) * (1.5 * 0.26);
       const smoothVel = new THREE.Vector3(velX, velY, velZ).normalize();
 
-      // Analytical 2nd Derivative Centripetal Acceleration (Exact banking)
-      const accelX = -Math.sin(f1) * (2.85 * 0.0484) - Math.sin(f2) * (0.85 * 0.0121);
-      const targetBank = THREE.MathUtils.clamp(-accelX * 18.0, -0.55, 0.55);
+      // Analytical Centripetal Acceleration (Silky 2nd Derivative for graceful aerodynamic banking)
+      const accelX = -Math.sin(tm) * (3.1 * 0.26 * 0.26);
+      const targetBank = THREE.MathUtils.clamp(-accelX * 22.0, -0.62, 0.62);
 
-      // Smooth orientation slerping along analytical velocity vector
+      // Smooth orientation slerp along aerodynamic flight path
       const lookTarget = new THREE.Vector3().addVectors(leader.pos, smoothVel);
       dummyLook.position.copy(leader.pos);
       dummyLook.lookAt(lookTarget);
@@ -394,22 +397,24 @@
       dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), leader.currentBank);
       leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.05);
 
-      // --- FOLLOWER FLOCK (Gradual Organic Weaving & High-Inertia Lerping) ---
+      // --- FOLLOWER FLOCK (Dynamic Starling Murmuration Wave & Breath) ---
       const leaderMatrix = leader.mesh.matrixWorld;
+      // Dynamic flock compression: flock expands gracefully on high climbs and tightens on turns
+      const flockExpansion = 1.0 + Math.sin(tm * 2.0) * 0.18;
 
       for (let i = 1; i < FLOCK_SIZE; i++) {
         const boid = flock[i];
         boid.prevPos.copy(boid.pos);
 
-        // Individualized 3D Organic Weaving Equations
-        const waveX = Math.sin(time * 0.6 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
-        const waveY = Math.cos(time * 0.45 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
-        const waveZ = Math.sin(time * 0.7 + boid.wavePhaseX * 0.5) * 0.35;
+        // Individualized 3D Organic Harmonic Weaving Equations
+        const waveX = Math.sin(time * 0.5 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX * flockExpansion;
+        const waveY = Math.cos(time * 0.38 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY * flockExpansion;
+        const waveZ = Math.sin(time * 0.6 + boid.wavePhaseX * 0.5) * 0.38;
 
         // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
-          boid.offset.x + waveX,
-          boid.offset.y + waveY,
+          boid.offset.x * flockExpansion + waveX,
+          boid.offset.y * flockExpansion + waveY,
           boid.offset.z + waveZ
         );
 
@@ -428,11 +433,11 @@
           dummyLook.lookAt(boidLook);
 
           // Synchronized organic wing roll per boid
-          const targetRoll = Math.sin(time * 0.5 + boid.wavePhaseX) * 0.22;
+          const targetRoll = Math.sin(time * 0.45 + boid.wavePhaseX) * 0.24;
           boid.currentBank += (targetRoll - boid.currentBank) * 0.04;
           dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), boid.currentBank);
 
-          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.04);
+          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.045);
         }
       }
 
