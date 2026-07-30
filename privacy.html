@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Privacy Policy - Glide: Personal desktop agents in 1-click</title>
-  <meta name="description" content="Glide's privacy policy and security practices. Learn about how we store text only, never save images, and ensure all data remains on your Mac.">
+  <title>Privacy, Terms &amp; Refunds - Glide: Personal desktop agents in 1-click</title>
+  <meta name="description" content="Glide's privacy policy, terms of service and refund policy. We store text only, never save images, keep your data on your Mac, and refund any paid plan within 14 days.">
   <link rel="canonical" href="https://justglide.app/privacy.html">
   <script src="analytics.bundled.js"></script>
 
@@ -12,17 +12,17 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://justglide.app/privacy.html">
   <meta property="og:site_name" content="Glide">
-  <meta property="og:title" content="Privacy Policy - Glide: Personal desktop agents in 1-click">
-  <meta property="og:description" content="Glide's privacy policy and security practices. Learn about how we store text only, never save images, and ensure all data remains on your Mac.">
+  <meta property="og:title" content="Privacy, Terms &amp; Refunds - Glide: Personal desktop agents in 1-click">
+  <meta property="og:description" content="Glide's privacy policy, terms of service and refund policy. We store text only, never save images, keep your data on your Mac, and refund any paid plan within 14 days.">
   <meta property="og:image" content="https://justglide.app/cloud.png">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Privacy Policy - Glide: Personal desktop agents in 1-click">
-  <meta name="twitter:description" content="Glide's privacy policy and security practices. Learn about how we store text only, never save images, and ensure all data remains on your Mac.">
+  <meta name="twitter:title" content="Privacy, Terms &amp; Refunds - Glide: Personal desktop agents in 1-click">
+  <meta name="twitter:description" content="Glide's privacy policy, terms of service and refund policy. We store text only, never save images, keep your data on your Mac, and refund any paid plan within 14 days.">
   <meta name="twitter:image" content="https://justglide.app/cloud.png">
   <link rel="icon" type="image/png" href="logo_white.png?v=1">
-  
+
   <!-- Brand Fonts (Figtree, Caveat) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -198,6 +198,115 @@
     .inline-link:hover {
       color: #0099e6;
     }
+
+    /* ---- Legal document switcher (macOS segmented control) ---- */
+    .doc-switch {
+      display: inline-flex;
+      gap: 2px;
+      padding: 4px;
+      margin-bottom: 2.5rem;
+      border-radius: 999px;
+      background: #f0f0ec;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    body.space-night-theme .doc-switch {
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .doc-switch button {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: #6b6b64;
+      background: transparent;
+      padding: 9px 20px;
+      border-radius: 999px;
+      transition: background 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    body.space-night-theme .doc-switch button {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .doc-switch button:hover {
+      color: #121210;
+    }
+
+    body.space-night-theme .doc-switch button:hover {
+      color: #ffffff;
+    }
+
+    .doc-switch button[aria-selected="true"] {
+      background: #ffffff;
+      color: #121210;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    body.space-night-theme .doc-switch button[aria-selected="true"] {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+    }
+
+    .doc-switch button:focus-visible {
+      outline: 2px solid #0088cc;
+      outline-offset: 2px;
+    }
+
+    .doc-panel[hidden] {
+      display: none;
+    }
+
+    .doc-meta {
+      font-size: 0.9rem !important;
+      color: #85857c !important;
+      margin-bottom: 2rem !important;
+    }
+
+    body.space-night-theme .doc-meta {
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .doc-lede {
+      font-size: 1.15rem !important;
+      line-height: 1.65 !important;
+      color: #121210 !important;
+      font-weight: 500;
+      padding: 1.25rem 1.5rem;
+      border-radius: 16px;
+      background: #f5f9fc;
+      border: 1px solid #dceaf4;
+    }
+
+    body.space-night-theme .doc-lede {
+      color: #ffffff !important;
+      background: rgba(0, 136, 204, 0.12);
+      border-color: rgba(0, 136, 204, 0.3);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .doc-switch button {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .doc-switch {
+        display: flex;
+        width: 100%;
+      }
+
+      .doc-switch button {
+        flex: 1;
+        padding: 9px 8px;
+        font-size: 0.88rem;
+      }
+    }
   </style>
 </head>
 <body class="privacy-page">
@@ -238,51 +347,171 @@
   </div>
 
   <main class="container">
-    <h1 class="page-title">Privacy Policy</h1>
+    <h1 class="page-title" id="doc-title">Privacy Policy</h1>
 
-    <p>At Glide, we <span class="caveat-highlight">prioritize your privacy</span> and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data <span class="caveat-highlight">under your control</span> while maintaining compliance with relevant frameworks, including GDPR.</p>
+    <div class="doc-switch" role="tablist" aria-label="Legal documents">
+      <button type="button" role="tab" id="tab-privacy" aria-controls="panel-privacy" aria-selected="true" data-doc="privacy">Privacy</button>
+      <button type="button" role="tab" id="tab-terms" aria-controls="panel-terms" aria-selected="false" data-doc="terms">Terms</button>
+      <button type="button" role="tab" id="tab-refunds" aria-controls="panel-refunds" aria-selected="false" data-doc="refunds">Refunds</button>
+    </div>
 
-    <p>This Privacy Policy applies to the Glide website and application service, governing the use of services provided by Glide to its users.</p>
+    <!-- ============================ PRIVACY ============================ -->
+    <section class="doc-panel" id="panel-privacy" role="tabpanel" aria-labelledby="tab-privacy">
+      <p class="doc-meta">Last updated 30 July 2026</p>
 
-    <h2>1. Notice</h2>
-    <p>Whenever we collect information that could be used to personally identify you, we will explicitly ask for your provision and permission. This policy ensures that you are <span class="caveat-highlight">fully informed and consenting</span> to the collection of your personal data.</p>
+      <p>At Glide, we <span class="caveat-highlight">prioritize your privacy</span> and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data <span class="caveat-highlight">under your control</span> while maintaining compliance with relevant frameworks, including GDPR.</p>
 
-    <h2>2. Your Consent</h2>
-    <p>You always have the option to <span class="caveat-highlight">grant or withhold permission</span> for us to process your information.</p>
+      <p>This Privacy Policy applies to the Glide website and application service, governing the use of services provided by Glide to its users.</p>
 
-    <h2>3. Usage & Processing</h2>
-    
-    <h3>3.1 Transient Payloads (Processed in the Moment)</h3>
-    <p>Glide operates with a modern cloud-based architecture to deliver high-agency capabilities. When you invoke commands or trigger workflows, payloads containing screenshots, active application contexts, and voice or text prompts are transiently transmitted through our secure backend to our AI providers. <strong><span class="caveat-highlight">We do NOT store or persist</span> your prompts, chat history, or screen contexts anywhere on our servers.</strong> Payloads are processed on-the-fly to return your response and are immediately discarded.</p>
+      <h2>1. Notice</h2>
+      <p>Whenever we collect information that could be used to personally identify you, we will explicitly ask for your provision and permission. This policy ensures that you are <span class="caveat-highlight">fully informed and consenting</span> to the collection of your personal data.</p>
 
-    <h3>3.2 Authentication & Billing Data</h3>
-    <p>We collect and retain limited data necessary for accounts and subscription management:</p>
-    <ul>
-      <li><strong>Google OAuth:</strong> We authenticate users via Google Sign-In. We store basic metadata associated with your Google account (email address and name) to verify access.</li>
-      <li><strong>Stripe:</strong> We utilize Stripe for payment processing. Billing details are handled securely by Stripe in accordance with PCI standards.</li>
-    </ul>
+      <h2>2. Your Consent</h2>
+      <p>You always have the option to <span class="caveat-highlight">grant or withhold permission</span> for us to process your information.</p>
 
-    <h3>3.3 Third-Party AI Providers</h3>
-    <p>Glide relies on third-party AI partners (including Anthropic, OpenAI, and ElevenLabs) to power assistant features, voice outputs, and system actions. Payload contexts are securely proxied to these partners for immediate response generation. <span class="caveat-highlight">We do not sell your data</span> under any circumstances.</p>
+      <h2>3. Usage &amp; Processing</h2>
 
-    <h3>3.4 Data Security</h3>
-    <p>All transient payloads and retained credential metadata are <span class="caveat-highlight">encrypted during transit</span> (using Transport Layer Security / TLS).</p>
+      <h3>3.1 Transient Payloads (Processed in the Moment)</h3>
+      <p>Glide operates with a modern cloud-based architecture to deliver high-agency capabilities. When you invoke commands or trigger workflows, payloads containing screenshots, active application contexts, and voice or text prompts are transiently transmitted through our secure backend to our AI providers. <strong><span class="caveat-highlight">We do NOT store or persist</span> your prompts, chat history, or screen contexts anywhere on our servers.</strong> Payloads are processed on-the-fly to return your response and are immediately discarded.</p>
 
-    <h2>4. Retention of Information</h2>
-    <p>We retain account and billing identifiers for as long as necessary to provide you with Glide's services. All personally identifiable information will be <span class="caveat-highlight">deleted upon account deletion</span>.</p>
+      <h3>3.2 Authentication &amp; Billing Data</h3>
+      <p>We collect and retain limited data necessary for accounts and subscription management:</p>
+      <ul>
+        <li><strong>Google OAuth:</strong> We authenticate users via Google Sign-In. We store basic metadata associated with your Google account (email address and name) to verify access.</li>
+        <li><strong>Paddle:</strong> Paddle acts as our merchant of record and handles all payments. Your card details go straight to Paddle and are never seen or stored by us. We keep only a subscription identifier so we know which plan your account is on.</li>
+      </ul>
 
-    <h2>5. Your Rights</h2>
-    <p>In accordance with GDPR regulations, you are entitled to access, rectify, or erase your personally identifiable information at any time by contacting <a href="mailto:support@glide.inc" class="inline-link">support@glide.inc</a>.</p>
+      <h3>3.3 Third-Party AI Providers</h3>
+      <p>Glide relies on third-party AI partners (including Anthropic, OpenAI, and ElevenLabs) to power assistant features, voice outputs, and system actions. Payload contexts are securely proxied to these partners for immediate response generation. <span class="caveat-highlight">We do not sell your data</span> under any circumstances.</p>
+
+      <h3>3.4 Data Security</h3>
+      <p>All transient payloads and retained credential metadata are <span class="caveat-highlight">encrypted during transit</span> (using Transport Layer Security / TLS).</p>
+
+      <h2>4. Retention of Information</h2>
+      <p>We retain account and billing identifiers for as long as necessary to provide you with Glide's services. All personally identifiable information will be <span class="caveat-highlight">deleted upon account deletion</span>.</p>
+
+      <h2>5. Your Rights</h2>
+      <p>In accordance with GDPR regulations, you are entitled to access, rectify, or erase your personally identifiable information at any time by contacting <a href="mailto:hello@justglide.app" class="inline-link">hello@justglide.app</a>.</p>
+    </section>
+
+    <!-- ============================ TERMS ============================ -->
+    <section class="doc-panel" id="panel-terms" role="tabpanel" aria-labelledby="tab-terms" hidden>
+      <p class="doc-meta">Last updated 30 July 2026</p>
+
+      <p class="doc-lede">These are the rules for using Glide. We have written them the way we would explain them out loud, because terms nobody reads protect nobody.</p>
+
+      <h2>1. Who we are</h2>
+      <p>Glide is a Mac app with a voice-first assistant that can see what is on your screen, answer questions about it, and run small pieces of work for you. It is built and run as an independent business based in Sweden. When we say "we" or "us" we mean Glide. When we say "you" we mean the person using the app.</p>
+      <p>By downloading, signing in to, or using Glide, you are agreeing to these terms. If you do not agree with them, please do not use Glide.</p>
+
+      <h2>2. Your account</h2>
+      <p>You sign in with Google. An account belongs to <span class="caveat-highlight">one person</span>, not a team or a shared login, and you are responsible for what happens on it. Keep your Google account secure and tell us at <a href="mailto:hello@justglide.app" class="inline-link">hello@justglide.app</a> if you think someone else has access to yours.</p>
+      <p>You need to be at least 16 years old to use Glide.</p>
+
+      <h2>3. Using Glide fairly</h2>
+      <p>Use Glide for your own work and your own life. Please do not:</p>
+      <ul>
+        <li>Break the law with it, or use it to harass, deceive, or harm anyone.</li>
+        <li>Point it at material you have no right to access.</li>
+        <li>Resell it, rent it out, or run it as a service for other people.</li>
+        <li>Take it apart, copy it, or try to extract the models and prompts behind it.</li>
+        <li>Hammer our servers with automated traffic or work around the limits on your plan.</li>
+      </ul>
+
+      <h2>4. Glide acts on your Mac, and you stay in charge</h2>
+      <p>This is the part worth reading twice. Glide can create files, add calendar events, draft messages, and work inside apps you have connected. It does that <span class="caveat-highlight">because you asked it to</span>, and you are responsible for the instructions you give it.</p>
+      <p>Anything that leaves your machine, such as sending, posting, sharing, inviting, or deleting, is shown to you for approval first. Read what it is about to do before you approve it. Work that stays private to you, like writing a note or drafting something you have not sent, happens without asking.</p>
+      <p>We are not responsible for the consequences of actions you approved, so treat approval the way you would treat pressing send yourself.</p>
+
+      <h2>5. Apps you connect</h2>
+      <p>You can connect Glide to services like Google Workspace, Slack, Notion, and others. Those accounts remain yours and remain governed by those companies' own terms. We only ask for the access a task needs, and you can disconnect any app at any time from Settings. If a connected service changes or goes away, the Glide features that depend on it may stop working.</p>
+
+      <h2>6. Glide can be wrong</h2>
+      <p>Glide is built on AI models, and AI models make mistakes. They misread screens, they miss context, and they can state something incorrect with complete confidence. <strong>Check anything that matters before you act on it.</strong> Glide is not a substitute for professional legal, medical, financial, or tax advice, and you should not treat it as one.</p>
+
+      <h2>7. Plans and billing</h2>
+      <p>Glide has a free plan and paid plans. Paid plans renew automatically, monthly or yearly depending on what you picked, until you cancel. Prices are in US dollars and any sales tax or VAT is calculated at checkout.</p>
+      <p>Paddle is our merchant of record, so Paddle takes the payment, handles the tax, and appears on your statement. You can cancel any time from your account, and cancelling stops the next charge while leaving you access until the end of the period you already paid for.</p>
+      <p>If a price changes we will tell you before it affects you. For refunds, see our <a href="#refunds" class="inline-link" data-doc-link="refunds">Refund Policy</a>.</p>
+
+      <h2>8. Fair use of paid plans</h2>
+      <p>Paid plans include generous monthly allowances rather than genuinely infinite usage, because every request costs us real money to run. The current allowances are shown in the app. If your usage looks automated or far outside normal personal use, we will <span class="caveat-highlight">contact you first</span> rather than quietly cutting you off.</p>
+
+      <h2>9. Your content stays yours</h2>
+      <p>Everything you create with Glide belongs to you. We claim no ownership over your files, notes, messages, or anything else Glide helps you produce. We only process your content to the extent needed to run the service, and how we handle it is set out in the <a href="#privacy" class="inline-link" data-doc-link="privacy">Privacy Policy</a>.</p>
+
+      <h2>10. Our work stays ours</h2>
+      <p>The Glide app, the name, the paper plane, the design, and everything behind them belong to us. Using Glide gives you a personal licence to use it, not ownership of any part of it.</p>
+
+      <h2>11. Changes to Glide and to these terms</h2>
+      <p>Glide is actively being built, so features will be added, changed, and occasionally removed. If we make a change to these terms that genuinely affects you, we will let you know by email or in the app before it takes effect. Continuing to use Glide after that means you accept the new terms.</p>
+
+      <h2>12. Availability</h2>
+      <p>We work hard to keep Glide running, but we cannot promise it will never go down. Providers have outages, macOS ships breaking changes, and bugs happen. Glide is provided as it is, without warranties beyond those the law gives you.</p>
+
+      <h2>13. Limits on liability</h2>
+      <p>To the extent the law allows, we are not liable for indirect or consequential losses, lost profits, or lost data. Where we are liable, our total liability is limited to what you paid us in the twelve months before the claim. Nothing here limits liability that cannot legally be limited.</p>
+
+      <h2>14. Ending things</h2>
+      <p>You can stop using Glide and delete your account at any time. We can suspend or close an account that breaks these terms, and where it is reasonable to do so we will warn you first and give you a chance to put it right.</p>
+
+      <h2>15. Governing law</h2>
+      <p>These terms are governed by the laws of Sweden, and disputes will be handled by the courts there. If you are a consumer, this does not take away the protection of the mandatory consumer laws of the country you live in.</p>
+
+      <h2>16. Talk to us</h2>
+      <p>Questions about any of this go to <a href="mailto:hello@justglide.app" class="inline-link">hello@justglide.app</a>. A person reads that inbox.</p>
+    </section>
+
+    <!-- ============================ REFUNDS ============================ -->
+    <section class="doc-panel" id="panel-refunds" role="tabpanel" aria-labelledby="tab-refunds" hidden>
+      <p class="doc-meta">Last updated 30 July 2026</p>
+
+      <p class="doc-lede">The short version: if Glide is not working out for you, email us within 14 days of paying and we will refund you in full. No forms, no exit survey, no talking you out of it.</p>
+
+      <h2>1. The 14 day window</h2>
+      <p>Every paid plan, monthly or yearly, comes with a <span class="caveat-highlight">14 day full refund</span>. It covers your first payment on a plan, and you do not need a reason. Not clicking for you, not what you expected, bought it by accident on a Friday night: all fine.</p>
+      <p>If you live somewhere that gives you a longer cancellation right by law, that right applies instead. See section 8.</p>
+
+      <h2>2. Try the free plan first</h2>
+      <p>You do not have to pay to find out whether Glide suits you. The free plan needs no card and lets you use the assistant properly. We would rather you spend a week on free than a refund request on day three.</p>
+
+      <h2>3. How to ask</h2>
+      <p>Email <a href="mailto:hello@justglide.app" class="inline-link">hello@justglide.app</a> from the address on your account and say you would like a refund. That is the whole process.</p>
+      <ul>
+        <li>We reply within <strong>2 business days</strong>.</li>
+        <li>Once approved, the money goes back to your original payment method.</li>
+        <li>Your bank usually takes <strong>5 to 10 business days</strong> to show it, which is their timing rather than ours.</li>
+      </ul>
+
+      <h2>4. Cancelling and refunding are different things</h2>
+      <p><strong>Cancelling</strong> stops the next charge. You keep everything you paid for until the end of the current period, then drop to the free plan. You can cancel any time from your account, and we do not hide the button.</p>
+      <p><strong>Refunding</strong> gives you your money back. Outside the 14 day window we do not usually refund time that has already run, but read the next section, because renewals are the honest exception.</p>
+
+      <h2>5. Renewals that catch you by surprise</h2>
+      <p>Nobody should pay for another year of something they forgot they had. We email you before a yearly plan renews. If a renewal still takes you by surprise and you have barely used Glide since it charged you, <span class="caveat-highlight">tell us within 14 days</span> and we will refund it. We would rather give the money back than keep a customer who does not want to be one.</p>
+
+      <h2>6. Who actually takes the payment</h2>
+      <p>Paddle is our merchant of record. That means Paddle processes the payment, handles sales tax and VAT, and is the name that shows up on your bank statement rather than Glide. Refunds are issued through Paddle once we approve them, which is why the money lands back on the card you paid with.</p>
+
+      <h2>7. When we might say no</h2>
+      <p>We rarely refuse, but we will if someone is clearly working the system. That means repeatedly subscribing and refunding, fraudulent or disputed payments, or accounts closed for breaking our <a href="#terms" class="inline-link" data-doc-link="terms">Terms of Service</a>. If we decline, we will tell you why in plain words.</p>
+
+      <h2>8. Your legal rights come first</h2>
+      <p>Nothing in this policy takes away rights you have under consumer law where you live, including any statutory cooling off period. Where the law gives you more than this policy does, the law wins.</p>
+
+      <h2>9. Still unsure</h2>
+      <p>Ask before you buy. Email <a href="mailto:hello@justglide.app" class="inline-link">hello@justglide.app</a> and we will tell you honestly whether Glide does the thing you are hoping it does.</p>
+    </section>
   </main>
 
   <!-- macOS Dock Footer -->
   <footer class="dock-footer">
     <div class="dock-container">
       <div class="dock-text dock-text-left">
-        <span>GLIDE INC. © <span id="footer-year">2026</span></span>
+        <span>GLIDE © <span id="footer-year">2026</span></span>
         <span>ALL RIGHTS RESERVED</span>
       </div>
-      
+
       <div class="dock-icon-wrapper">
         <a href="https://black-yak.spcf.app/download/mac" download class="btn-download" aria-label="Download Glide app">
           <div class="dock-icon">
@@ -290,10 +519,10 @@
           </div>
         </a>
       </div>
-      
+
       <div class="dock-text dock-text-right">
         <a href="faq.html" class="footer-sublink">FAQ</a>
-        <a href="privacy.html" class="footer-sublink">Privacy Policy</a>
+        <a href="privacy.html" class="footer-sublink">Terms of use</a>
         <a href="creator.html" class="footer-sublink">Creator Program</a>
         <a href="community.html" class="footer-sublink">Community</a>
       </div>
@@ -318,7 +547,7 @@
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 200);
       camera.position.set(0, 0, 10);
-      
+
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         alpha: true,
@@ -330,7 +559,7 @@
 
       const textureLoader = new THREE.TextureLoader();
       const cloudTexture = textureLoader.load(window.CLOUD_TEXTURE_BASE64 || 'cloud.png');
-      
+
       const skyBackground = new THREE.SkyBackground();
       scene.add(skyBackground);
       skyBackground.updateViewport(camera);
@@ -386,6 +615,58 @@
         }
       });
     }
+
+    /* ---- Legal document switcher ---- */
+    (function initDocSwitch() {
+      const DOCS = {
+        privacy: { title: 'Privacy Policy', tab: 'Privacy, Terms & Refunds - Glide' },
+        terms:   { title: 'Terms of Service', tab: 'Terms of Service - Glide' },
+        refunds: { title: 'Refund Policy', tab: 'Refund Policy - Glide' }
+      };
+
+      const tabs = Array.from(document.querySelectorAll('.doc-switch button'));
+      const heading = document.getElementById('doc-title');
+      if (!tabs.length || !heading) return;
+
+      function show(doc, updateHash) {
+        if (!DOCS[doc]) doc = 'privacy';
+
+        tabs.forEach(tab => {
+          const isActive = tab.dataset.doc === doc;
+          tab.setAttribute('aria-selected', String(isActive));
+          const panel = document.getElementById('panel-' + tab.dataset.doc);
+          if (panel) panel.hidden = !isActive;
+        });
+
+        heading.textContent = DOCS[doc].title;
+        document.title = DOCS[doc].tab;
+        if (updateHash) history.replaceState(null, '', '#' + doc);
+      }
+
+      tabs.forEach((tab, i) => {
+        tab.addEventListener('click', () => show(tab.dataset.doc, true));
+        tab.addEventListener('keydown', (e) => {
+          if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+          e.preventDefault();
+          const step = e.key === 'ArrowRight' ? 1 : -1;
+          const next = tabs[(i + step + tabs.length) % tabs.length];
+          next.focus();
+          show(next.dataset.doc, true);
+        });
+      });
+
+      // In-copy links that jump between documents.
+      document.querySelectorAll('[data-doc-link]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          show(link.dataset.docLink, true);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
+      window.addEventListener('hashchange', () => show(location.hash.slice(1), false));
+      show(location.hash.slice(1) || 'privacy', false);
+    })();
   </script>
 </body>
 </html>
