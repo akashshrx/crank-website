@@ -1,3 +1,13 @@
+# Paddle's default payment link is https://justglide.app/checkout, because justglide.app is the
+# only domain Paddle approved for this account. The page itself lives on the Glide proxy, and a
+# custom domain for that proxy is a paid Specific feature we deliberately do not buy. A 200
+# rewrite is a reverse proxy, so the buyer stays on the approved domain while Netlify fetches
+# the page from the proxy. Status 200, NOT 301: a redirect would move the buyer to an
+# unapproved domain and Paddle would reject the checkout.
+# The splat rule must come first, and it carries /checkout/fonts/*.woff2 too.
+/checkout/*  https://black-yak.spcf.app/checkout/:splat  200
+/checkout    https://black-yak.spcf.app/checkout         200
+
 /community  /community.html  200
 /pricing  /pricing.html  200
 /r/*  /r/index.html  200
