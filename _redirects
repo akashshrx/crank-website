@@ -4,9 +4,13 @@
 # rewrite is a reverse proxy, so the buyer stays on the approved domain while Netlify fetches
 # the page from the proxy. Status 200, NOT 301: a redirect would move the buyer to an
 # unapproved domain and Paddle would reject the checkout.
-# The splat rule must come first, and it carries /checkout/fonts/*.woff2 too.
-/checkout/*  https://black-yak.spcf.app/checkout/:splat  200
+# ORDER MATTERS, exact first. Netlify takes the first matching rule, and "/checkout/*" also
+# matches bare "/checkout" with an empty splat, which forwards to ".../checkout/" with a
+# trailing slash. Fastify routes strictly and 404s that. Measured, not guessed:
+#   {"message":"Route GET:/checkout/ not found","error":"Not Found","statusCode":404}
+# The splat rule below is still needed, for /checkout/fonts/*.woff2.
 /checkout    https://black-yak.spcf.app/checkout         200
+/checkout/*  https://black-yak.spcf.app/checkout/:splat  200
 
 /community  /community.html  200
 /pricing  /pricing.html  200
