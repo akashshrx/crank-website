@@ -358,7 +358,7 @@
 
     <!-- ============================ PRIVACY ============================ -->
     <section class="doc-panel" id="panel-privacy" role="tabpanel" aria-labelledby="tab-privacy">
-      <p class="doc-meta">Last updated 30 July 2026</p>
+      <p class="doc-meta">Last updated 31 July 2026</p>
 
       <p>At Glide, we <span class="caveat-highlight">prioritize your privacy</span> and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data <span class="caveat-highlight">under your control</span> while maintaining compliance with relevant frameworks, including GDPR.</p>
 
@@ -385,7 +385,11 @@
       <h3>3.3 Third-Party AI Providers</h3>
       <p>Glide relies on third-party AI partners (including Anthropic, OpenAI, and ElevenLabs) to power assistant features, voice outputs, and system actions. Payload contexts are securely proxied to these partners for immediate response generation. <span class="caveat-highlight">We do not sell your data</span> under any circumstances.</p>
 
-      <h3>3.4 Data Security</h3>
+      <h3>3.4 Crash &amp; Error Reporting</h3>
+      <p>When Glide crashes or hits an unexpected error, a diagnostic report is sent to Sentry, our error-tracking processor, so we can find and fix the fault. A report carries the technical detail of the failure only: the error itself, where in the code it happened, and the Glide version, build and operating system it happened on.</p>
+      <p>Reports are configured to <span class="caveat-highlight">exclude personal identifiers</span>: no name, email address, account identifier or IP address is attached. They also <strong>never carry what Glide was looking at or listening to</strong> — no screen contents, no prompts, no voice transcripts, no file or document names, and no addresses of pages you had open. Server-side reports likewise exclude request contents, headers and credentials.</p>
+
+      <h3>3.5 Data Security</h3>
       <p>All transient payloads and retained credential metadata are <span class="caveat-highlight">encrypted during transit</span> (using Transport Layer Security / TLS).</p>
 
       <h2>4. Retention of Information</h2>
