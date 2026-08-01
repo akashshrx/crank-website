@@ -176,29 +176,11 @@
     const dummyLook = new THREE.Object3D();
 
     // ----------------------------------------------------
-    // 3. Serene Murmuration Flock (18 Planes — Time-Staggered Trail)
+    // 3. Murmuration Flocking System (Leader + 17 Follower Planes = 18 Total)
+    //    Wide organic 3D starling cloud arrangement around the leader.
     // ----------------------------------------------------
     const FLOCK_SIZE = 18;
     const flock = [];
-
-    // --- Gentle Lazy-8 Orbit Curve Function ---
-    // Uses irrational frequency ratios (golden-ratio-related) so the path
-    // never exactly repeats, creating an endlessly fresh, organic trajectory.
-    // All values are bounded: X ∈ [-2.8, 2.8], Y ∈ [-1.1, 1.1], Z ∈ [1.4, 2.9]
-    function orbitPosition(t) {
-      const x = Math.sin(t * 0.618) * 2.4 + Math.sin(t * 0.214) * 0.35;
-      const y = Math.sin(t * 0.407) * 0.85 + Math.cos(t * 0.253) * 0.25;
-      const z = 2.15 + Math.cos(t * 0.309) * 0.55 + Math.sin(t * 0.171) * 0.2;
-      return new THREE.Vector3(x, y, z);
-    }
-
-    // Analytical velocity (1st derivative) for smooth forward orientation
-    function orbitVelocity(t) {
-      const vx = Math.cos(t * 0.618) * (2.4 * 0.618) + Math.cos(t * 0.214) * (0.35 * 0.214);
-      const vy = Math.cos(t * 0.407) * (0.85 * 0.407) - Math.sin(t * 0.253) * (0.25 * 0.253);
-      const vz = -Math.sin(t * 0.309) * (0.55 * 0.309) + Math.cos(t * 0.171) * (0.2 * 0.171);
-      return new THREE.Vector3(vx, vy, vz);
-    }
 
     // Leader Plane
     const leaderMesh = createPaperPlaneMesh(0);
@@ -209,59 +191,58 @@
     flock.push({
       mesh: leaderMesh,
       isLeader: true,
-      pos: orbitPosition(0).clone(),
-      smoothPos: orbitPosition(0).clone(),
-      prevPos: orbitPosition(0).clone(),
+      pos: new THREE.Vector3(0.8, 0.4, 2.2),
+      targetPos: new THREE.Vector3(0.8, 0.4, 2.2),
+      prevPos: new THREE.Vector3(0.8, 0.4, 2.2),
       scale: leaderScale,
-      timeOffset: 0,
-      lateralOffset: new THREE.Vector3(0, 0, 0),
+      offset: new THREE.Vector3(0, 0, 0),
       currentBank: 0
     });
 
-    // Followers: each follows the SAME orbit curve but at a time delay,
-    // plus a small unique lateral/vertical offset. This naturally prevents
-    // collision because they trace the leader's historical path.
+    // Followers: Wide organic 3D spatial distribution (cloud murmuration, NOT a line)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh(i);
       const scale = 0.172 + Math.random() * 0.187;
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
-      // Time delay: each follower trails behind
-      const timeDelay = -(0.8 + (i * 0.35) + Math.random() * 0.6);
+      // Organic wide 3D spatial distribution
+      const radius = 1.8 + Math.random() * 3.2;
+      const theta = Math.random() * Math.PI * 2;
+      const phi = (Math.random() - 0.5) * Math.PI * 0.85;
 
-      // Small lateral offset perpendicular to the flight path
-      const angle = (i / (FLOCK_SIZE - 1)) * Math.PI * 2 + Math.random() * 0.5;
-      const lateralRadius = 0.15 + Math.random() * 0.35;
-      const lateralOffset = new THREE.Vector3(
-        Math.cos(angle) * lateralRadius,
-        Math.sin(angle) * lateralRadius * 0.7,
-        0
-      );
-
-      const startPos = orbitPosition(timeDelay);
+      const offsetX = Math.cos(theta) * radius * 1.7;
+      const offsetY = Math.sin(phi) * radius * 1.25;
+      const offsetZ = -(1.0 + Math.random() * 5.0);
 
       flock.push({
         mesh: mesh,
         isLeader: false,
-        pos: startPos.clone(),
-        smoothPos: startPos.clone(),
-        prevPos: startPos.clone(),
+        pos: new THREE.Vector3(offsetX, offsetY, offsetZ),
+        targetPos: new THREE.Vector3(),
+        prevPos: new THREE.Vector3(),
         scale: scale,
-        timeOffset: timeDelay,
-        lateralOffset: lateralOffset,
+        offset: new THREE.Vector3(offsetX, offsetY, offsetZ),
         wavePhaseX: Math.random() * Math.PI * 2,
         wavePhaseY: Math.random() * Math.PI * 2,
-        waveSpeed: 0.3 + Math.random() * 0.25,
+        waveSpeedX: 1.0 + Math.random() * 1.0,
+        waveSpeedY: 0.8 + Math.random() * 1.0,
+        waveAmpX: 0.45 + Math.random() * 0.45,
+        waveAmpY: 0.35 + Math.random() * 0.45,
+        lerpRate: 0.024 + Math.random() * 0.022,
         currentBank: 0
       });
     }
 
+    // Smoothed heading matrix (yaw-only, no pitch/roll) to prevent follower morphing
+    const headingMatrix = new THREE.Matrix4();
+    const smoothedHeading = new THREE.Vector3(1, 0, 0);
+
     // ----------------------------------------------------
-    // 4. Animation Loop — Serene Orbit + Gentle Murmuration
+    // 4. Animation Loop — Wide Graceful Orbit + Cloud Murmuration
     // ----------------------------------------------------
-    
-    // Standardized Theme Color Presets (Darker gradient end colors from home screen)
+
+    // Standardized Theme Color Presets
     const themes = {
       day: {
         topStart: new THREE.Color('#002d5a'),
@@ -316,7 +297,6 @@
     if (dayBtn) dayBtn.addEventListener('click', () => setThemeSmooth(false));
     if (nightBtn) nightBtn.addEventListener('click', () => setThemeSmooth(true));
 
-    // Observe body class changes from external theme toggling (faq.js, etc.)
     const themeObserver = new MutationObserver(() => {
       if (isSelfUpdatingClass) return;
       const isNight = document.body.classList.contains('space-night-theme');
@@ -327,7 +307,7 @@
     const clock = new THREE.Clock();
     let time = 0;
 
-    // Reusable vectors to avoid per-frame allocations
+    // Reusable vectors
     const _sepForce = new THREE.Vector3();
     const _diff = new THREE.Vector3();
 
@@ -335,9 +315,9 @@
       requestAnimationFrame(animate);
 
       const delta = clock.getDelta();
-      time += delta * 0.55;
+      time += delta * 0.60;
 
-      // Sync theme colors to WebGL shaders & lights
+      // Sync theme colors to shaders
       skyBackground.material.uniforms.uSkyColor.value.copy(activeThemeColors.topStart);
       skyBackground.material.uniforms.uSkyColorBottom.value.copy(activeThemeColors.bottomStart);
       skyBackground.material.uniforms.uStarOpacity.value = activeThemeColors.starOpacity;
@@ -347,79 +327,97 @@
 
       clouds.update(delta);
 
-      // --- LEADER: Glide along the gentle orbit ---
+      // --- LEADER FLIGHT PATH ---
+      // Wide, graceful orbit using golden-ratio irrational frequencies.
+      // Sweeps across the full viewport: X ∈ [-4.5, 4.5], Y ∈ [-1.8, 1.8]
       const leader = flock[0];
-      leader.prevPos.copy(leader.smoothPos);
+      leader.prevPos.copy(leader.pos);
 
-      const leaderTarget = orbitPosition(time);
-      leader.smoothPos.lerp(leaderTarget, 0.04);
-      leader.mesh.position.copy(leader.smoothPos);
+      leader.targetPos.x = Math.sin(time * 0.618) * 4.0 + Math.sin(time * 0.214) * 0.5;
+      leader.targetPos.y = Math.sin(time * 0.407) * 1.4 + Math.cos(time * 0.253) * 0.4;
+      leader.targetPos.z = 2.15 + Math.cos(time * 0.309) * 0.65 + Math.sin(time * 0.171) * 0.25;
 
-      // Smooth forward orientation from analytical velocity
-      const vel = orbitVelocity(time);
-      const lookAt = new THREE.Vector3().addVectors(leader.smoothPos, vel.normalize());
-      dummyLook.position.copy(leader.smoothPos);
-      dummyLook.lookAt(lookAt);
+      // Silky inertia lerp
+      leader.pos.lerp(leader.targetPos, 0.035);
+      leader.mesh.position.copy(leader.pos);
 
-      // Gentle aerodynamic banking proportional to lateral acceleration
-      const accelX = -Math.sin(time * 0.618) * (2.4 * 0.618 * 0.618);
-      const targetBank = THREE.MathUtils.clamp(-accelX * 12.0, -0.45, 0.45);
-      leader.currentBank += (targetBank - leader.currentBank) * 0.03;
+      // Analytical velocity for smooth forward orientation
+      const velX = Math.cos(time * 0.618) * (4.0 * 0.618) + Math.cos(time * 0.214) * (0.5 * 0.214);
+      const velY = Math.cos(time * 0.407) * (1.4 * 0.407) - Math.sin(time * 0.253) * (0.4 * 0.253);
+      const velZ = -Math.sin(time * 0.309) * (0.65 * 0.309) + Math.cos(time * 0.171) * (0.25 * 0.171);
+      const smoothVel = new THREE.Vector3(velX, velY, velZ).normalize();
+
+      // Aerodynamic banking from centripetal acceleration
+      const accelX = -Math.sin(time * 0.618) * (4.0 * 0.618 * 0.618);
+      const targetBank = THREE.MathUtils.clamp(-accelX * 8.0, -0.5, 0.5);
+
+      const lookTarget = new THREE.Vector3().addVectors(leader.pos, smoothVel);
+      dummyLook.position.copy(leader.pos);
+      dummyLook.lookAt(lookTarget);
+
+      leader.currentBank += (targetBank - leader.currentBank) * 0.04;
       dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), leader.currentBank);
-      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.04);
+      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.045);
 
-      // --- FOLLOWERS: Time-staggered trail along same curve ---
+      // --- Build a YAW-ONLY heading matrix from the leader's XZ velocity ---
+      // This prevents follower offsets from flipping wildly during pitch changes,
+      // which was the root cause of planes morphing through each other.
+      const flatVel = new THREE.Vector3(velX, 0, velZ).normalize();
+      smoothedHeading.lerp(flatVel, 0.03).normalize();
+      const headingAngle = Math.atan2(smoothedHeading.x, smoothedHeading.z);
+      headingMatrix.makeRotationY(headingAngle);
+
+      // --- FOLLOWER FLOCK (Wide 3D Cloud Murmuration) ---
       for (let i = 1; i < FLOCK_SIZE; i++) {
         const boid = flock[i];
-        boid.prevPos.copy(boid.smoothPos);
+        boid.prevPos.copy(boid.pos);
 
-        // Sample the orbit at the boid's personal time delay
-        const boidTime = time + boid.timeOffset;
-        const basePos = orbitPosition(boidTime);
+        // Organic harmonic weaving per boid
+        const waveX = Math.sin(time * 0.5 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
+        const waveY = Math.cos(time * 0.38 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
+        const waveZ = Math.sin(time * 0.6 + boid.wavePhaseX * 0.5) * 0.35;
 
-        // Add gentle breathing micro-motion (subtle, personal wavering)
-        const breathX = Math.sin(time * boid.waveSpeed + boid.wavePhaseX) * 0.12;
-        const breathY = Math.cos(time * boid.waveSpeed * 0.7 + boid.wavePhaseY) * 0.08;
+        // Compute local offset with weaving
+        const localOffset = new THREE.Vector3(
+          boid.offset.x + waveX,
+          boid.offset.y + waveY,
+          boid.offset.z + waveZ
+        );
 
-        // Compute flight-path-aligned lateral offset using local perpendicular frame
-        const boidVel = orbitVelocity(boidTime).normalize();
-        const worldUp = new THREE.Vector3(0, 1, 0);
-        const right = new THREE.Vector3().crossVectors(boidVel, worldUp).normalize();
-        const up = new THREE.Vector3().crossVectors(right, boidVel).normalize();
+        // Transform by smoothed yaw-only heading (NOT full leader rotation)
+        const worldOffset = localOffset.clone().applyMatrix4(headingMatrix);
 
-        const targetPos = basePos.clone();
-        targetPos.addScaledVector(right, boid.lateralOffset.x + breathX);
-        targetPos.addScaledVector(up, boid.lateralOffset.y + breathY);
+        // Target = leader position + rotated offset
+        const worldTarget = new THREE.Vector3().addVectors(leader.pos, worldOffset);
 
-        // Soft separation force: gently push apart any boids that get too close
+        // Soft separation force to prevent overlap
         _sepForce.set(0, 0, 0);
         for (let j = 0; j < FLOCK_SIZE; j++) {
           if (j === i) continue;
           const other = flock[j];
-          _diff.subVectors(boid.smoothPos, other.smoothPos);
+          _diff.subVectors(boid.pos, other.pos);
           const dist = _diff.length();
-          const minDist = (boid.scale + other.scale) * 1.8;
+          const minDist = (boid.scale + other.scale) * 2.0;
           if (dist < minDist && dist > 0.001) {
-            _diff.normalize().multiplyScalar((minDist - dist) * 0.15);
+            _diff.normalize().multiplyScalar((minDist - dist) * 0.12);
             _sepForce.add(_diff);
           }
         }
-        targetPos.add(_sepForce);
+        worldTarget.add(_sepForce);
 
-        // Silky smooth inertia lerp
-        boid.smoothPos.lerp(targetPos, 0.035);
-        boid.mesh.position.copy(boid.smoothPos);
+        // High-inertia fluid lerp
+        boid.pos.lerp(worldTarget, boid.lerpRate);
+        boid.mesh.position.copy(boid.pos);
 
-        // Smooth forward orientation from frame-to-frame velocity
-        const boidFrameVel = new THREE.Vector3().subVectors(boid.smoothPos, boid.prevPos);
-        if (boidFrameVel.lengthSq() > 0.0000001) {
-          const boidLookAt = new THREE.Vector3().addVectors(boid.smoothPos, boidFrameVel.normalize());
-          dummyLook.position.copy(boid.smoothPos);
-          dummyLook.lookAt(boidLookAt);
+        // Smooth rotation from frame velocity
+        const boidVel = new THREE.Vector3().subVectors(boid.pos, boid.prevPos);
+        if (boidVel.lengthSq() > 0.000001) {
+          const boidLook = new THREE.Vector3().addVectors(boid.pos, boidVel);
+          dummyLook.position.copy(boid.pos);
+          dummyLook.lookAt(boidLook);
 
-          // Gentle personal banking
-          const roll = Math.sin(time * 0.35 + boid.wavePhaseX) * 0.18;
-          boid.currentBank += (roll - boid.currentBank) * 0.03;
+          const targetRoll = Math.sin(time * 0.45 + boid.wavePhaseX) * 0.22;
+          boid.currentBank += (targetRoll - boid.currentBank) * 0.035;
           dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), boid.currentBank);
 
           boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.04);
