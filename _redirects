@@ -12,6 +12,16 @@
 /checkout    https://black-yak.spcf.app/checkout         200
 /checkout/*  https://black-yak.spcf.app/checkout/:splat  200
 
+# Same reverse-proxy trick, for a different reason: the HTML `download` attribute is IGNORED on a
+# CROSS-ORIGIN link. Pointing the buttons straight at black-yak.spcf.app therefore dropped the
+# attribute, the browser treated the click as a navigation to an attachment, and the user got a
+# Save-As panel asking them to name the file instead of the one-click, already-named download every
+# other site gives (user report 2026-08-01). Routing it through justglide.app makes the link
+# SAME-ORIGIN, so `download` is honoured and the file lands in Downloads under its own name.
+# The proxy still sees the request, so the download counter and the active-release lookup are
+# unaffected.
+/download/mac  https://black-yak.spcf.app/download/mac  200
+
 /community  /community.html  200
 /pricing  /pricing.html  200
 /r/*  /r/index.html  200
