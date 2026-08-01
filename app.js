@@ -375,16 +375,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const downloadLinks = document.querySelectorAll('.btn-download, .conversion-download-btn');
   const downloadToast = document.getElementById('download-toast');
 
+  // The build IS live now, so the click must reach the href. This used to call preventDefault()
+  // and show a "we are cooking" toast instead, which swallowed every Download button on the site
+  // even though the markup pointed at the real installer all along. The toast now CONFIRMS the
+  // download rather than replacing it, so let the browser navigate.
   downloadLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      // Show download started toast
+    link.addEventListener('click', () => {
+      if (!downloadToast) return;
       downloadToast.classList.add('show');
-      
-      // Auto-hide toast after 5 seconds
-      setTimeout(() => {
-        downloadToast.classList.remove('show');
-      }, 5000);
+      setTimeout(() => downloadToast.classList.remove('show'), 5000);
     });
   });
 
