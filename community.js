@@ -177,14 +177,13 @@
 
     // ----------------------------------------------------
     // 3. Murmuration Flocking System (Leader + 17 Follower Planes = 18 Total)
-    //    Wide organic 3D starling cloud arrangement around the leader.
     // ----------------------------------------------------
     const FLOCK_SIZE = 18;
     const flock = [];
 
     // Leader Plane
     const leaderMesh = createPaperPlaneMesh(0);
-    const leaderScale = 0.437;
+    const leaderScale = 0.437; // 20% larger (0.364 * 1.20)
     leaderMesh.scale.set(leaderScale, leaderScale, leaderScale);
     scene.add(leaderMesh);
 
@@ -199,21 +198,21 @@
       currentBank: 0
     });
 
-    // Followers: Wide organic 3D spatial distribution (cloud murmuration, NOT a line)
+    // Followers (17 Paper Planes - 30% larger, organic wide 3D starling cloud with subtle tints)
     for (let i = 1; i < FLOCK_SIZE; i++) {
       const mesh = createPaperPlaneMesh(i);
-      const scale = 0.172 + Math.random() * 0.187;
+      const scale = 0.172 + Math.random() * 0.187; // 20% larger scale range for depth perspective
       mesh.scale.set(scale, scale, scale);
       scene.add(mesh);
 
-      // Organic wide 3D spatial distribution
-      const radius = 1.8 + Math.random() * 3.2;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = (Math.random() - 0.5) * Math.PI * 0.85;
+      // Organic wide 3D spatial distribution (No rigid V-shape grid!)
+      const radius = 1.8 + Math.random() * 3.2; // Spacious 3D radius spread
+      const theta = Math.random() * Math.PI * 2; // Random angle around flight axis
+      const phi = (Math.random() - 0.5) * Math.PI * 0.85; // Random vertical inclination
 
-      const offsetX = Math.cos(theta) * radius * 1.7;
-      const offsetY = Math.sin(phi) * radius * 1.25;
-      const offsetZ = -(1.0 + Math.random() * 5.0);
+      const offsetX = Math.cos(theta) * radius * 1.7; // Wide lateral spread across screen
+      const offsetY = Math.sin(phi) * radius * 1.25;  // Wide vertical spread
+      const offsetZ = - (1.0 + Math.random() * 5.0); // Spacious trailing ribbon behind leader
 
       flock.push({
         mesh: mesh,
@@ -234,26 +233,22 @@
       });
     }
 
-    // Smoothed heading matrix (yaw-only, no pitch/roll) to prevent follower morphing
-    const headingMatrix = new THREE.Matrix4();
-    const smoothedHeading = new THREE.Vector3(1, 0, 0);
-
     // ----------------------------------------------------
-    // 4. Animation Loop — Wide Graceful Orbit + Cloud Murmuration
+    // 4. Animation Loop & Gradual Bezier Motion Math
     // ----------------------------------------------------
-
-    // Standardized Theme Color Presets
+    
+    // Standardized Theme Color Presets (Darker gradient end colors from home screen)
     const themes = {
       day: {
-        topStart: new THREE.Color('#002d5a'),
-        bottomStart: new THREE.Color('#005099'),
+        topStart: new THREE.Color('#002d5a'),   // Darker blue end color from home light mode top
+        bottomStart: new THREE.Color('#005099'),// Darker blue end color from home light mode bottom
         starOpacity: 0.0,
         dirIntensity: 1.3,
         ambientColor: new THREE.Color('#dbeafe')
       },
       night: {
-        topStart: new THREE.Color('#040a1c'),
-        bottomStart: new THREE.Color('#0e1b38'),
+        topStart: new THREE.Color('#040a1c'),   // Darker midnight end color from home dark mode top
+        bottomStart: new THREE.Color('#0e1b38'),// Darker night horizon end color from home dark mode bottom
         starOpacity: 1.0,
         dirIntensity: 0.8,
         ambientColor: new THREE.Color('#1e293b')
@@ -273,51 +268,86 @@
 
     let isSelfUpdatingClass = false;
 
-    function setThemeSmooth(isNight) {
+    // Standardized 2.2s GSAP Color Interpolation (Identical to Home Screen)
+    function updateTheme(isNight, transition = true) {
       const target = isNight ? themes.night : themes.day;
-      if (typeof gsap !== 'undefined') {
-        gsap.to(activeThemeColors.topStart, { r: target.topStart.r, g: target.topStart.g, b: target.topStart.b, duration: 2.2, ease: 'power2.out' });
-        gsap.to(activeThemeColors.bottomStart, { r: target.bottomStart.r, g: target.bottomStart.g, b: target.bottomStart.b, duration: 2.2, ease: 'power2.out' });
-        gsap.to(activeThemeColors, { starOpacity: target.starOpacity, dirIntensity: target.dirIntensity, duration: 2.2, ease: 'power2.out' });
-        gsap.to(activeThemeColors.ambientColor, { r: target.ambientColor.r, g: target.ambientColor.g, b: target.ambientColor.b, duration: 2.2, ease: 'power2.out' });
-      }
-      isSelfUpdatingClass = true;
-      if (isNight) {
-        document.body.classList.add('space-night-theme');
-        if (dayBtn) dayBtn.classList.remove('active');
-        if (nightBtn) nightBtn.classList.add('active');
+
+      if (transition && typeof gsap !== 'undefined') {
+        gsap.to(activeThemeColors.topStart, {
+          r: target.topStart.r, g: target.topStart.g, b: target.topStart.b,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors.bottomStart, {
+          r: target.bottomStart.r, g: target.bottomStart.g, b: target.bottomStart.b,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors, {
+          starOpacity: target.starOpacity,
+          dirIntensity: target.dirIntensity,
+          duration: 2.2, ease: "power2.out"
+        });
+        gsap.to(activeThemeColors.ambientColor, {
+          r: target.ambientColor.r, g: target.ambientColor.g, b: target.ambientColor.b,
+          duration: 2.2, ease: "power2.out"
+        });
       } else {
-        document.body.classList.remove('space-night-theme');
-        if (dayBtn) dayBtn.classList.add('active');
-        if (nightBtn) nightBtn.classList.remove('active');
+        activeThemeColors.topStart.copy(target.topStart);
+        activeThemeColors.bottomStart.copy(target.bottomStart);
+        activeThemeColors.starOpacity = target.starOpacity;
+        activeThemeColors.dirIntensity = target.dirIntensity;
+        activeThemeColors.ambientColor.copy(target.ambientColor);
       }
-      requestAnimationFrame(() => { isSelfUpdatingClass = false; });
+
+      const currentlyNight = document.body.classList.contains('space-night-theme');
+      if (isNight !== currentlyNight) {
+        isSelfUpdatingClass = true;
+        if (isNight) {
+          document.body.classList.add('space-night-theme');
+        } else {
+          document.body.classList.remove('space-night-theme');
+        }
+        setTimeout(() => { isSelfUpdatingClass = false; }, 50);
+      }
+
+      if (dayBtn) dayBtn.classList.toggle('active', !isNight);
+      if (nightBtn) nightBtn.classList.toggle('active', isNight);
     }
 
-    if (dayBtn) dayBtn.addEventListener('click', () => setThemeSmooth(false));
-    if (nightBtn) nightBtn.addEventListener('click', () => setThemeSmooth(true));
+    if (dayBtn) {
+      dayBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        updateTheme(false, true);
+      });
+    }
+
+    if (nightBtn) {
+      nightBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        updateTheme(true, true);
+      });
+    }
+
+    // Initialize initial state based on current body class
+    const initialNight = document.body.classList.contains('space-night-theme');
+    updateTheme(initialNight, false);
 
     const themeObserver = new MutationObserver(() => {
       if (isSelfUpdatingClass) return;
       const isNight = document.body.classList.contains('space-night-theme');
-      setThemeSmooth(isNight);
+      updateTheme(isNight, true);
     });
     themeObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     const clock = new THREE.Clock();
     let time = 0;
 
-    // Reusable vectors
-    const _sepForce = new THREE.Vector3();
-    const _diff = new THREE.Vector3();
-
     function animate() {
       requestAnimationFrame(animate);
 
       const delta = clock.getDelta();
-      time += delta * 0.60;
+      time += delta * 0.70; // ~55% faster than original baseline for slightly quicker sweep
 
-      // Sync theme colors to shaders
+      // Continuously sync GSAP-animated theme colors to WebGL Shaders & Lights
       skyBackground.material.uniforms.uSkyColor.value.copy(activeThemeColors.topStart);
       skyBackground.material.uniforms.uSkyColorBottom.value.copy(activeThemeColors.bottomStart);
       skyBackground.material.uniforms.uStarOpacity.value = activeThemeColors.starOpacity;
@@ -327,100 +357,87 @@
 
       clouds.update(delta);
 
-      // --- LEADER FLIGHT PATH ---
-      // Wide, graceful orbit using golden-ratio irrational frequencies.
-      // Sweeps across the full viewport: X ∈ [-4.5, 4.5], Y ∈ [-1.8, 1.8]
+      // --- LEADER FLIGHT TRAJECTORY (Graceful 3D Infinity Lemniscate Murmuration Arc) ---
       const leader = flock[0];
       leader.prevPos.copy(leader.pos);
 
-      leader.targetPos.x = Math.sin(time * 0.618) * 4.0 + Math.sin(time * 0.214) * 0.5;
-      leader.targetPos.y = Math.sin(time * 0.407) * 1.4 + Math.cos(time * 0.253) * 0.4;
-      leader.targetPos.z = 2.15 + Math.cos(time * 0.309) * 0.65 + Math.sin(time * 0.171) * 0.25;
+      // Master motion phase frequency
+      const tm = time * 0.26;
 
-      // Silky inertia lerp
-      leader.pos.lerp(leader.targetPos, 0.035);
+      // Elegant 3D Lemniscate of Gerono + Horizon Arc Swell (Wide, majestic 3D sweep)
+      // X: Wide horizon sweep left-to-right (-3.1 to +3.1)
+      leader.targetPos.x = Math.sin(tm) * 3.1;
+
+      // Y: Double-frequency figure-8 elevation arc (+ cresting climb into turns, gentle valley swoops)
+      leader.targetPos.y = Math.sin(2.0 * tm) * 1.25 + Math.cos(tm) * 0.35;
+
+      // Z: Dynamic depth breathing (closer to viewer on valley swoops, further back during high climbs)
+      leader.targetPos.z = 2.15 + Math.cos(2.0 * tm + 0.4) * 0.75;
+
+      // Silky inertia position lerping (delivers effortless, ethereal paper plane glide)
+      leader.pos.lerp(leader.targetPos, 0.038);
       leader.mesh.position.copy(leader.pos);
 
-      // Analytical velocity for smooth forward orientation
-      const velX = Math.cos(time * 0.618) * (4.0 * 0.618) + Math.cos(time * 0.214) * (0.5 * 0.214);
-      const velY = Math.cos(time * 0.407) * (1.4 * 0.407) - Math.sin(time * 0.253) * (0.4 * 0.253);
-      const velZ = -Math.sin(time * 0.309) * (0.65 * 0.309) + Math.cos(time * 0.171) * (0.25 * 0.171);
+      // Exact Analytical Velocity Vector (Silky 1st Derivative for pitch/yaw orientation)
+      const velX = Math.cos(tm) * (3.1 * 0.26);
+      const velY = Math.cos(2.0 * tm) * (2.5 * 0.26) - Math.sin(tm) * (0.35 * 0.26);
+      const velZ = -Math.sin(2.0 * tm + 0.4) * (1.5 * 0.26);
       const smoothVel = new THREE.Vector3(velX, velY, velZ).normalize();
 
-      // Aerodynamic banking from centripetal acceleration
-      const accelX = -Math.sin(time * 0.618) * (4.0 * 0.618 * 0.618);
-      const targetBank = THREE.MathUtils.clamp(-accelX * 8.0, -0.5, 0.5);
+      // Analytical Centripetal Acceleration (Silky 2nd Derivative for graceful aerodynamic banking)
+      const accelX = -Math.sin(tm) * (3.1 * 0.26 * 0.26);
+      const targetBank = THREE.MathUtils.clamp(-accelX * 22.0, -0.62, 0.62);
 
+      // Smooth orientation slerp along aerodynamic flight path
       const lookTarget = new THREE.Vector3().addVectors(leader.pos, smoothVel);
       dummyLook.position.copy(leader.pos);
       dummyLook.lookAt(lookTarget);
 
-      leader.currentBank += (targetBank - leader.currentBank) * 0.04;
+      leader.currentBank += (targetBank - leader.currentBank) * 0.05;
       dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), leader.currentBank);
-      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.045);
+      leader.mesh.quaternion.slerp(dummyLook.quaternion, 0.05);
 
-      // --- Build a YAW-ONLY heading matrix from the leader's XZ velocity ---
-      // This prevents follower offsets from flipping wildly during pitch changes,
-      // which was the root cause of planes morphing through each other.
-      const flatVel = new THREE.Vector3(velX, 0, velZ).normalize();
-      smoothedHeading.lerp(flatVel, 0.03).normalize();
-      const headingAngle = Math.atan2(smoothedHeading.x, smoothedHeading.z);
-      headingMatrix.makeRotationY(headingAngle);
+      // --- FOLLOWER FLOCK (Dynamic Starling Murmuration Wave & Breath) ---
+      const leaderMatrix = leader.mesh.matrixWorld;
+      // Dynamic flock compression: flock expands gracefully on high climbs and tightens on turns
+      const flockExpansion = 1.0 + Math.sin(tm * 2.0) * 0.18;
 
-      // --- FOLLOWER FLOCK (Wide 3D Cloud Murmuration) ---
       for (let i = 1; i < FLOCK_SIZE; i++) {
         const boid = flock[i];
         boid.prevPos.copy(boid.pos);
 
-        // Organic harmonic weaving per boid
-        const waveX = Math.sin(time * 0.5 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX;
-        const waveY = Math.cos(time * 0.38 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY;
-        const waveZ = Math.sin(time * 0.6 + boid.wavePhaseX * 0.5) * 0.35;
+        // Individualized 3D Organic Harmonic Weaving Equations
+        const waveX = Math.sin(time * 0.5 * boid.waveSpeedX + boid.wavePhaseX) * boid.waveAmpX * flockExpansion;
+        const waveY = Math.cos(time * 0.38 * boid.waveSpeedY + boid.wavePhaseY) * boid.waveAmpY * flockExpansion;
+        const waveZ = Math.sin(time * 0.6 + boid.wavePhaseX * 0.5) * 0.38;
 
-        // Compute local offset with weaving
+        // Offset relative to leader's local coordinate frame
         const localOffset = new THREE.Vector3(
-          boid.offset.x + waveX,
-          boid.offset.y + waveY,
+          boid.offset.x * flockExpansion + waveX,
+          boid.offset.y * flockExpansion + waveY,
           boid.offset.z + waveZ
         );
 
-        // Transform by smoothed yaw-only heading (NOT full leader rotation)
-        const worldOffset = localOffset.clone().applyMatrix4(headingMatrix);
-
-        // Target = leader position + rotated offset
-        const worldTarget = new THREE.Vector3().addVectors(leader.pos, worldOffset);
-
-        // Soft separation force to prevent overlap
-        _sepForce.set(0, 0, 0);
-        for (let j = 0; j < FLOCK_SIZE; j++) {
-          if (j === i) continue;
-          const other = flock[j];
-          _diff.subVectors(boid.pos, other.pos);
-          const dist = _diff.length();
-          const minDist = (boid.scale + other.scale) * 2.0;
-          if (dist < minDist && dist > 0.001) {
-            _diff.normalize().multiplyScalar((minDist - dist) * 0.12);
-            _sepForce.add(_diff);
-          }
-        }
-        worldTarget.add(_sepForce);
-
-        // High-inertia fluid lerp
+        // Transform local offset to world space aligned with leader direction
+        const worldTarget = localOffset.applyMatrix4(leaderMatrix);
+        
+        // High-inertia fluid position lerp (creates gradual, silky-smooth murmuration wave propagation)
         boid.pos.lerp(worldTarget, boid.lerpRate);
         boid.mesh.position.copy(boid.pos);
 
-        // Smooth rotation from frame velocity
+        // Smooth Quaternion Slerp for Follower Rotations
         const boidVel = new THREE.Vector3().subVectors(boid.pos, boid.prevPos);
         if (boidVel.lengthSq() > 0.000001) {
           const boidLook = new THREE.Vector3().addVectors(boid.pos, boidVel);
           dummyLook.position.copy(boid.pos);
           dummyLook.lookAt(boidLook);
 
-          const targetRoll = Math.sin(time * 0.45 + boid.wavePhaseX) * 0.22;
-          boid.currentBank += (targetRoll - boid.currentBank) * 0.035;
+          // Synchronized organic wing roll per boid
+          const targetRoll = Math.sin(time * 0.45 + boid.wavePhaseX) * 0.24;
+          boid.currentBank += (targetRoll - boid.currentBank) * 0.04;
           dummyLook.rotateOnAxis(new THREE.Vector3(0, 0, 1), boid.currentBank);
 
-          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.04);
+          boid.mesh.quaternion.slerp(dummyLook.quaternion, 0.045);
         }
       }
 
@@ -430,7 +447,7 @@
     animate();
 
     // ----------------------------------------------------
-    // 5. Window Resize
+    // 5. Window Resize & Standardized GSAP Theme Integration
     // ----------------------------------------------------
     function onResize() {
       const width = window.innerWidth;
@@ -444,4 +461,3 @@
     window.addEventListener('resize', onResize);
   });
 })();
-
