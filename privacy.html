@@ -73,20 +73,28 @@
 
     .sky-divider {
       position: absolute;
-      bottom: -2px;
+      bottom: -1px;
       left: 0;
       width: 100%;
-      height: 120px;
+      height: 60px;
       pointer-events: none;
       z-index: 5;
       overflow: visible;
+      background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.85) 100%);
+    }
+
+    body.space-night-theme .sky-divider {
+      background: linear-gradient(to bottom, rgba(9,18,44,0) 0%, rgba(9,18,44,0.4) 50%, rgba(9,18,44,0.85) 100%);
     }
 
     .sky-divider svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
       display: block;
       width: 100%;
-      height: 100%;
-      filter: blur(4px);
+      height: 30px;
+      filter: blur(12px);
     }
 
     .sky-divider svg path {
@@ -357,8 +365,8 @@
   <div class="sky-header">
     <canvas id="webgl-canvas"></canvas>
     <div class="sky-divider">
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,120 L0,85 Q60,55 120,72 Q180,88 240,65 Q310,38 400,58 Q460,72 520,52 Q580,32 660,48 Q720,60 780,42 Q850,20 940,45 Q1000,62 1060,38 Q1120,18 1200,42 Q1280,62 1340,48 Q1400,36 1440,55 L1440,120 Z" />
+      <svg viewBox="0 0 1440 30" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 L0,18 Q120,10 240,15 Q360,20 480,13 Q600,7 720,12 Q840,17 960,11 Q1080,6 1200,14 Q1320,19 1440,16 L1440,30 Z" />
       </svg>
     </div>
   </div>
