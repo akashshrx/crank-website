@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=59">
+  <link rel="stylesheet" href="style.css?v=60">
   <link rel="icon" type="image/png" href="logo_white.png?v=2">
 
   <style>
@@ -537,8 +537,50 @@
        The accordion block inside is a no-op here because there are no .faq-item nodes. -->
   <script src="faq.js?v=4"></script>
 
-  <!-- Monthly / Yearly price switch -->
+  <!-- Mobile Navigation Toggle & Monthly / Yearly price switch -->
   <script>
+    (function initMobileNav() {
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const navLinks = document.querySelector('.nav-links');
+
+      if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isOpen = navLinks.classList.toggle('mobile-open');
+          const hamburger = mobileMenuBtn.querySelector('.hamburger-icon');
+          const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+          if (hamburger && closeIcon) {
+            hamburger.style.display = isOpen ? 'none' : 'block';
+            closeIcon.style.display = isOpen ? 'block' : 'none';
+          }
+        });
+
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.site-header')) {
+            navLinks.classList.remove('mobile-open');
+            const hamburger = mobileMenuBtn.querySelector('.hamburger-icon');
+            const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+            if (hamburger && closeIcon) {
+              hamburger.style.display = 'block';
+              closeIcon.style.display = 'none';
+            }
+          }
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navLinks.classList.remove('mobile-open');
+            const hamburger = mobileMenuBtn.querySelector('.hamburger-icon');
+            const closeIcon = mobileMenuBtn.querySelector('.close-icon');
+            if (hamburger && closeIcon) {
+              hamburger.style.display = 'block';
+              closeIcon.style.display = 'none';
+            }
+          });
+        });
+      }
+    })();
+
     (function initBillingToggle() {
       const monthlyBtn = document.getElementById('billing-monthly');
       const yearlyBtn = document.getElementById('billing-yearly');
@@ -551,8 +593,6 @@
         monthlyBtn.setAttribute('aria-pressed', String(!yearly));
         yearlyBtn.setAttribute('aria-pressed', String(yearly));
 
-        // Fade the figures out, swap the text mid-flight, fade back in. The unit line
-        // swaps with them so "billed yearly" never lags a frame behind the number.
         prices.forEach(el => el.classList.add('swapping'));
         window.setTimeout(() => {
           swappable.forEach(el => {

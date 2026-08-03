@@ -30,7 +30,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=59">
+  <link rel="stylesheet" href="style.css?v=60">
 
   <style>
     body {
@@ -67,6 +67,15 @@
       width: 100% !important;
       height: 100% !important;
       z-index: 1;
+      opacity: 1 !important;
+      animation: none !important;
+    }
+
+    @media (max-width: 768px) {
+      .sky-header {
+        height: 140px;
+        min-height: 140px;
+      }
     }
 
     .sky-divider {
