@@ -17,6 +17,7 @@
     -moz-osx-font-smoothing: grayscale;
     width: 100%;
     max-width: 100%;
+    overflow-x: hidden;
   }
 
   body {
@@ -2223,8 +2224,9 @@
   
   .questions-viewport {
     width: 100%;
+    max-width: 100%;
     height: auto;
-    overflow: visible;
+    overflow: hidden;
   }
   
   .questions-grid {
@@ -2234,6 +2236,8 @@
     transform: none;
     flex-direction: column;
     gap: 1.5rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .question-row {
@@ -2241,6 +2245,8 @@
     gap: 1.5rem;
     white-space: normal;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .question-pill {
@@ -2250,6 +2256,14 @@
     white-space: normal;
     text-align: center;
     line-height: 1.4;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .caveat-highlight {
+    white-space: normal;
   }
   
   .row-1 { padding-left: 0px; }
