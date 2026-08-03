@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const keelMesh = new THREE.Mesh(keelGeom, keelMat);
       group.add(keelMesh);
       
-      const isMobile = window.innerWidth < 768;
+      const isMobile = window.innerWidth <= 1024;
       const initialScale = isMobile ? 0.139 : 0.254;
       group.scale.set(initialScale, initialScale, initialScale);
       return group;
@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       
       // Update plane scale responsively
-      const isMobile = window.innerWidth < 768;
+      const isMobile = window.innerWidth <= 1024;
       const currentScale = isMobile ? 0.139 : 0.254;
       paperPlane.scale.set(currentScale, currentScale, currentScale);
       
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let mm = gsap.matchMedia();
 
-    mm.add("(min-width: 769px)", () => {
+    mm.add("(min-width: 1025px)", () => {
       // GSAP ScrollTrigger for horizontal questions grid scroll
       const questionsTimeline = gsap.timeline({
         scrollTrigger: {
