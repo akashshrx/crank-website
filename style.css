@@ -23,7 +23,7 @@
     background: var(--bg-base);
     color: var(--text-main);
     font-family: var(--font-sans);
-    overflow-x: clip;
+    overflow-x: hidden;
     width: 100%;
     max-width: 100%;
     line-height: 1.5;
@@ -324,7 +324,7 @@
     -webkit-backdrop-filter: blur(4px);
   }
 
-  @media (min-width: 901px) {
+  @media (min-width: 1025px) {
     .header-container {
       transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding-inline 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -803,30 +803,8 @@
     background: rgba(255, 255, 255, 0.1);
   }
 
-  /* Tablet responsive adjustments (901px to 1024px) */
-  @media (min-width: 901px) and (max-width: 1024px) {
-    .header-container {
-      width: calc(100% - 2rem);
-      max-width: 782px;
-      padding-inline: 1.5rem;
-    }
-
-    .nav-links {
-      gap: 1.25rem;
-    }
-
-    .logo {
-      font-size: 1.15rem;
-    }
-
-    .site-header .btn-sm {
-      padding: 0.35rem 0.85rem;
-      font-size: 0.85rem;
-    }
-  }
-
-  /* Mobile & Tablet Collapsible Header styling (<= 900px) */
-  @media (max-width: 900px) {
+  /* Mobile & Tablet Collapsible Header styling (<= 1024px) */
+  @media (max-width: 1024px) {
     .site-header {
       background: transparent;
       border-bottom: none;
@@ -1388,7 +1366,7 @@
   }
 
   /* Responsive tweaks for new sections */
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     .reveal-line {
       white-space: normal;
       text-align: left;
@@ -1834,7 +1812,7 @@
   }
 
   /* Mobile responsive overrides */
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     .bento-section {
       padding-block: 50px;
     }
@@ -2219,7 +2197,7 @@
 }
 
 /* Mobile responsive overrides for questions section */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .questions-section {
     width: 100%;
     margin-left: 0;
@@ -2348,7 +2326,7 @@ body.space-night-theme .footer-sublink:hover {
 }
 
 /* Adjust layout on small mobile screens */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .theme-switcher {
     right: 12px;
   }

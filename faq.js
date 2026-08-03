@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // Lenis Smooth Scroll Initialization (Desktop Only)
   // ==========================================
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 900;
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 1024;
 
   if (!isTouchDevice && typeof Lenis !== 'undefined') {
     const lenis = new Lenis({
