@@ -15,7 +15,6 @@
     scroll-behavior: auto !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
     width: 100%;
     max-width: 100%;
   }
@@ -24,12 +23,11 @@
     background: var(--bg-base);
     color: var(--text-main);
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip;
     width: 100%;
     max-width: 100%;
     line-height: 1.5;
     position: relative;
-    overscroll-behavior-y: none;
   }
 
   /* WebGL Background Canvas */

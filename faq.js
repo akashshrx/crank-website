@@ -201,9 +201,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // Lenis Smooth Scroll Initialization
+  // Lenis Smooth Scroll Initialization (Desktop Only)
   // ==========================================
-  if (typeof Lenis !== 'undefined') {
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 900;
+
+  if (!isTouchDevice && typeof Lenis !== 'undefined') {
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -211,12 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 2,
       infinite: false
     });
 
     const scrollLoop = (time) => {
-      lenis.raf(time);
+      if (lenis) lenis.raf(time);
       requestAnimationFrame(scrollLoop);
     };
     requestAnimationFrame(scrollLoop);

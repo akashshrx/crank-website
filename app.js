@@ -388,25 +388,27 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // 2. Lenis Smooth Scroll Setup
+  // 2. Lenis Smooth Scroll Setup (Desktop Only)
   // ==========================================
-  lenis = new Lenis({
-    duration: 0.85, // Snappier response
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
-    direction: 'vertical',
-    gestureDirection: 'vertical',
-    smooth: true,
-    mouseMultiplier: 0.8,
-    smoothTouch: false,
-    touchMultiplier: 1.5,
-    infinite: false,
-  });
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 900;
 
-  // Hook Lenis into GSAP ticker
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-  gsap.ticker.lagSmoothing(0);
+  if (!isTouchDevice && typeof Lenis !== 'undefined') {
+    lenis = new Lenis({
+      duration: 0.85, // Snappier response
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+      direction: 'vertical',
+      gestureDirection: 'vertical',
+      smooth: true,
+      mouseMultiplier: 0.8,
+      infinite: false,
+    });
+
+    // Hook Lenis into GSAP ticker
+    gsap.ticker.add((time) => {
+      if (lenis) lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+  }
 
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
