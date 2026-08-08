@@ -1868,8 +1868,14 @@
 /* Questions Sticky Scroll Section */
 .questions-section {
   position: relative;
+  /* Full-bleed: the question strip has to run to the SCREEN edges, not stop at the text column,
+     or the cards vanish into empty space mid-page instead of scrolling off the side.
+     `max-width: 100%` resolved against the page-container's content box (1136px) and silently
+     cancelled `width: 100vw`, so the section bled LEFT via the negative margin but never widened
+     to match. ScrollTrigger then measured it while clamped and froze `width: 1136px` inline on the
+     pinned element, which is why this could not be fixed at runtime. 100vw keeps the two agreeing. */
   width: 100vw;
-  max-width: 100%;
+  max-width: 100vw;
   margin-left: calc(-50vw + 50%);
   overflow: hidden;
   height: 100vh;
