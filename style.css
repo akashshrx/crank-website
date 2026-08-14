@@ -2541,8 +2541,10 @@ body.space-night-theme .footer-sublink:hover {
   padding: 0 2.5rem 2.5rem 2.5rem;
 }
 
-.faq-answer-inner p {
-  font-family: var(--font-sans);
+.faq-answer-inner,
+.faq-answer-inner p,
+.faq-answer-inner * {
+  font-family: var(--font-sans) !important;
   font-size: clamp(1.05rem, 2vw, 1.15rem);
   line-height: 1.6;
   color: var(--text-subtle);
