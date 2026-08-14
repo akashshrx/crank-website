@@ -2545,10 +2545,10 @@ body.space-night-theme .footer-sublink:hover {
 .faq-answer-inner p,
 .faq-answer-inner * {
   font-family: var(--font-sans) !important;
-  font-size: clamp(1.05rem, 2vw, 1.15rem);
-  line-height: 1.6;
-  color: var(--text-subtle);
-  font-weight: 400;
+  font-size: clamp(1.2rem, 2.3vw, 1.35rem) !important;
+  line-height: 1.65 !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 450 !important;
   margin: 0;
 }
 
