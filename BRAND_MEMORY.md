@@ -1,53 +1,70 @@
-# Brand Memory — Wispr Flow & Glide
+# Brand Memory — Glide
 
-This document captures the brand assets, design philosophy, typography hierarchy, and implementation rules to keep the Glide visual identity premium, cohesive, and consistent across all pages.
-
----
-
-## 🎨 Visual Identity & Style Guide
-
-### 1. Typography (The Editorial Contrast)
-Wispr Flow and Glide achieve their premium look by pairing a traditional, elegant Serif display font with a clean, modern, readable Sans-Serif font:
-*   **Headings / Display Text:** **EB Garamond** (Google Fonts). Elegant, high-contrast, classic serif. Gives a literary, high-trust, human-centric vibe. Used with italic highlights to emphasize key actions.
-*   **Body / UI Text:** **Figtree** (Google Fonts). Warm, geometric sans-serif. Highly readable at small sizes.
-*   **Monospace Text:** **JetBrains Mono**. Clean, technical sans-serif for code/short descriptions.
-*   **Caveat Highlights:** **Caveat** (Google Fonts). Used for handwritten highlights in answers or key privacy elements (e.g. `shimmer-target` highlights).
-
-### 2. Color Palette (Organic & High-Trust)
-*   **Primary Background:** Warm Off-Black (`#0b0b0a` or `#0e0e0d`).
-*   **Primary Text:** Crisp Warm White (`#fbfbfa`).
-*   **Accent Teal:** Emerald Forest Green/Blue (`#044f46` / `#00b49d` / `#0099e6`).
-*   **Muted Text:** Warm Sage Grey (`#878782` or `#8f928e`).
-*   **Light Mode Fallback:** Warm Cream (`#fcfcf9` background, `#121210` text, used on pages like the Privacy Policy).
-
-### 3. Layout & Notch Interaction
-*   **The Mac Notch:** The primary top navigation bar is styled like a native macOS camera notch (`.header-container`).
-    *   **Desktop Hover Effect:** When hovering over the notch, it expands dynamically left, right, and down by **5%** (width scales to `821.1px` and height to `67.2px`) with a smooth CSS cubic-bezier transition, returning to default sizes on hover-out.
-    *   **Mobile Screens:** Scaled notch is deactivated on screen widths under `768px`, fallback to standard full-width rounded pill.
-*   **Prompt Pills (Stack Section):**
-    *   **Icons:** Always use official, 100% accurate brand SVG vector paths directly inline (Figma, Notion, Slack, GitHub, Linear, HubSpot, Apple Chrome, Apple Safari, Apple Notes, Adobe Acrobat, etc.). Never use hand-drawn approximations, simplified circle-based drafts, or custom reconstructions of third-party brand logos as they render deformed/mangled. Ensure perfect brand geometry, colors, and styling by retrieving the vector code directly from official developer resources (e.g. Simple Icons, upload.wikimedia.org, or official brand assets).
-    *   **Sizing:** Kept compact (`clamp(1.28rem, 1.79vw, 1.79rem)`) without background boxes for a clean, minimalist layout.
-    *   **LinkedIn Logo:** Rendered in monochrome white (`#fff`) to align perfectly with the surrounding prompt layouts.
+This document captures the official brand identity, visual assets, design philosophy, typography, color palette, and atmospheric WebGL elements that define the Glide experience across all pages.
 
 ---
 
-## 💻 macOS Dock Footer Specifications
-To ensure consistency across the **Homepage (`index.html`)**, **FAQ (`faq.html`)**, and **Privacy Policy (`privacy.html`)**:
+## 🎨 Visual Identity & Brand Philosophy
 
-*   **Markup Order:**
-    *   **Left of Dock Icon:** Copyright block `GLIDE INC. © 2026` + `ALL RIGHT RESERVED` (aligned to the right / flex-end).
-    *   **Center:** macOS dock icon container containing the Glide logo.
-    *   **Right of Dock Icon:** Navigation sublinks (`FAQ`, `Privacy Policy`) aligned to the left / flex-start.
-*   **Color Adaptability:**
-    *   **Dark backgrounds (Home, FAQ):** White text (`#ffffff`), white hover highlights, and white logo (`logo_white.png`).
-    *   **Light backgrounds (Privacy Policy):** Adaptable grey text (`#777777`), black hovers (`#000000`), and dark logo (`logo_dark.png`).
-    *   **Night Theme (Privacy Policy Auto-detect):** Instantly flips the Privacy page footer to high-contrast white text and swaps the dock logo to white when local time is after 6 PM or before 6 AM.
+### 1. Brand Atmosphere & The "Glide" Vibe
+Glide represents lightness, effortless velocity, and atmospheric depth. The visual language evokes the feeling of soaring through an open sky:
+* **WebGL Sky Atmosphere (`sky.js`):** Dynamic real-time WebGL sky canvas featuring smooth atmospheric gradients, daytime light and space-night transitions.
+* **3D Volumetric Clouds (`cloud.png`):** Soft, layered cloud textures rendered with spatial depth behind the UI elements, reinforcing the airborne experience.
+* **Autonomous Paper Plane Murmuration (`community.js`):** A flock of 3D paper planes executing organic starling murmuration flight patterns, following serene golden-ratio orbits with soft paper tints and high-inertia physics.
+
+---
+
+## ✒️ Typography (The Two Core Fonts)
+
+Glide relies exclusively on two purpose-driven Google Fonts:
+
+1. **Figtree (Primary Font — Headings, Body & UI)**
+   * **Family:** `'Figtree', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif`
+   * **Usage:** Used across all pages for main headings, subheadings, body text, buttons, navigation, and UI labels.
+   * **Weights:** Ranging from light (`300`) up to bold/extra-bold (`700` – `800`) for clear hierarchy without needing separate display fonts.
+
+2. **Caveat (Handwritten Accent Font)**
+   * **Family:** `'Caveat', cursive`
+   * **Usage:** Used for expressive handwritten highlights, playful callouts, creator notes, and key privacy/shimmer highlights (`shimmer-target`).
+   * **Vibe:** Human, warm, and personal.
+
+---
+
+## 🎨 Color Palette & Sky Gradients
+
+### 1. Primary Accent & Glide Blue
+* **Glide Blue / Sky Blue:** `#0099e6` / `#00b49d` — Vibrant, atmospheric blue representing flight and clarity.
+* **Deep Forest Emerald:** `#044f46` — Rich primary accent used for subtle glows and buttons.
+* **Secondary Accents:** Soft Clay Red (`#c93b55`), Sage Green (`#2a7f76`), and Soft Ochre (`#a87920`).
+
+### 2. Backgrounds & Themes
+* **Dark Sky Mode (Main Theme):** Deep Off-Black / Atmosphere Dark (`#050508` or `#0b0b0a`).
+* **Text Main:** Crisp Warm White (`#ffffff` or `#fbfbfa`).
+* **Muted Text:** Warm Sage Grey (`rgba(255, 255, 255, 0.6)` / `#878782`).
+* **Light Mode Fallback (Privacy / Documents):** Warm Cream background (`#fcfcf9`) with dark charcoal text (`#121210`). Auto-detects space night mode after 6 PM.
+
+---
+
+## 💻 Layout & Interactive Brand Elements
+
+### 1. The Mac Notch Header (`.header-container`)
+* **Mac Notch Styling:** The top navigation bar is styled to mirror a native macOS camera notch.
+* **Desktop Hover Animation:** On desktop, hovering over the notch scales it dynamically left, right, and down by **5%** (expanding to `821.1px` width by `67.2px` height) with cubic-bezier transitions.
+* **Mobile Breakpoint:** Scaled notch deactivates under `768px`, falling back to a full-width rounded pill.
+
+### 2. Prompt Pills & Brand Vectors (Stack Section)
+* **Official SVG Vectors:** Always use 100% accurate brand SVG vector paths (Figma, Notion, Slack, GitHub, Linear, HubSpot, Chrome, Notes, Adobe, etc.). Never use hand-drawn approximations or simplified circle drafts.
+* **Sizing & Styling:** Kept compact (`clamp(1.28rem, 1.79vw, 1.79rem)`) without heavy background boxes. LinkedIn logo is rendered in monochrome white (`#fff`).
+
+### 3. macOS Dock Footer
+* **Layout Order:**
+  * **Left:** Copyright text `GLIDE INC. © 2026` + `ALL RIGHTS RESERVED`.
+  * **Center:** macOS dock icon container with the official Glide logo (`logo_white.png` or `logo_dark.png`).
+  * **Right:** Navigation links (`FAQ`, `Privacy Policy`, etc.).
+* **Theme Adaptability:** Dark backgrounds use white text and white logo; Light backgrounds adapt to charcoal text and dark logo, with automatic night-mode switching after 6 PM.
 
 ---
 
 ## 📊 Analytics & Autocapture (Amplitude)
-*   **Central Script:** All interactions are handled client-side via `analytics.bundled.js` (compiled from `analytics.js` via `esbuild`).
-*   **Tracked Events:**
-    *   `download_button_clicked` (Download CTA clicks).
-    *   `faq_expanded` / `faq_collapsed` (FAQ accordion interaction tracking).
-    *   `theme_changed` (Day vs. Space Night modes switched).
+* **Central Handler:** All client-side telemetry is bundled in `analytics.bundled.js` (compiled from `analytics.js`).
+* **Tracked Events:** `download_button_clicked`, `faq_expanded` / `faq_collapsed`, `theme_changed`.
