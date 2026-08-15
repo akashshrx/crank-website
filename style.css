@@ -2528,6 +2528,41 @@ body.space-night-theme .footer-sublink:hover {
   flex-shrink: 0;
 }
 
+/* AI Copy Toast Notification */
+.ai-copy-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(12, 14, 22, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 100px;
+  padding: 10px 24px;
+  color: #ffffff;
+  font-family: var(--font-sans) !important;
+  font-size: 0.9rem;
+  font-weight: 500;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 9999;
+}
+
+.ai-copy-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.ai-copy-toast strong {
+  color: #0099e6;
+  font-weight: 700;
+}
+
 .faq-accordion-container {
   max-width: 820px;
   margin: 0 auto 2.5rem auto;

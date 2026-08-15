@@ -317,13 +317,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Automatic prompt copy to clipboard on clicking any AI icon link
+  // Automatic prompt copy & helpful toast on clicking AI icon links
   const aiPromptString = "I’m researching mac apps that can automate parts of my life, making my computer work possible just by voice. I want to know how Glide does it, building personal memory while working beside me like an assistant. Summarize the highlights from Glide's website: https://www.justglide.app";
   
+  // Create micro toast element
+  const toast = document.createElement('div');
+  toast.className = 'ai-copy-toast';
+  toast.innerHTML = '<span>Prompt copied to clipboard! Press <strong>Cmd+V</strong> to paste.</span>';
+  document.body.appendChild(toast);
+
+  let toastTimer = null;
+
   document.querySelectorAll('.faq-ai-icon-btn').forEach(btn => {
     btn.addEventListener('click', () => {
+      const company = btn.getAttribute('data-tooltip') || 'AI';
       if (navigator.clipboard) {
-        navigator.clipboard.writeText(aiPromptString).catch(err => {
+        navigator.clipboard.writeText(aiPromptString).then(() => {
+          toast.innerHTML = `<span>Prompt copied for <strong>${company}</strong>! Press <strong>Cmd+V</strong> to paste.</span>`;
+          toast.classList.add('show');
+          if (toastTimer) clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+          }, 3500);
+        }).catch(err => {
           console.error('Failed to auto-copy prompt:', err);
         });
       }
