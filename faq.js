@@ -316,4 +316,21 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
+
+  // Copy Prompt to Clipboard Handler
+  const copyBtn = document.getElementById('copy-llm-prompt');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      const promptText = "I’m researching mac apps that can automate parts of my life, making my computer work possible just by voice. I want to know how Glide does it, building personal memory while working beside me like an assistant. Summarize the highlights from Glide's website: https://www.justglide.app";
+      navigator.clipboard.writeText(promptText).then(() => {
+        const copyTextSpan = document.getElementById('copy-btn-text');
+        if (copyTextSpan) copyTextSpan.textContent = 'Copied!';
+        setTimeout(() => {
+          if (copyTextSpan) copyTextSpan.textContent = 'Copy';
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    });
+  }
 });

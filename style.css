@@ -2527,7 +2527,174 @@ body.space-night-theme .footer-sublink:hover {
   border-color: rgba(255, 255, 255, 0.22) !important;
   box-shadow: 
     inset 0 1px 1px rgba(255, 255, 255, 0.12),
-    0 20px 48px rgba(0, 0, 0, 0.35);
+/* AI Deep Link Research Block in FAQ */
+.llm-research-card {
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto 2.5rem;
+  padding: 2rem 2.25rem;
+  background: rgba(16, 16, 21, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.llm-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.llm-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(0, 153, 230, 0.15);
+  color: #0099e6;
+}
+
+.llm-card-title {
+  font-family: var(--font-sans);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.llm-card-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.llm-prompt-box {
+  position: relative;
+  background: rgba(5, 5, 8, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.llm-prompt-text {
+  margin: 0;
+  font-style: italic;
+  word-break: break-word;
+  padding-right: 60px;
+}
+
+.llm-prompt-link {
+  color: #0099e6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.llm-copy-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.llm-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+.llm-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .llm-buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .llm-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.llm-deep-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.llm-deep-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.llm-deep-btn.btn-chatgpt:hover {
+  border-color: rgba(16, 163, 127, 0.5);
+  box-shadow: 0 8px 24px rgba(16, 163, 127, 0.2);
+  color: #10a37f;
+}
+
+.llm-deep-btn.btn-claude:hover {
+  border-color: rgba(217, 119, 6, 0.5);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.2);
+  color: #d97706;
+}
+
+.llm-deep-btn.btn-gemini:hover {
+  border-color: rgba(26, 115, 232, 0.5);
+  box-shadow: 0 8px 24px rgba(26, 115, 232, 0.2);
+  color: #38bdf8;
+}
+
+.llm-deep-btn.btn-perplexity:hover {
+  border-color: rgba(32, 180, 134, 0.5);
+  box-shadow: 0 8px 24px rgba(32, 180, 134, 0.2);
+  color: #20b486;
+}
+
+.llm-deep-btn svg {
+  flex-shrink: 0;
 }
 
 .faq-content-box {
