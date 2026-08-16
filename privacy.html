@@ -389,7 +389,7 @@
 
     <!-- ============================ PRIVACY ============================ -->
     <section class="doc-panel" id="panel-privacy" role="tabpanel" aria-labelledby="tab-privacy">
-      <p class="doc-meta">Last updated 31 July 2026</p>
+      <p class="doc-meta">Last updated 16 August 2026</p>
 
       <p>At Glide, we <span class="caveat-highlight">prioritize your privacy</span> and the protection of your data. We are committed to safeguarding all data collected, both personal and non-personal, adhering to the highest global standards of data protection. Our policies are designed to keep your personal data <span class="caveat-highlight">under your control</span> while maintaining compliance with relevant frameworks, including GDPR.</p>
 
@@ -420,7 +420,12 @@
       <p>When Glide crashes or hits an unexpected error, a diagnostic report is sent to Sentry, our error-tracking processor, so we can find and fix the fault. A report carries the technical detail of the failure only: the error itself, where in the code it happened, and the Glide version, build and operating system it happened on.</p>
       <p>Reports are configured to <span class="caveat-highlight">exclude personal identifiers</span>: no name, email address, account identifier or IP address is attached. They also <strong>never carry what Glide was looking at or listening to</strong> — no screen contents, no prompts, no voice transcripts, no file or document names, and no addresses of pages you had open. Server-side reports likewise exclude request contents, headers and credentials.</p>
 
-      <h3>3.5 Data Security</h3>
+      <h3>3.5 Product Analytics</h3>
+      <p>So we can see which parts of Glide people actually use, the app records a small set of product events through Amplitude, our analytics processor. An event says that something happened and how it turned out: a dictation finished, an agent completed or failed, a settings tab was opened, the pricing popup was shown. This is on by default and there is currently no setting to switch it off.</p>
+      <p>What matters is what these events <strong>cannot</strong> contain. Every event is checked on our server against a <span class="caveat-highlight">fixed allowlist</span> before it is forwarded, and anything not matching exactly is discarded. No value in that list is free text: each one is either a choice from a fixed set or a short machine identifier, and quantities arrive already grouped into ranges instead of exact numbers. Analytics therefore <strong>cannot carry your content</strong>, by construction rather than by policy: no prompts, no voice transcripts, no screen contents, no file or document names, and no addresses of pages you had open. Where Glide applies a skill suited to the app in front of you, the event records only that one was applied, never which app it was.</p>
+      <p>Events are attached to a <span class="caveat-highlight">random device identifier</span> rather than to your name or email address, alongside your plan, chosen language, Glide build and operating system version.</p>
+
+      <h3>3.6 Data Security</h3>
       <p>All transient payloads and retained credential metadata are <span class="caveat-highlight">encrypted during transit</span> (using Transport Layer Security / TLS).</p>
 
       <h2>4. Retention of Information</h2>
