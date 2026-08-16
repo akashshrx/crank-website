@@ -7,6 +7,8 @@
   - Dark logo: `logo_dark.png` (used in the header navigation bar).
   - White logo: `logo_white.png` (used in the dock footer layout).
 
+- **`privacy.html` section 3.5 "Product Analytics" MUST survive any edit to that page.** The shipped macOS app (build 401+) collects product analytics by default with no user-facing opt-out, so this section is the only place that is disclosed. It is queued and unpublished: the live site is frozen on the Aug 3 build because Netlify deploys are blocked on account credits, and everything on `main` publishes automatically the moment credits return. If you rewrite or regenerate `privacy.html`, carry 3.5 across verbatim and keep Data Security numbered 3.6. Do not soften it, and do not describe analytics as optional or as something users can switch off, because today they cannot.
+
 ### Development Guidelines
 
 - **Cursive Font Margin Adjustment**: The `Caveat` font (used for `.caveat-highlight` or similar classes) has cursive styling where letters tilt to the right. Always apply a right margin (e.g., `margin-right: 0.1em;`) or padding on these span tags to prevent cursive characters from overlapping the normal characters that follow.
