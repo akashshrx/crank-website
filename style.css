@@ -1053,15 +1053,12 @@
 
   .dock-text-left span {
     font-family: inherit;
-    font-size: 0.72rem;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    user-select: none;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
     white-space: nowrap;
-    cursor: default;
-    pointer-events: none;
   }
 
   /* White background pages (Creator Program & Privacy Policy) */
@@ -2369,27 +2366,18 @@
     box-sizing: border-box !important;
   }
 
-  .dock-text-left span {
-    font-size: 0.64rem !important;
-    letter-spacing: 0.05em !important;
-    white-space: nowrap !important;
-    text-align: center !important;
-    line-height: 1.4 !important;
-    font-weight: 400 !important;
-    color: rgba(255, 255, 255, 0.45) !important;
-    opacity: 0.6 !important;
-    cursor: default !important;
-    pointer-events: none !important;
-    user-select: none !important;
-    text-transform: uppercase !important;
-  }
-
+  .dock-text-left span,
   .dock-text-right a {
-    font-size: 0.78rem !important;
+    font-size: 0.76rem !important;
     letter-spacing: 0.04em !important;
     white-space: nowrap !important;
     text-align: center !important;
     line-height: 1.4 !important;
+    font-weight: 500 !important;
+    color: rgba(255, 255, 255, 0.88) !important;
+  }
+
+  .dock-text-right a {
     font-weight: 600 !important;
     color: #ffffff !important;
     cursor: pointer !important;
