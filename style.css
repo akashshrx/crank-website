@@ -1051,6 +1051,19 @@
     text-decoration: underline;
   }
 
+  .dock-copyright-note {
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    user-select: none;
+    white-space: nowrap;
+    cursor: default;
+    pointer-events: none;
+  }
+
   /* White background pages (Creator Program & Privacy Policy) */
   body.creator-page:not(.space-night-theme) .dock-text,
   body.privacy-page:not(.space-night-theme) .dock-text {
@@ -2356,15 +2369,8 @@
     box-sizing: border-box !important;
   }
 
-  .dock-text-left span {
-    font-size: 0.72rem !important;
-    letter-spacing: 0.04em !important;
-    white-space: nowrap !important;
-    text-align: center !important;
-    line-height: 1.4 !important;
-    opacity: 0.85;
-  }
-
+  .dock-text-left span,
+  .dock-text-left a,
   .dock-text-right a {
     font-size: 0.76rem !important;
     letter-spacing: 0.04em !important;
@@ -2374,6 +2380,14 @@
     font-weight: 600;
   }
 
+  .dock-text-left .dock-copyright-note {
+    font-size: 0.65rem !important;
+    letter-spacing: 0.06em !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+    opacity: 0.45 !important;
+    font-weight: 400 !important;
   .dock-icon-wrapper {
     order: -1 !important;
   }
