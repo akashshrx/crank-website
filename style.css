@@ -2227,6 +2227,10 @@
   .questions-title-side {
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   
   .questions-viewport {
@@ -2257,25 +2261,98 @@
   }
   
   .question-pill {
-    font-size: 0.95rem;
-    padding: 1rem 1.25rem;
-    height: auto;
-    white-space: normal;
-    text-align: center;
-    line-height: 1.4;
-    max-width: 100%;
-    box-sizing: border-box;
-    overflow-wrap: break-word;
-    word-break: break-word;
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4rem 0.5rem !important;
+    font-size: 0.92rem !important;
+    padding: 0.85rem 1.25rem !important;
+    height: auto !important;
+    white-space: normal !important;
+    text-align: center !important;
+    line-height: 1.45 !important;
+    max-width: 100% !important;
+    border-radius: 32px !important;
+    box-sizing: border-box !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+
+  .pill-icons {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    vertical-align: middle !important;
+    margin-right: 0.15rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .pill-icon {
+    width: 1.35rem !important;
+    height: 1.35rem !important;
+    flex-shrink: 0 !important;
   }
 
   .caveat-highlight {
-    white-space: normal;
+    font-size: 1.15em !important;
+    white-space: normal !important;
+    display: inline !important;
   }
   
   .row-1 { padding-left: 0px; }
   .row-2 { padding-left: 0px; }
   .row-3 { padding-left: 0px; }
+
+  /* Mobile Dock Footer Layout Fixes */
+  .dock-footer {
+    padding-top: 40px !important;
+    padding-bottom: 50px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .dock-container {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-inline: 1.25rem !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+  }
+
+  .dock-text-left,
+  .dock-text-right {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.4rem 0.75rem !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-inline: 0.5rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .dock-text-left span,
+  .dock-text-right a,
+  .dock-text {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.04em !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+  }
+
+  .dock-icon-wrapper {
+    order: -1 !important;
+  }
 }
 
 /* Floating Theme Switcher styling */
@@ -2349,7 +2426,18 @@ body.space-night-theme .footer-sublink:hover {
 /* Adjust layout on small mobile screens */
 @media (max-width: 1024px) {
   .theme-switcher {
-    right: 12px;
+    right: 16px !important;
+    bottom: 20px !important;
+    top: auto !important;
+    transform: none !important;
+    flex-direction: row !important;
+    padding: 0.35rem 0.5rem !important;
+    background: rgba(10, 10, 16, 0.65) !important;
+    border-radius: 100px !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
   }
   
   .footer-bottom-links {
