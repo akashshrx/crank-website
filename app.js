@@ -649,12 +649,15 @@ document.addEventListener('DOMContentLoaded', () => {
       window.activeTheme.maxStars = target.maxStars;
     }
 
+    const headerLogoImg = document.querySelector('#header-logo img, .logo img');
     if (isNight) {
       document.body.classList.add('space-night-theme');
+      if (headerLogoImg) headerLogoImg.src = 'logo_white.png?v=59';
       if (dayBtn) dayBtn.classList.remove('active');
       if (nightBtn) nightBtn.classList.add('active');
     } else {
       document.body.classList.remove('space-night-theme');
+      if (headerLogoImg) headerLogoImg.src = 'logo_dark.png?v=59';
       if (nightBtn) nightBtn.classList.remove('active');
       if (dayBtn) dayBtn.classList.add('active');
     }

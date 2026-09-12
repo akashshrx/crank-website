@@ -347,6 +347,11 @@
       height: calc(64px * 1.05);
       padding-inline: 3rem;
     }
+    body.space-night-theme .header-container,
+    body.dark-mode .header-container,
+    [data-theme="dark"] .header-container {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='782' height='64' viewBox='0 0 782 64'%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0 Z' fill='rgba%2810, 18, 42, 0.92%29' stroke='none'/%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0' fill='none' stroke='rgba%28255, 255, 255, 0.15%29' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+    }
   }
 
   .site-header .btn-primary,
@@ -384,6 +389,42 @@
     color: #121210;
     display: block;
     object-fit: contain;
+    transition: filter 0.3s ease;
+  }
+
+  /* Dark Mode / Space Night Theme Top Nav Header Rules */
+  body.space-night-theme .header-container,
+  body.dark-mode .header-container,
+  [data-theme="dark"] .header-container {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='782' height='64' viewBox='0 0 782 64'%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0 Z' fill='rgba%2810, 18, 42, 0.92%29' stroke='none'/%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0' fill='none' stroke='rgba%28255, 255, 255, 0.15%29' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+  }
+
+  body.space-night-theme .logo,
+  body.space-night-theme .logo span,
+  body.dark-mode .logo,
+  body.dark-mode .logo span,
+  [data-theme="dark"] .logo,
+  [data-theme="dark"] .logo span {
+    color: #ffffff !important;
+  }
+
+  body.space-night-theme .logo img,
+  body.dark-mode .logo img,
+  body.dark-theme .logo img,
+  [data-theme="dark"] .logo img {
+    filter: brightness(0) invert(1) !important;
+  }
+
+  body.space-night-theme .nav-links a,
+  body.dark-mode .nav-links a,
+  [data-theme="dark"] .nav-links a {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  body.space-night-theme .nav-links a:hover,
+  body.dark-mode .nav-links a:hover,
+  [data-theme="dark"] .nav-links a:hover {
+    color: #ffffff !important;
   }
 
   .nav-links {
@@ -3137,4 +3178,52 @@ body.space-night-theme .footer-sublink:hover {
     white-space: normal !important;
   }
 }
+}
+
+/* =========================================================
+   Global Space Night / Dark Mode Header & Logo Rules
+   ========================================================= */
+body.space-night-theme .site-header .logo,
+body.space-night-theme .site-header .logo span,
+body.dark-mode .site-header .logo,
+body.dark-mode .site-header .logo span,
+[data-theme="dark"] .site-header .logo,
+[data-theme="dark"] .site-header .logo span {
+  color: #ffffff !important;
+}
+
+body.space-night-theme .site-header .logo img,
+body.dark-mode .site-header .logo img,
+body.dark-theme .site-header .logo img,
+[data-theme="dark"] .site-header .logo img {
+  filter: brightness(0) invert(1) !important;
+}
+
+body.space-night-theme .site-header .nav-links a,
+body.dark-mode .site-header .nav-links a,
+[data-theme="dark"] .site-header .nav-links a {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+body.space-night-theme .site-header .nav-links a:hover,
+body.dark-mode .site-header .nav-links a:hover,
+[data-theme="dark"] .site-header .nav-links a:hover {
+  color: #ffffff !important;
+}
+
+@media (min-width: 1025px) {
+  body.space-night-theme .header-container,
+  body.dark-mode .header-container,
+  [data-theme="dark"] .header-container {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='782' height='64' viewBox='0 0 782 64'%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0 Z' fill='rgba%2810, 18, 42, 0.92%29' stroke='none'/%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0' fill='none' stroke='rgba%28255, 255, 255, 0.15%29' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  body.space-night-theme .header-container,
+  body.dark-mode .header-container,
+  [data-theme="dark"] .header-container {
+    background: rgba(10, 18, 42, 0.92) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
 }
