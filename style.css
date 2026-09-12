@@ -1051,11 +1051,11 @@
     text-decoration: underline;
   }
 
-  .dock-copyright-note {
+  .dock-text-left span {
     font-family: inherit;
     font-size: 0.72rem;
     font-weight: 400;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.5);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     user-select: none;
@@ -2369,25 +2369,31 @@
     box-sizing: border-box !important;
   }
 
-  .dock-text-left span,
-  .dock-text-left a,
+  .dock-text-left span {
+    font-size: 0.64rem !important;
+    letter-spacing: 0.05em !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    line-height: 1.4 !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+    opacity: 0.6 !important;
+    cursor: default !important;
+    pointer-events: none !important;
+    user-select: none !important;
+    text-transform: uppercase !important;
+  }
+
   .dock-text-right a {
-    font-size: 0.76rem !important;
+    font-size: 0.78rem !important;
     letter-spacing: 0.04em !important;
     white-space: nowrap !important;
     text-align: center !important;
     line-height: 1.4 !important;
-    font-weight: 600;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
   }
-
-  .dock-text-left .dock-copyright-note {
-    font-size: 0.65rem !important;
-    letter-spacing: 0.06em !important;
-    white-space: nowrap !important;
-    text-align: center !important;
-    line-height: 1.4 !important;
-    opacity: 0.45 !important;
-    font-weight: 400 !important;
   .dock-icon-wrapper {
     order: -1 !important;
   }
