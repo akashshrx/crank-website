@@ -165,16 +165,28 @@
     padding-inline: 2rem;
   }
 
-  /* Custom Scrollbar */
-  body::-webkit-scrollbar {
+  /* Custom Transparent Scrollbar (Eliminates right-edge dark bar) */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+
+  ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
   }
-  body::-webkit-scrollbar-track {
-    background: var(--bg-base);
+
+  ::-webkit-scrollbar-track {
+    background: transparent !important;
   }
-  body::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 99px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
   }
 }
 
