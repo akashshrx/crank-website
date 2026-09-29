@@ -393,11 +393,9 @@
   }
 
   /* Dark Mode / Space Night Theme Top Nav Header Rules */
-  body.space-night-theme .header-container,
-  body.dark-mode .header-container,
-  [data-theme="dark"] .header-container {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='782' height='64' viewBox='0 0 782 64'%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0 Z' fill='rgba%2810, 18, 42, 0.92%29' stroke='none'/%3E%3Cpath d='M 0 0 A 16 16 0 0 1 16 16 L 16 48 A 16 16 0 0 0 32 64 L 750 64 A 16 16 0 0 0 766 48 L 766 16 A 16 16 0 0 1 782 0' fill='none' stroke='rgba%28255, 255, 255, 0.15%29' stroke-width='1.5'/%3E%3C/svg%3E") !important;
-  }
+  /* The dark capsule's outline image is set for desktop widths only (the min-width: 1025px block
+     above). An unscoped !important copy here, inside this layer, outranked the phone rule and
+     drew the desktop outline's left stroke as a thin line beside the logo on mobile. */
 
   body.space-night-theme .logo,
   body.space-night-theme .logo span,
