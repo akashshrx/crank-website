@@ -558,47 +558,186 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(triggerBlinks, 4000);
 
 
-  // Video modal controller
+  // ==========================================
+  // Demo video. The film loops, muted, inside the Watch Demo button. Clicking grows that same
+  // playing video out of the button into the player, where the full-quality film carries on from
+  // the same moment with sound; closing shrinks it back into the button.
+  // ==========================================
   const watchDemoBtn = document.getElementById('btn-watch-demo');
+  const btnVideo = document.getElementById('demo-btn-video');
   const videoModal = document.getElementById('video-modal');
   const videoModalClose = document.getElementById('video-modal-close-btn');
   const videoPlayer = document.getElementById('demo-video-player');
+  const videoContent = videoModal ? videoModal.querySelector('.video-modal-content') : null;
 
-  if (watchDemoBtn && videoModal && videoModalClose) {
-    watchDemoBtn.addEventListener('click', () => {
+  if (watchDemoBtn && videoModal && videoModalClose && videoPlayer && videoContent) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saveData = !!(navigator.connection && navigator.connection.saveData);
+    const canAnimate = typeof Element.prototype.animate === 'function';
+    const quietPlay = (v) => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    let btnVideoStarted = false;
+    let morphing = false;
+    let startAt = 0;   // where in the film the popup opened
+    let wrapped = false;
+
+    // 1. Start the small muted copy once the page has finished loading, so it never competes
+    //    with the first paint. With reduced motion or data saver on, the still poster stays.
+    if (btnVideo && !reduceMotion && !saveData) {
+      const startBtnVideo = () => {
+        btnVideo.src = btnVideo.dataset.src;
+        quietPlay(btnVideo);
+        btnVideoStarted = true;
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(([entry]) => {
+            if (videoModal.classList.contains('active') || morphing) return;
+            if (entry.isIntersecting) quietPlay(btnVideo); else btnVideo.pause();
+          }).observe(watchDemoBtn);
+        }
+      };
+      const later = () => (window.requestIdleCallback
+        ? requestIdleCallback(startBtnVideo, { timeout: 2000 })
+        : setTimeout(startBtnVideo, 300));
+      if (document.readyState === 'complete') later();
+      else window.addEventListener('load', later, { once: true });
+    }
+
+    // 2. Geometry. The player is centred at its CSS size. The button shows the film scaled to
+    //    cover it, which is the player scaled down evenly plus a clip to the band the button shows,
+    //    so the animation never stretches the picture.
+    const playerRect = () => {
+      const w = videoContent.offsetWidth, h = videoContent.offsetHeight;
+      return { left: (window.innerWidth - w) / 2, top: (window.innerHeight - h) / 2, width: w, height: h };
+    };
+    const buttonPose = (btn, to) => {
+      const s = Math.max(btn.width / to.width, btn.height / to.height);
+      const visW = btn.width / s, visH = btn.height / s;
+      const dx = (btn.left + btn.width / 2) - (to.left + to.width / 2);
+      const dy = (btn.top + btn.height / 2) - (to.top + to.height / 2);
+      const radius = (parseFloat(getComputedStyle(watchDemoBtn).borderTopLeftRadius) || 8) / s;
+      return {
+        transform: `translate(${dx}px, ${dy}px) scale(${s})`,
+        clipPath: `inset(${(to.height - visH) / 2}px ${(to.width - visW) / 2}px round ${radius}px)`,
+      };
+    };
+    const playerPose = { transform: 'translate(0px, 0px) scale(1)', clipPath: 'inset(0px 0px round 16px)' };
+    const morphLayer = (to) => {
+      const layer = document.createElement('div');
+      layer.className = 'video-morph';
+      Object.assign(layer.style, { left: `${to.left}px`, top: `${to.top}px`, width: `${to.width}px`, height: `${to.height}px` });
+      document.body.appendChild(layer);
+      layer.appendChild(btnVideo); // the same playing element, moved, so it never reloads
+      const shade = document.createElement('div');
+      shade.className = 'video-morph-shade';
+      layer.appendChild(shade);
+      return layer;
+    };
+    const returnBtnVideo = () => watchDemoBtn.insertBefore(btnVideo, watchDemoBtn.firstChild);
+    const morphReady = () => btnVideo && btnVideoStarted && !reduceMotion && canAnimate && btnVideo.readyState >= 2;
+
+    // 3. Open.
+    const openDemo = () => {
+      if (morphing || videoModal.classList.contains('active')) return;
+      const grow = morphReady();
+      const from = watchDemoBtn.getBoundingClientRect();
+      startAt = grow ? btnVideo.currentTime : 0;
+      wrapped = false;
+
+      if (grow) videoModal.classList.add('is-morphing'); // before display, so the player never shows
       videoModal.style.display = 'flex';
       videoModal.offsetHeight; // force reflow
       videoModal.classList.add('active');
       if (lenis) lenis.stop(); // lenis stays null on touch devices, where smooth scroll is off
-      // Play straight away, with sound. This runs inside the click, which is what lets browsers
-      // allow audible playback; if one still refuses, the controls stay there to press play.
-      if (videoPlayer) {
-        videoPlayer.currentTime = 0;
-        const playing = videoPlayer.play();
-        if (playing && playing.catch) playing.catch(() => {});
-      }
-      videoModalClose.focus();
-    });
 
-    const closeModal = () => {
-      if (!videoModal.classList.contains('active')) return;
-      videoModal.classList.remove('active');
-      if (videoPlayer) {
-        videoPlayer.pause();
-        videoPlayer.currentTime = 0;
-      }
-      setTimeout(() => {
-        videoModal.style.display = 'none';
-        if (lenis) lenis.start();
-      }, 350);
-      watchDemoBtn.focus();
+      // The full film, with sound, from the moment the button was showing. This runs inside the
+      // click, which is what lets browsers allow audible playback.
+      videoPlayer.currentTime = startAt;
+      quietPlay(videoPlayer);
+      videoModalClose.focus({ preventScroll: true });
+      if (!grow) return;
+
+      morphing = true;
+      const to = playerRect();
+      const layer = morphLayer(to);
+      const grown = layer.animate([buttonPose(from, to), playerPose],
+        { duration: 560, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'forwards' }).finished;
+      layer.lastChild.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 420, easing: 'ease-out', fill: 'forwards' });
+      const hdPlaying = new Promise((resolve) => {
+        const done = () => { videoPlayer.removeEventListener('playing', done); resolve(); };
+        videoPlayer.addEventListener('playing', done);
+        setTimeout(done, 2500); // never let the small copy stand in for long
+      });
+      hdPlaying.then(() => { if (!videoPlayer.paused) btnVideo.currentTime = videoPlayer.currentTime; });
+      Promise.all([grown, hdPlaying]).then(() => {
+        videoModal.classList.remove('is-morphing');
+        layer.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: 'forwards' }).finished.then(() => {
+          returnBtnVideo();
+          btnVideo.pause();
+          layer.remove();
+          morphing = false;
+        });
+      });
     };
 
-    videoModalClose.addEventListener('click', closeModal);
+    // 4. Close.
+    const closeDemo = () => {
+      if (!videoModal.classList.contains('active') || morphing) return;
+      const shrink = morphReady() || (btnVideo && btnVideoStarted && !reduceMotion && canAnimate);
+      const t = videoPlayer.currentTime;
+      videoPlayer.pause();
+      const finish = () => {
+        videoModal.style.display = 'none';
+        videoModal.classList.remove('is-morphing');
+        videoPlayer.currentTime = 0;
+        if (lenis) lenis.start();
+      };
+
+      if (shrink) {
+        morphing = true;
+        const to = playerRect();
+        const layer = morphLayer(to);
+        btnVideo.currentTime = t; // the button picks up where the film was
+        quietPlay(btnVideo);
+        videoModal.classList.add('is-morphing');
+        videoModal.classList.remove('active');
+        const from = watchDemoBtn.getBoundingClientRect();
+        layer.lastChild.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 480, easing: 'ease-in', fill: 'forwards' });
+        layer.animate([playerPose, buttonPose(from, to)],
+          { duration: 480, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' }).finished.then(() => {
+          returnBtnVideo();
+          layer.remove();
+          finish();
+          morphing = false;
+        });
+      } else {
+        videoModal.classList.remove('active');
+        setTimeout(finish, 350);
+      }
+      watchDemoBtn.focus({ preventScroll: true });
+    };
+
+    // 5. Opened partway through? Carry on to the end, then once round from the start up to where
+    //    it began, so everyone sees the whole film once.
+    videoPlayer.addEventListener('ended', () => {
+      if (startAt > 1 && !wrapped && videoModal.classList.contains('active')) {
+        wrapped = true;
+        videoPlayer.currentTime = 0;
+        quietPlay(videoPlayer);
+      }
+    });
+    videoPlayer.addEventListener('timeupdate', () => {
+      if (wrapped && videoPlayer.currentTime >= startAt) {
+        videoPlayer.pause();
+        wrapped = false;
+        startAt = 0;
+      }
+    });
+
+    watchDemoBtn.addEventListener('click', openDemo);
+    videoModalClose.addEventListener('click', closeDemo);
     const backdrop = videoModal.querySelector('.video-modal-backdrop');
-    if (backdrop) backdrop.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeDemo);
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') closeDemo();
     });
   }
 

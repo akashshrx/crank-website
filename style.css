@@ -3622,3 +3622,82 @@ body.dark-mode .site-header .nav-links a:hover,
 @media (prefers-reduced-motion: reduce) {
   .compare-link-card { transition: none; }
 }
+
+/* =========================================================
+   Watch Demo button with the film playing inside it (app.js "Demo video").
+   The video sits under a light shade so the label always reads; clicking grows the same
+   video into the player (.video-morph below).
+   ========================================================= */
+.demo-btn {
+  isolation: isolate;
+  color: #ffffff;
+  background: #0b1530;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.demo-btn-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
+.demo-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  /* Dark enough that the white label stays readable over the film's white app screens. */
+  background: rgba(6, 12, 32, 0.58);
+  transition: background 0.3s ease;
+}
+.demo-btn-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.demo-btn-label svg { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
+.demo-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.demo-btn:hover::before { background: rgba(6, 12, 32, 0.46); }
+/* The site's hover shimmer, in a light version that stays readable over the film. */
+.demo-btn:hover span {
+  background: linear-gradient(90deg, #ffffff 0%, #ffffff 35%, #bae6fd 50%, #ffffff 65%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 0.8s linear forwards;
+}
+.demo-btn:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+
+/* The growing video: fixed above the popup while it travels between the button and the player. */
+.video-morph {
+  position: fixed;
+  z-index: 2003;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #000000;
+  transform-origin: 50% 50%;
+  will-change: transform, clip-path;
+  pointer-events: none;
+}
+.video-morph video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* The button's shade travels with the video and fades as it grows, so the brightness never jumps. */
+.video-morph-shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 12, 32, 0.58);
+}
+/* While the video travels, the player underneath is hidden outright (no fade), so nothing ghosts
+   behind it; the travelling video lands exactly on top of it before it reappears. */
+.video-modal.is-morphing .video-modal-content { opacity: 0; transition: none; }

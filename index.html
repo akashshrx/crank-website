@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=76">
+  <link rel="stylesheet" href="style.css?v=79">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
@@ -205,11 +205,16 @@
           </svg>
           <span>Download Mac App</span>
         </a>
-        <button type="button" class="btn btn-secondary btn-lg" id="btn-watch-demo" aria-haspopup="dialog" aria-controls="video-modal">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" style="display:inline-block; vertical-align: middle; margin-right: 6px;">
-            <polygon points="5 3 19 12 5 21 5 3"></polygon>
-          </svg>
-          <span>Watch Demo</span>
+        <!-- The film plays inside the button (a 0.6 MB muted copy, started after the page loads);
+             clicking grows that same video into the player. See app.js "Demo video". -->
+        <button type="button" class="btn btn-lg demo-btn" id="btn-watch-demo" aria-haspopup="dialog" aria-controls="video-modal">
+          <video class="demo-btn-video" id="demo-btn-video" muted loop playsinline preload="none" poster="/glide-demo-poster-sm.jpg" aria-hidden="true" tabindex="-1" data-src="/glide-demo-preview.mp4?v=1"></video>
+          <span class="demo-btn-label">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>Watch Demo</span>
+          </span>
         </button>
       </div>
     </section>
@@ -803,7 +808,7 @@
   <script src="ImprovedNoise.js?v=1"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=66"></script>
+  <script src="app.js?v=69"></script>
   <script src="/mac-only.js?v=2" defer></script>
 </body>
 </html>
