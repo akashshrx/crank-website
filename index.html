@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=75">
+  <link rel="stylesheet" href="style.css?v=76">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
@@ -92,6 +92,17 @@
           "priceCurrency": "USD",
           "availability": "https://schema.org/InStock"
         }
+      },
+      {
+        "@type": "VideoObject",
+        "@id": "https://justglide.app/#demo-video",
+        "name": "Glide demo",
+        "description": "A 42-second look at Glide on the Mac: agents that finish work after you approve it, the paper-plane companion at your cursor, and free dictation that types as you speak.",
+        "thumbnailUrl": "https://justglide.app/glide-demo-poster.jpg",
+        "contentUrl": "https://justglide.app/glide-demo.mp4",
+        "uploadDate": "2026-10-18",
+        "duration": "PT42S",
+        "publisher": { "@id": "https://justglide.app/#organization" }
       }
     ]
   }
@@ -194,6 +205,12 @@
           </svg>
           <span>Download Mac App</span>
         </a>
+        <button type="button" class="btn btn-secondary btn-lg" id="btn-watch-demo" aria-haspopup="dialog" aria-controls="video-modal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" style="display:inline-block; vertical-align: middle; margin-right: 6px;">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Watch Demo</span>
+        </button>
       </div>
     </section>
 
@@ -718,6 +735,25 @@
     </section>
   </main>
 
+  <!-- Demo video popup. The video loads only when someone clicks Watch Demo (preload="none"),
+       so it costs the page nothing until then, and it starts playing with sound on that click. -->
+  <div id="video-modal" class="video-modal" role="dialog" aria-modal="true" aria-label="Glide demo video">
+    <div class="video-modal-backdrop"></div>
+    <div class="video-modal-content">
+      <button type="button" class="video-modal-close" id="video-modal-close-btn" aria-label="Close video">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="video-player-container">
+        <video id="demo-video-player" controls playsinline preload="none" poster="/glide-demo-poster.jpg" width="1920" height="1080">
+          <source src="/glide-demo.mp4?v=1" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+
   <!-- macOS Dock Footer -->
   <footer class="dock-footer">
     <div class="dock-container">
@@ -767,7 +803,7 @@
   <script src="ImprovedNoise.js?v=1"></script>
 
   <!-- Webpage Core Script -->
-  <script src="app.js?v=64"></script>
+  <script src="app.js?v=66"></script>
   <script src="/mac-only.js?v=1" defer></script>
 </body>
 </html>

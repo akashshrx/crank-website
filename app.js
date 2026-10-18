@@ -569,10 +569,19 @@ document.addEventListener('DOMContentLoaded', () => {
       videoModal.style.display = 'flex';
       videoModal.offsetHeight; // force reflow
       videoModal.classList.add('active');
-      if (typeof lenis !== 'undefined') lenis.stop();
+      if (lenis) lenis.stop(); // lenis stays null on touch devices, where smooth scroll is off
+      // Play straight away, with sound. This runs inside the click, which is what lets browsers
+      // allow audible playback; if one still refuses, the controls stay there to press play.
+      if (videoPlayer) {
+        videoPlayer.currentTime = 0;
+        const playing = videoPlayer.play();
+        if (playing && playing.catch) playing.catch(() => {});
+      }
+      videoModalClose.focus();
     });
 
     const closeModal = () => {
+      if (!videoModal.classList.contains('active')) return;
       videoModal.classList.remove('active');
       if (videoPlayer) {
         videoPlayer.pause();
@@ -580,13 +589,17 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       setTimeout(() => {
         videoModal.style.display = 'none';
-        if (typeof lenis !== 'undefined') lenis.start();
+        if (lenis) lenis.start();
       }, 350);
+      watchDemoBtn.focus();
     };
 
     videoModalClose.addEventListener('click', closeModal);
     const backdrop = videoModal.querySelector('.video-modal-backdrop');
     if (backdrop) backdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
   }
 
   // Dynamic Footer Year
