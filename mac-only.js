@@ -73,7 +73,10 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href$="/download/mac"]');
     if (!a) return;
+    // Nothing downloads on a phone, so the click stops here: no navigation, and the buttons' own
+    // handlers (the "Download started" toast in app.js) never hear about it.
     e.preventDefault();
+    e.stopPropagation();
     open();
   }, true);
 })();
