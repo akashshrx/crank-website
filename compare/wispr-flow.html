@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glide vs Wispr Flow: a free Wispr Flow alternative for Mac</title>
+  <meta name="description" content="Glide vs Wispr Flow for Mac dictation: price, word limits, where your speech is processed, languages and features. Sourced and checked October 2026.">
+  <link rel="canonical" href="https://justglide.app/compare/wispr-flow">
+  <script src="/analytics.bundled.js?v=1"></script>
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://justglide.app/compare/wispr-flow">
+  <meta property="og:site_name" content="Glide">
+  <meta property="og:title" content="Glide vs Wispr Flow: a free Wispr Flow alternative for Mac">
+  <meta property="og:description" content="Glide vs Wispr Flow for Mac dictation: price, word limits, where your speech is processed, languages and features. Sourced and checked October 2026.">
+  <meta property="og:image" content="https://justglide.app/og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Glide vs Wispr Flow: a free Wispr Flow alternative for Mac">
+  <meta name="twitter:description" content="Glide vs Wispr Flow for Mac dictation: price, word limits, where your speech is processed, languages and features. Sourced and checked October 2026.">
+  <meta name="twitter:image" content="https://justglide.app/og-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=74">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Glide",
+      "item": "https://justglide.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://justglide.app/compare/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Wispr Flow",
+      "item": "https://justglide.app/compare/wispr-flow"
+    }
+  ]
+}
+  </script>
+</head>
+<body data-cursor-color="blue" class="faq-page compare-page">
+
+  <canvas id="webgl-canvas"></canvas>
+
+  <div class="theme-switcher">
+    <button id="theme-btn-day" class="theme-btn active" title="Day Mode" aria-label="Day mode">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
+    <button id="theme-btn-night" class="theme-btn" title="Space Night Mode" aria-label="Night mode">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="6" />
+        <path d="M2.07 16.24A10 10 0 0 1 21.93 7.76" />
+        <path d="M2.07 16.24a10 10 0 0 0 19.86-8.48" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="grid-backdrop" aria-hidden="true">
+    <svg width="100%" height="100%">
+      <defs>
+        <pattern id="grid-pattern" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(18,18,16,0.025)" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+    </svg>
+  </div>
+
+  <div class="vertical-guides" aria-hidden="true">
+    <div class="guide-line left"></div>
+    <div class="guide-line right"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="logo" id="header-logo">
+        <img src="/logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
+        <span>Glide</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/#efficiency">How it works</a>
+        <a href="/community">Community</a>
+        <a href="/faq">FAQ</a>
+        <a href="/creator">Creators</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/download/mac" download="Glide.dmg" class="btn btn-primary btn-sm btn-download">Download</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Navigation Menu">
+          <svg class="hamburger-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+          <svg class="close-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container" style="padding-top: 110px; padding-bottom: 100px;">
+    <div class="compare-wrap">
+      <nav class="compare-crumbs" aria-label="Breadcrumb"><a href="/">Glide</a><span aria-hidden="true">/</span><a href="/compare/">Compare</a><span aria-hidden="true">/</span><span aria-current="page">Wispr Flow</span></nav>
+
+      <header class="compare-hero">
+        <p class="compare-eyebrow">Wispr Flow alternative for Mac</p>
+        <h1 class="compare-title">Glide vs <span class="caveat-highlight">Wispr Flow</span></h1>
+        <p class="compare-lede">Both let you hold Fn and talk instead of type, in any app on your Mac. Here is how they differ on price, privacy and what else they can do.</p>
+        <p class="compare-checked">Wispr Flow facts checked October 18, 2026 on Wispr Flow's own pages. Sources are at the end.</p>
+      </header>
+
+      <section class="compare-card compare-verdict">
+        <h2>The short answer</h2>
+        <p><strong>Choose Glide</strong> if you dictate on a Mac and want it free with no word limit, with your speech turned into text on your Mac instead of in the cloud, and an assistant in the same app that can see your screen and answer out loud.</p><p><strong>Choose Wispr Flow</strong> if you also dictate on Windows, iPhone or Android, need more than 25 languages, or your company requires SOC 2, ISO 27001 or HIPAA paperwork.</p>
+      </section>
+
+      <section class="compare-card">
+        <h2>Side by side</h2>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead><tr><th scope="col">&nbsp;</th><th scope="col">Glide</th><th scope="col">Wispr Flow</th></tr></thead>
+            <tbody><tr><th scope="row">Platforms</th><td class="is-glide" data-label="Glide">Mac (macOS 14 or later)</td><td data-label="Wispr Flow">Mac (macOS 12 or later), Windows, iPhone, Android</td></tr><tr><th scope="row">Free dictation</th><td class="is-glide" data-label="Glide">Free and unlimited on every plan</td><td data-label="Wispr Flow">2,000 words a week on desktop, 1,000 on mobile</td></tr><tr><th scope="row">Paid plans</th><td class="is-glide" data-label="Glide">Dictation is never a paid feature</td><td data-label="Wispr Flow">Pro $15 a month ($12 billed yearly), Growth $23 a month ($18 yearly), Enterprise custom</td></tr><tr><th scope="row">Where your speech is processed</th><td class="is-glide" data-label="Glide">Dictation: on your Mac. Assistant: sent to AI providers to answer, and not stored on Glide’s servers</td><td data-label="Wispr Flow">In the cloud, on Wispr’s own speech model</td></tr><tr><th scope="row">Start dictating</th><td class="is-glide" data-label="Glide">Hold Fn</td><td data-label="Wispr Flow">Hold Fn, or Fn + Space for hands-free</td></tr><tr><th scope="row">Languages</th><td class="is-glide" data-label="Glide">25 European languages</td><td data-label="Wispr Flow">100+</td></tr><tr><th scope="row">Cleanup</th><td class="is-glide" data-label="Glide">Removes filler words, fixes punctuation and casing, tidies grammar on Macs with Apple Intelligence</td><td data-label="Wispr Flow">Removes filler words, adds punctuation and formatting, writing styles per app type (English only)</td></tr><tr><th scope="row">Personal dictionary and snippets</th><td class="is-glide" data-label="Glide">Not yet</td><td data-label="Wispr Flow">Yes</td></tr><tr><th scope="row">Meeting notes</th><td class="is-glide" data-label="Glide">No</td><td data-label="Wispr Flow">Yes, Notetaker</td></tr><tr><th scope="row">Assistant that sees your screen and answers out loud</th><td class="is-glide" data-label="Glide">Yes</td><td data-label="Wispr Flow">No</td></tr><tr><th scope="row">Points at things on screen, step by step</th><td class="is-glide" data-label="Glide">Yes</td><td data-label="Wispr Flow">No</td></tr><tr><th scope="row">Does tasks in other apps</th><td class="is-glide" data-label="Glide">Yes: Calendar, Notes, Reminders and 12 connected apps, and it asks before anything is sent</td><td data-label="Wispr Flow">No</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="compare-pair">
+        <section class="compare-card">
+          <h2>Where Glide is different</h2>
+          <ul><li><strong>No word count.</strong> Dictation is free and unlimited on every Glide plan. Wispr Flow’s free plan stops at 2,000 words a week on a Mac, and unlimited dictation starts at $12 a month billed yearly.</li><li><strong>Your voice stays on your Mac.</strong> Glide turns speech into text with a speech model that runs on your Mac. Wispr Flow says its transcription always happens in the cloud.</li><li><strong>More than dictation.</strong> Hold Control and Option, ask about what is on your screen, and Glide answers out loud and points at what it means. Hand it a task and it finishes it in the background.</li></ul>
+        </section>
+        <section class="compare-card">
+          <h2>Where Wispr Flow is stronger</h2>
+          <ul><li><strong>It goes where you type:</strong> Mac, Windows, iPhone and Android on one account. Glide is Mac only.</li><li><strong>More languages:</strong> 100+, against Glide’s 25 European languages.</li><li><strong>Writing extras:</strong> a personal dictionary that learns names and jargon, text snippets, per-app writing styles and a meeting notetaker.</li><li><strong>Compliance:</strong> SOC 2 Type II, ISO 27001 and HIPAA with a signed agreement, which many company IT teams ask for.</li></ul>
+        </section>
+      </div>
+
+      <section class="compare-card">
+        <h2>Switching from Wispr Flow</h2>
+        <p>Glide uses the same gesture, so there is nothing new to learn: hold Fn, speak, let go, and the text lands where your cursor is. Two things to know:</p><ul><li>If macOS has Fn set to show emoji or start Apple’s dictation, set <strong>Press fn key to</strong> to <strong>Do Nothing</strong> in Keyboard settings. Glide shows you where.</li><li>On first launch Glide downloads its speech model, about 460 MB, so dictation can run on your Mac.</li></ul>
+      </section>
+
+      <section class="compare-card compare-sources">
+        <h2>Sources</h2>
+        <p>Every Wispr Flow detail on this page comes from these pages, read on October 18, 2026. Prices and plans change, so check them before you decide. Glide details come from this site's <a href="/faq">FAQ</a> and <a href="/privacy">privacy policy</a>.</p>
+        <ul><li><a href="https://wisprflow.ai/pricing" target="_blank" rel="nofollow noopener">Wispr Flow pricing</a></li><li><a href="https://wisprflow.ai/data-usage" target="_blank" rel="nofollow noopener">Wispr Flow data usage</a></li><li><a href="https://docs.wisprflow.ai/articles/1036674442-supported-devices-and-system-requirements" target="_blank" rel="nofollow noopener">Supported devices and system requirements</a></li><li><a href="https://docs.wisprflow.ai/articles/2612050838-supported-unsupported-keyboard-hotkey-shortcuts" target="_blank" rel="nofollow noopener">Keyboard shortcuts</a></li><li><a href="https://docs.wisprflow.ai/articles/2368263928-how-to-setup-flow-styles" target="_blank" rel="nofollow noopener">Flow Styles</a></li><li><a href="https://wisprflow.ai/whats-new" target="_blank" rel="nofollow noopener">What’s new</a></li></ul>
+      </section>
+
+      <section class="compare-more" aria-labelledby="more-title">
+        <h2 id="more-title">More comparisons</h2>
+        <div class="compare-links"><a class="compare-link-card" href="/compare/superwhisper"><span class="compare-link-name">Glide vs Superwhisper</span><span class="compare-link-sub">Configurable dictation with local or cloud models</span></a><a class="compare-link-card" href="/compare/lemon"><span class="compare-link-name">Glide vs Lemon</span><span class="compare-link-sub">Voice to prompt, in the notch</span></a><a class="compare-link-card" href="/compare/clicky"><span class="compare-link-name">Glide vs Clicky</span><span class="compare-link-sub">An AI buddy that sees your screen</span></a></div>
+      </section>
+    </div>
+
+    <section class="features-section" id="features">
+      <div class="conversion-container">
+        <h2 class="conversion-header">Try Glide on your Mac.<br> <em>Hold Fn and speak.</em></h2>
+        <div class="conversion-cta">
+          <a href="/download/mac" download="Glide.dmg" class="conversion-download-btn">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </span>
+            <span class="btn-text-wrapper">
+              <span class="btn-main-text">Download Glide for macOS</span>
+              <span class="btn-sub-text">Free, Secure and private</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="dock-footer">
+    <div class="dock-container">
+      <div class="dock-text dock-text-left">
+        <span>Made with 🤍</span>
+        <span>GLIDE © <span id="footer-year">2026</span></span>
+        <span>ALL RIGHTS RESERVED</span>
+      </div>
+
+      <div class="dock-icon-wrapper">
+        <a href="/download/mac" download="Glide.dmg" class="btn-download" aria-label="Download Glide app">
+          <div class="dock-icon">
+            <img src="/logo_white.png?v=59" alt="Glide Logo" class="glide-dock-img" id="faq-dock-logo">
+          </div>
+        </a>
+      </div>
+
+      <div class="dock-text dock-text-right">
+        <a href="/faq" class="footer-sublink">FAQ</a>
+        <a href="/compare/" class="footer-sublink">Compare</a>
+        <a href="/privacy" class="footer-sublink">Terms of use</a>
+        <a href="/creator" class="footer-sublink">Creator Program</a>
+        <a href="/community" class="footer-sublink">Community</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="download-toast" class="download-toast">
+    <div class="toast-content">
+      <span class="toast-icon">✈️</span>
+      <div>
+        <strong>Download started</strong>
+        <p>Open the disk image, then drag Glide into Applications.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/sky.js?v=39"></script>
+  <script src="/ImprovedNoise.js?v=1"></script>
+  <script src="/faq.js?v=7"></script>
+  <script src="/mac-only.js?v=1" defer></script>
+</body>
+</html>

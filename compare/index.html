@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glide compared: Wispr Flow, Superwhisper, Lemon and Clicky</title>
+  <meta name="description" content="How Glide, the voice assistant and free dictation app for Mac, compares with Wispr Flow, Superwhisper, Lemon and Clicky. Sourced and dated side-by-side comparisons.">
+  <link rel="canonical" href="https://justglide.app/compare/">
+  <script src="/analytics.bundled.js?v=1"></script>
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://justglide.app/compare/">
+  <meta property="og:site_name" content="Glide">
+  <meta property="og:title" content="Glide compared: Wispr Flow, Superwhisper, Lemon and Clicky">
+  <meta property="og:description" content="How Glide, the voice assistant and free dictation app for Mac, compares with Wispr Flow, Superwhisper, Lemon and Clicky. Sourced and dated side-by-side comparisons.">
+  <meta property="og:image" content="https://justglide.app/og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Glide compared: Wispr Flow, Superwhisper, Lemon and Clicky">
+  <meta name="twitter:description" content="How Glide, the voice assistant and free dictation app for Mac, compares with Wispr Flow, Superwhisper, Lemon and Clicky. Sourced and dated side-by-side comparisons.">
+  <meta name="twitter:image" content="https://justglide.app/og-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=74">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Glide",
+      "item": "https://justglide.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://justglide.app/compare/"
+    }
+  ]
+}
+  </script>
+</head>
+<body data-cursor-color="blue" class="faq-page compare-page">
+
+  <canvas id="webgl-canvas"></canvas>
+
+  <div class="theme-switcher">
+    <button id="theme-btn-day" class="theme-btn active" title="Day Mode" aria-label="Day mode">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
+    <button id="theme-btn-night" class="theme-btn" title="Space Night Mode" aria-label="Night mode">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="6" />
+        <path d="M2.07 16.24A10 10 0 0 1 21.93 7.76" />
+        <path d="M2.07 16.24a10 10 0 0 0 19.86-8.48" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="grid-backdrop" aria-hidden="true">
+    <svg width="100%" height="100%">
+      <defs>
+        <pattern id="grid-pattern" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(18,18,16,0.025)" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+    </svg>
+  </div>
+
+  <div class="vertical-guides" aria-hidden="true">
+    <div class="guide-line left"></div>
+    <div class="guide-line right"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="logo" id="header-logo">
+        <img src="/logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
+        <span>Glide</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/#efficiency">How it works</a>
+        <a href="/community">Community</a>
+        <a href="/faq">FAQ</a>
+        <a href="/creator">Creators</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/download/mac" download="Glide.dmg" class="btn btn-primary btn-sm btn-download">Download</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Navigation Menu">
+          <svg class="hamburger-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+          <svg class="close-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container" style="padding-top: 110px; padding-bottom: 100px;">
+    <div class="compare-wrap">
+      <nav class="compare-crumbs" aria-label="Breadcrumb"><a href="/">Glide</a><span aria-hidden="true">/</span><span aria-current="page">Compare</span></nav>
+
+      <header class="compare-hero">
+        <p class="compare-eyebrow">Mac voice apps, side by side</p>
+        <h1 class="compare-title">How Glide <span class="caveat-highlight">compares</span></h1>
+        <p class="compare-lede">Glide is a voice-first assistant for Mac with free dictation built in. These pages put it next to the apps people most often weigh it against, with each competitor's facts taken from its own website and dated, including where they do better.</p>
+      </header>
+
+      <section class="compare-links compare-links-hub" aria-label="Comparisons"><a class="compare-link-card" href="/compare/wispr-flow"><span class="compare-link-name">Glide vs Wispr Flow</span><span class="compare-link-sub">Dictation for Mac, Windows and phones</span></a><a class="compare-link-card" href="/compare/superwhisper"><span class="compare-link-name">Glide vs Superwhisper</span><span class="compare-link-sub">Configurable dictation with local or cloud models</span></a><a class="compare-link-card" href="/compare/lemon"><span class="compare-link-name">Glide vs Lemon</span><span class="compare-link-sub">Voice to prompt, in the notch</span></a><a class="compare-link-card" href="/compare/clicky"><span class="compare-link-name">Glide vs Clicky</span><span class="compare-link-sub">An AI buddy that sees your screen</span></a></section>
+
+      <section class="compare-card">
+        <h2>Two kinds of app</h2>
+        <p><strong>Dictation apps</strong> such as Wispr Flow and Superwhisper turn your voice into text wherever you type. <strong>Screen assistants</strong> such as Clicky look at your screen when you ask, talk back and do tasks. Lemon sits between the two: it turns speech into prompts and messages. Glide does both jobs: hold Fn to dictate, or hold Control and Option to ask the assistant about what is on your screen.</p>
+      </section>
+    </div>
+
+    <section class="features-section" id="features">
+      <div class="conversion-container">
+        <h2 class="conversion-header">Try Glide on your Mac.<br> <em>Hold Fn and speak.</em></h2>
+        <div class="conversion-cta">
+          <a href="/download/mac" download="Glide.dmg" class="conversion-download-btn">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </span>
+            <span class="btn-text-wrapper">
+              <span class="btn-main-text">Download Glide for macOS</span>
+              <span class="btn-sub-text">Free, Secure and private</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="dock-footer">
+    <div class="dock-container">
+      <div class="dock-text dock-text-left">
+        <span>Made with 🤍</span>
+        <span>GLIDE © <span id="footer-year">2026</span></span>
+        <span>ALL RIGHTS RESERVED</span>
+      </div>
+
+      <div class="dock-icon-wrapper">
+        <a href="/download/mac" download="Glide.dmg" class="btn-download" aria-label="Download Glide app">
+          <div class="dock-icon">
+            <img src="/logo_white.png?v=59" alt="Glide Logo" class="glide-dock-img" id="faq-dock-logo">
+          </div>
+        </a>
+      </div>
+
+      <div class="dock-text dock-text-right">
+        <a href="/faq" class="footer-sublink">FAQ</a>
+        <a href="/compare/" class="footer-sublink">Compare</a>
+        <a href="/privacy" class="footer-sublink">Terms of use</a>
+        <a href="/creator" class="footer-sublink">Creator Program</a>
+        <a href="/community" class="footer-sublink">Community</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="download-toast" class="download-toast">
+    <div class="toast-content">
+      <span class="toast-icon">✈️</span>
+      <div>
+        <strong>Download started</strong>
+        <p>Open the disk image, then drag Glide into Applications.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/sky.js?v=39"></script>
+  <script src="/ImprovedNoise.js?v=1"></script>
+  <script src="/faq.js?v=7"></script>
+  <script src="/mac-only.js?v=1" defer></script>
+</body>
+</html>
