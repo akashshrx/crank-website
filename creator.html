@@ -6,12 +6,12 @@
   <title>Creator Program - Glide: Personal desktop agents in 1-click</title>
   <meta name="description" content="Glide Creator Program. We are looking for Instagram and TikTok creators with high engagement and millions of views to promote Glide. Earn $20-$1000 per video plus equity.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://justglide.app/creator.html">
-  <script src="analytics.bundled.js"></script>
+  <link rel="canonical" href="https://justglide.app/creator">
+  <script src="analytics.bundled.js?v=1"></script>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://justglide.app/creator.html">
+  <meta property="og:url" content="https://justglide.app/creator">
   <meta property="og:site_name" content="Glide">
   <meta property="og:title" content="Creator Program - Glide">
   <meta property="og:description" content="Glide Creator Program. We are looking for Instagram and TikTok creators with high engagement and millions of views to promote Glide. Earn $20-$1000 per video plus equity.">
@@ -22,7 +22,10 @@
   <meta name="twitter:title" content="Creator Program - Glide">
   <meta name="twitter:description" content="Glide Creator Program. We are looking for Instagram and TikTok creators with high engagement and millions of views to promote Glide. Earn $20-$1000 per video plus equity.">
   <meta name="twitter:image" content="https://justglide.app/og-preview.png">
-  <link rel="icon" type="image/png" href="logo_white.png?v=1">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
   <!-- Brand Fonts (Figtree, Caveat) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +33,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=69">
+  <link rel="stylesheet" href="style.css?v=74">
 
   <style>
     body {
@@ -202,15 +205,15 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-container">
-      <a href="index.html" class="logo" id="header-logo">
+      <a href="/" class="logo" id="header-logo">
         <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
         <span>Glide</span>
       </a>
       <nav class="nav-links">
-        <a href="index.html#efficiency">How it works</a>
-        <a href="community.html">Community</a>
-        <a href="faq.html">FAQ</a>
-        <a href="creator.html">Creators</a>
+        <a href="/#efficiency">How it works</a>
+        <a href="/community">Community</a>
+        <a href="/faq">FAQ</a>
+        <a href="/creator">Creators</a>
       </nav>
       <div class="header-actions">
         <a href="/download/mac" download="Glide.dmg" class="btn btn-primary btn-sm btn-download">Download</a>
@@ -278,10 +281,11 @@
       </div>
       
       <div class="dock-text dock-text-right">
-        <a href="faq.html" class="footer-sublink">FAQ</a>
-        <a href="privacy.html" class="footer-sublink">Terms of use</a>
-        <a href="creator.html" class="footer-sublink">Creator Program</a>
-        <a href="community.html" class="footer-sublink">Community</a>
+        <a href="/faq" class="footer-sublink">FAQ</a>
+        <a href="/compare/" class="footer-sublink">Compare</a>
+        <a href="/privacy" class="footer-sublink">Terms of use</a>
+        <a href="/creator" class="footer-sublink">Creator Program</a>
+        <a href="/community" class="footer-sublink">Community</a>
       </div>
     </div>
   </footer>
@@ -289,7 +293,7 @@
   <!-- Three.js & Sky Canvas Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="sky.js?v=39"></script>
-  <script src="ImprovedNoise.js"></script>
+  <script src="ImprovedNoise.js?v=1"></script>
   <script>
     (async function initSkyHeader() {
       await new Promise(r => setTimeout(r, 50));
@@ -373,5 +377,6 @@
       });
     }
   </script>
+  <script src="/mac-only.js?v=1" defer></script>
 </body>
 </html>

@@ -28,8 +28,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=69">
-  <link rel="icon" type="image/png" href="logo_white.png?v=2">
+  <link rel="stylesheet" href="style.css?v=74">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <style>
     /* ==========================================
@@ -351,15 +354,15 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-container">
-      <a href="index.html" class="logo" id="header-logo">
+      <a href="/" class="logo" id="header-logo">
         <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
         <span>Glide</span>
       </a>
       <nav class="nav-links">
-        <a href="index.html#efficiency">How it works</a>
-        <a href="community.html">Community</a>
-        <a href="faq.html">FAQ</a>
-        <a href="creator.html">Creators</a>
+        <a href="/#efficiency">How it works</a>
+        <a href="/community">Community</a>
+        <a href="/faq">FAQ</a>
+        <a href="/creator">Creators</a>
       </nav>
       <div class="header-actions">
         <a href="/download/mac" download="Glide.dmg" class="btn btn-primary btn-sm btn-download">Download</a>
@@ -475,7 +478,7 @@
 
         <div>
           <dt>Refunds</dt>
-          <dd>Any paid plan is fully refundable within 14 days. See the <a href="privacy.html#refunds">Refund Policy</a> and the <a href="privacy.html#terms">Terms of Service</a>.</dd>
+          <dd>Any paid plan is fully refundable within 14 days. See the <a href="/privacy#refunds">Refund Policy</a> and the <a href="/privacy#terms">Terms of Service</a>.</dd>
         </div>
 
         <div>
@@ -505,10 +508,11 @@
       </div>
 
       <div class="dock-text dock-text-right">
-        <a href="faq.html" class="footer-sublink">FAQ</a>
-        <a href="privacy.html" class="footer-sublink">Terms of use</a>
-        <a href="creator.html" class="footer-sublink">Creator Program</a>
-        <a href="community.html" class="footer-sublink">Community</a>
+        <a href="/faq" class="footer-sublink">FAQ</a>
+        <a href="/compare/" class="footer-sublink">Compare</a>
+        <a href="/privacy" class="footer-sublink">Terms of use</a>
+        <a href="/creator" class="footer-sublink">Creator Program</a>
+        <a href="/community" class="footer-sublink">Community</a>
       </div>
     </div>
   </footer>
@@ -532,11 +536,11 @@
   <!-- Three.js for WebGL Background Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="sky.js?v=39"></script>
-  <script src="ImprovedNoise.js"></script>
+  <script src="ImprovedNoise.js?v=1"></script>
 
   <!-- Shared page behaviour: sky + clouds, theme switcher, Lenis, footer year, mobile nav.
        The accordion block inside is a no-op here because there are no .faq-item nodes. -->
-  <script src="faq.js?v=6"></script>
+  <script src="faq.js?v=7"></script>
 
   <!-- Mobile Navigation Toggle & Monthly / Yearly price switch -->
   <script>
@@ -607,5 +611,6 @@
       yearlyBtn.addEventListener('click', () => apply(true));
     })();
   </script>
+  <script src="/mac-only.js?v=1" defer></script>
 </body>
 </html>

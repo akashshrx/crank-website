@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feature Requests - Glide: Personal desktop agents in 1-click</title>
   <meta name="description" content="Glide feature request board. Suggest and upvote features to help shape the future of personal desktop agents.">
-  <link rel="canonical" href="https://justglide.app/feature-request.html">
-  <script src="analytics.bundled.js"></script>
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://justglide.app/feature-request">
+  <script src="analytics.bundled.js?v=1"></script>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://justglide.app/feature-request.html">
+  <meta property="og:url" content="https://justglide.app/feature-request">
   <meta property="og:site_name" content="Glide">
   <meta property="og:title" content="Feature Requests - Glide: Personal desktop agents in 1-click">
   <meta property="og:description" content="Glide feature request board. Suggest and upvote features to help shape the future of personal desktop agents.">
@@ -21,10 +22,13 @@
   <meta name="twitter:title" content="Feature Requests - Glide: Personal desktop agents in 1-click">
   <meta name="twitter:description" content="Glide feature request board. Suggest and upvote features to help shape the future of personal desktop agents.">
   <meta name="twitter:image" content="https://justglide.app/og-preview.png">
-  <link rel="icon" type="image/png" href="logo_white.png?v=1">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=68">
+  <link rel="stylesheet" href="style.css?v=74">
 
   <style>
     * {
@@ -910,15 +914,15 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-container">
-      <a href="index.html" class="logo" id="header-logo">
+      <a href="/" class="logo" id="header-logo">
         <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
         <span>Glide</span>
       </a>
       <nav class="nav-links">
-        <a href="index.html#efficiency">How it works</a>
-        <a href="community.html">Community</a>
-        <a href="faq.html">FAQ</a>
-        <a href="creator.html">Creators</a>
+        <a href="/#efficiency">How it works</a>
+        <a href="/community">Community</a>
+        <a href="/faq">FAQ</a>
+        <a href="/creator">Creators</a>
       </nav>
       <div class="header-actions" style="display: flex; gap: 8px; align-items: center;">
         <div id="auth-header-actions" style="display: flex; gap: 8px; align-items: center;"></div>
@@ -1014,7 +1018,7 @@
       <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-end;">
         <span>Made with 🤍</span>
         <span>GLIDE © <span id="footer-year">2026</span></span>
-        <span>ALL RIGHT RESERVED</span>
+        <span>ALL RIGHTS RESERVED</span>
       </div>
       
       <div class="dock-icon-wrapper">
@@ -1026,9 +1030,10 @@
       </div>
       
       <div class="dock-text" style="display: flex; gap: 16px; align-items: center; justify-content: flex-start;" id="footer-copyright">
-        <a href="faq.html" class="footer-sublink">FAQ</a>
-        <a href="privacy.html" class="footer-sublink">Terms of use</a>
-        <a href="creator.html" class="footer-sublink">Creator Program</a>
+        <a href="/faq" class="footer-sublink">FAQ</a>
+        <a href="/compare/" class="footer-sublink">Compare</a>
+        <a href="/privacy" class="footer-sublink">Terms of use</a>
+        <a href="/creator" class="footer-sublink">Creator Program</a>
       </div>
     </div>
   </footer>
@@ -1036,7 +1041,7 @@
   <!-- Three.js for WebGL Background Animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="sky.js?v=39"></script>
-  <script src="ImprovedNoise.js"></script>
+  <script src="ImprovedNoise.js?v=1"></script>
   
   <!-- Board Functionality Script -->
   <script>
@@ -1529,5 +1534,6 @@
       }
     })();
   </script>
+  <script src="/mac-only.js?v=1" defer></script>
 </body>
 </html>

@@ -1998,6 +1998,10 @@
     transform-origin: center top;
     margin-top: 0.5rem;
     margin-bottom: -1rem;
+    /* Keep the full 366px layout and let the centred parent hold it: squeezing the board to
+       100% left its key rows at full width, so the "C" key hung off the right edge. */
+    max-width: none;
+    flex-shrink: 0;
   }
 }
 
@@ -2378,7 +2382,15 @@
     margin: 0 0.15em !important;
     padding: 0 !important;
   }
-  
+
+  /* Creator and Privacy are white pages, so the white highlight above made their key phrases
+     ("$20 to $1,000 per video") vanish on phones. They keep the page's own blue. */
+  .creator-page .caveat-highlight,
+  .privacy-page .caveat-highlight {
+    color: #0088cc !important;
+    -webkit-text-fill-color: #0088cc !important;
+  }
+
   .row-1 { padding-left: 0px; }
   .row-2 { padding-left: 0px; }
   .row-3 { padding-left: 0px; }
@@ -3160,12 +3172,20 @@ body.space-night-theme .footer-sublink:hover {
 }
 
 @media (max-width: 900px) {
+  /* minmax(0, 1fr), not 1fr: a plain 1fr track can't shrink below the keyboard's 366px, which
+     pushed the keyboard and the three stats ~50px off the right edge of a phone. */
   .dictation-grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 3rem;
   }
   .dictation-keyboard-wrapper {
     justify-content: center !important;
+  }
+  /* Keep the keyboard's own width and let the wrapper centre it; the scale() rules for small
+     screens shrink it to fit visually. */
+  .dictation-board {
+    flex-shrink: 0;
+    max-width: none;
   }
   .dictation-usps-wrapper {
     align-items: center !important;
@@ -3224,4 +3244,388 @@ body.dark-mode .site-header .nav-links a:hover,
     background: rgba(10, 18, 42, 0.92) !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
+}
+
+/* =========================================================
+   Tap targets (2026-10-18): on phones every control is at least 44x44px, the size Apple and
+   Google recommend for a fingertip. Small controls get a larger invisible hit area through
+   ::after, so they look exactly as before; the menu button, the header Download button and the
+   menu links grow for real.
+   ========================================================= */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .site-header .btn-download.btn-sm {
+    min-height: 44px;
+  }
+  .nav-links.mobile-open a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .theme-btn,
+  .site-header .logo,
+  .inline-link {
+    position: relative;
+  }
+  .theme-btn::after,
+  .site-header .logo::after,
+  .inline-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+  /* Footer links wrap onto two rows on a phone, so an invisible hit area would overlap the row
+     below. They get real padding instead and the rows sit flush. */
+  .dock-text-right {
+    row-gap: 0 !important;
+    column-gap: 0.25rem !important;
+  }
+  .dock-text-right a.footer-sublink {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Privacy / Terms / Refunds tabs on the privacy page. */
+  .privacy-page [role="tab"] { min-height: 44px; }
+  /* Comparison pages: breadcrumb links and the source list. Links inside a sentence keep
+     their text size, which the 44px guidance exempts. */
+  .compare-crumbs a { min-width: 44px; justify-content: center; }
+  .compare-sources li a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .compare-sources ul { gap: 0; }
+}
+
+@media (max-width: 480px) {
+  /* "Ask AI about Glide" icons: the icons' ::before/::after are their tooltips, so they grow for
+     real, and the bar wraps them onto their own row so it stays inside the page column. */
+  .faq-ai-micro-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.5rem;
+    border-radius: 24px;
+    padding: 0.6rem 0.85rem;
+  }
+  .faq-ai-icon-btn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* =========================================================
+   "Glide is made for Mac" sheet (mac-only.js). Phones and tablets get this instead of a .dmg
+   they can't open. Same dark glass as the mobile header, white text, the site's buttons.
+   ========================================================= */
+.mac-only-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 16px;
+  visibility: hidden;
+  pointer-events: none;
+}
+.mac-only-sheet.open {
+  visibility: visible;
+  pointer-events: auto;
+}
+.mac-only-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 12, 30, 0.5);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.mac-only-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 24px 20px 16px;
+  border-radius: 20px;
+  background: rgba(10, 18, 42, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  text-align: center;
+  transform: translateY(24px);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+}
+.mac-only-sheet.open .mac-only-backdrop { opacity: 1; }
+.mac-only-sheet.open .mac-only-card { transform: none; opacity: 1; }
+/* Locked to the brand's heading style (Figtree 800, tight tracking, like the page titles):
+   some pages style h2 and p on their own, so these win with !important. */
+.mac-only-sheet .mac-only-card h2 {
+  margin: 0 0 8px !important;
+  font-family: var(--font-sans) !important;
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+  font-style: normal !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.2 !important;
+  color: #ffffff !important;
+  text-transform: none !important;
+}
+.mac-only-sheet .mac-only-card p,
+.mac-only-sheet .mac-only-card button {
+  font-family: var(--font-sans) !important;
+  font-style: normal !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+.mac-only-card p {
+  margin: 0 0 20px;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--text-subtle);
+}
+.mac-only-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.mac-only-actions .btn {
+  width: 100%;
+  min-height: 48px;
+  font-size: 1rem;
+}
+.mac-only-close {
+  min-height: 44px;
+  background: none;
+  border: none;
+  color: var(--text-subtle);
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  .mac-only-backdrop,
+  .mac-only-card { transition: none; }
+}
+
+/* =========================================================
+   Comparison pages (/compare/). The FAQ's glass cards on the same sky, white text, Figtree.
+   ========================================================= */
+.compare-wrap {
+  max-width: 860px;
+  margin: 0 auto 2.5rem;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-sizing: border-box;
+}
+.compare-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+}
+.compare-crumbs a {
+  color: var(--text-subtle);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.compare-crumbs a:hover { color: #ffffff; }
+.compare-crumbs [aria-current] { color: #ffffff; }
+.compare-hero { margin: 0.5rem 0 1rem; }
+.compare-eyebrow {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+.compare-title {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(2.4rem, 4.5vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0 0 0.75rem;
+  text-wrap: balance;
+}
+.compare-lede {
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 0.8rem + 1vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--text-subtle);
+  max-width: 62ch;
+  margin: 0 0 0.75rem;
+}
+.compare-checked {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+.compare-card {
+  position: relative;
+  padding: 1.75rem;
+  border-radius: 20px;
+  background: rgba(5, 5, 8, 0.08);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  box-sizing: border-box;
+  font-family: var(--font-sans);
+}
+.compare-card h2,
+.compare-more h2 {
+  font-family: var(--font-sans);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.85rem;
+}
+.compare-card p,
+.compare-card li {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-subtle);
+}
+.compare-card p { margin: 0 0 0.75rem; }
+.compare-card p:last-child { margin-bottom: 0; }
+.compare-card ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.compare-card strong { color: #ffffff; font-weight: 700; }
+.compare-card a {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.compare-verdict {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+.compare-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.25rem;
+}
+.compare-table-wrap { overflow-x: auto; }
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+.compare-table th,
+.compare-table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.8rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-subtle);
+  line-height: 1.5;
+}
+.compare-table thead th {
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+.compare-table tbody th {
+  width: 28%;
+  color: #ffffff;
+  font-weight: 600;
+}
+.compare-table td.is-glide { color: #ffffff; }
+.compare-table tbody tr:last-child th,
+.compare-table tbody tr:last-child td { border-bottom: 0; }
+.compare-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+.compare-link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.15rem;
+  min-height: 44px;
+  border-radius: 16px;
+  background: rgba(5, 5, 8, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  font-family: var(--font-sans);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
+}
+.compare-link-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+}
+.compare-link-card:focus-visible { outline: 2px solid #ffffff; outline-offset: 3px; }
+.compare-link-name { color: #ffffff; font-weight: 700; font-size: 1.02rem; }
+.compare-link-sub { color: var(--text-subtle); font-size: 0.9rem; line-height: 1.4; }
+.compare-links-hub .compare-link-card { padding: 1.4rem 1.25rem; }
+.compare-more { margin-top: 0.5rem; }
+@media (max-width: 768px) {
+  .compare-pair { grid-template-columns: minmax(0, 1fr); }
+  .compare-card { padding: 1.35rem 1.15rem; }
+}
+@media (max-width: 600px) {
+  /* The table becomes one block per row: the feature, then each app's answer, labelled. */
+  .compare-table thead { display: none; }
+  .compare-table,
+  .compare-table tbody,
+  .compare-table tr,
+  .compare-table th,
+  .compare-table td { display: block; width: 100%; box-sizing: border-box; }
+  .compare-table tr {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .compare-table tbody tr:last-child { border-bottom: 0; }
+  .compare-table tbody th { width: 100%; padding: 0 0 0.35rem; border: 0; }
+  .compare-table td { padding: 0.2rem 0; border: 0; }
+  .compare-table td::before {
+    content: attr(data-label) ": ";
+    color: #ffffff;
+    font-weight: 700;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compare-link-card { transition: none; }
 }

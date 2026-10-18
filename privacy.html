@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy, Terms &amp; Refunds - Glide: Personal desktop agents in 1-click</title>
   <meta name="description" content="Glide's privacy policy, terms of service and refund policy. We store text only, never save images, keep your data on your Mac, and refund any paid plan within 14 days.">
-  <link rel="canonical" href="https://justglide.app/privacy.html">
-  <script src="analytics.bundled.js"></script>
+  <link rel="canonical" href="https://justglide.app/privacy">
+  <script src="analytics.bundled.js?v=1"></script>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://justglide.app/privacy.html">
+  <meta property="og:url" content="https://justglide.app/privacy">
   <meta property="og:site_name" content="Glide">
   <meta property="og:title" content="Privacy, Terms &amp; Refunds - Glide: Personal desktop agents in 1-click">
   <meta property="og:description" content="Glide's privacy policy, terms of service and refund policy. We store text only, never save images, keep your data on your Mac, and refund any paid plan within 14 days.">
@@ -21,7 +21,10 @@
   <meta name="twitter:title" content="Privacy, Terms &amp; Refunds - Glide: Personal desktop agents in 1-click">
   <meta name="twitter:description" content="Glide's privacy policy, terms of service and refund policy. We store text only, never save images, keep your data on your Mac, and refund any paid plan within 14 days.">
   <meta name="twitter:image" content="https://justglide.app/og-preview.png">
-  <link rel="icon" type="image/png" href="logo_white.png?v=1">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Brand Fonts (Figtree, Caveat) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +32,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 
   <!-- Custom Stylesheet -->
-  <link rel="stylesheet" href="style.css?v=69">
+  <link rel="stylesheet" href="style.css?v=74">
 
   <style>
     body {
@@ -341,15 +344,15 @@
   <!-- Header Navigation -->
   <header class="site-header">
     <div class="header-container">
-      <a href="index.html" class="logo" id="header-logo">
+      <a href="/" class="logo" id="header-logo">
         <img src="logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
         <span>Glide</span>
       </a>
       <nav class="nav-links">
-        <a href="index.html#efficiency">How it works</a>
-        <a href="community.html">Community</a>
-        <a href="faq.html">FAQ</a>
-        <a href="creator.html">Creators</a>
+        <a href="/#efficiency">How it works</a>
+        <a href="/community">Community</a>
+        <a href="/faq">FAQ</a>
+        <a href="/creator">Creators</a>
       </nav>
       <div class="header-actions">
         <a href="/download/mac" download="Glide.dmg" class="btn btn-primary btn-sm btn-download">Download</a>
@@ -418,7 +421,7 @@
 
       <h3>3.4 Crash &amp; Error Reporting</h3>
       <p>When Glide crashes or hits an unexpected error, a diagnostic report is sent to Sentry, our error-tracking processor, so we can find and fix the fault. A report carries the technical detail of the failure only: the error itself, where in the code it happened, and the Glide version, build and operating system it happened on.</p>
-      <p>Reports are configured to <span class="caveat-highlight">exclude personal identifiers</span>: no name, email address, account identifier or IP address is attached. They also <strong>never carry what Glide was looking at or listening to</strong> — no screen contents, no prompts, no voice transcripts, no file or document names, and no addresses of pages you had open. Server-side reports likewise exclude request contents, headers and credentials.</p>
+      <p>Reports are configured to <span class="caveat-highlight">exclude personal identifiers</span>: no name, email address, account identifier or IP address is attached. They also <strong>never carry what Glide was looking at or listening to</strong>: no screen contents, no prompts, no voice transcripts, no file or document names, and no addresses of pages you had open. Server-side reports likewise exclude request contents, headers and credentials.</p>
 
       <h3>3.5 Product Analytics</h3>
       <p>So we can see which parts of Glide people actually use, the app records a small set of product events through Amplitude, our analytics processor. An event says that something happened and how it turned out: a dictation finished, an agent completed or failed, a settings tab was opened, the pricing popup was shown. This is on by default and there is currently no setting to switch it off.</p>
@@ -563,10 +566,11 @@
       </div>
 
       <div class="dock-text dock-text-right">
-        <a href="faq.html" class="footer-sublink">FAQ</a>
-        <a href="privacy.html" class="footer-sublink">Terms of use</a>
-        <a href="creator.html" class="footer-sublink">Creator Program</a>
-        <a href="community.html" class="footer-sublink">Community</a>
+        <a href="/faq" class="footer-sublink">FAQ</a>
+        <a href="/compare/" class="footer-sublink">Compare</a>
+        <a href="/privacy" class="footer-sublink">Terms of use</a>
+        <a href="/creator" class="footer-sublink">Creator Program</a>
+        <a href="/community" class="footer-sublink">Community</a>
       </div>
     </div>
   </footer>
@@ -574,7 +578,7 @@
   <!-- Three.js & Sky Canvas Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="sky.js?v=39"></script>
-  <script src="ImprovedNoise.js"></script>
+  <script src="ImprovedNoise.js?v=1"></script>
   <script>
     (async function initSkyHeader() {
       await new Promise(r => setTimeout(r, 50));
@@ -710,5 +714,6 @@
       show(location.hash.slice(1) || 'privacy', false);
     })();
   </script>
+  <script src="/mac-only.js?v=1" defer></script>
 </body>
 </html>
