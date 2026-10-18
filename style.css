@@ -3257,8 +3257,19 @@ body.dark-mode .site-header .nav-links a:hover,
     min-width: 44px;
     min-height: 44px;
   }
+  /* The header Download keeps its compact 33px look (a 44px button crowded the 52px header
+     pill); an invisible band gives it the full 44px to tap. */
   .site-header .btn-download.btn-sm {
-    min-height: 44px;
+    overflow: visible;
+  }
+  .site-header .btn-download.btn-sm::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 44px;
+    transform: translateY(-50%);
   }
   .nav-links.mobile-open a {
     min-height: 44px;
@@ -3701,3 +3712,9 @@ body.dark-mode .site-header .nav-links a:hover,
 /* While the video travels, the player underneath is hidden outright (no fade), so nothing ghosts
    behind it; the travelling video lands exactly on top of it before it reappears. */
 .video-modal.is-morphing .video-modal-content { opacity: 0; transition: none; }
+
+/* Video player: bigger than the original 800px, but never taller than the screen allows. */
+.video-modal .video-modal-content {
+  width: min(94vw, 1040px, calc((100vh - 120px) * 16 / 9));
+  max-width: none;
+}
