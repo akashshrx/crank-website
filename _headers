@@ -1,0 +1,61 @@
+# Response headers for justglide.app (Netlify). Added 2026-10-18 for the SEO audit.
+#
+# CACHING. Netlify's default is max-age=0 for everything, so returning visitors re-check every
+# file. The files below are always referenced with a ?v= number (style.css?v=70, app.js?v=64 ...),
+# so browsers may keep them for a year: a changed file gets a new ?v= and therefore a new URL.
+#   >>> When you change one of these files, BUMP ITS ?v= ON EVERY PAGE THAT LOADS IT. <<<
+# Forget, and returning visitors keep the old copy for up to a year.
+# Files loaded without a ?v= (cloud.png, cubemap, icons, og image) get one day.
+# HTML pages keep Netlify's default (always revalidated), so a deploy shows up at once.
+#
+# SECURITY. Basic hardening that cannot break the page. There is no Content-Security-Policy yet:
+# the site loads scripts from cdnjs and jsdelivr, Google Fonts and Amplitude, and a wrong CSP
+# would blank the page, so it needs its own careful pass. Frames are SAMEORIGIN, not DENY, to
+# leave room for the proxied /checkout page. Microphone and camera are off because the website
+# never needs them (the Mac app is a separate thing).
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/style.css
+  Cache-Control: public, max-age=31536000, immutable
+/app.js
+  Cache-Control: public, max-age=31536000, immutable
+/sky.js
+  Cache-Control: public, max-age=31536000, immutable
+/faq.js
+  Cache-Control: public, max-age=31536000, immutable
+/community.js
+  Cache-Control: public, max-age=31536000, immutable
+/ImprovedNoise.js
+  Cache-Control: public, max-age=31536000, immutable
+/analytics.bundled.js
+  Cache-Control: public, max-age=31536000, immutable
+/mac-only.js
+  Cache-Control: public, max-age=31536000, immutable
+/logo_dark.png
+  Cache-Control: public, max-age=31536000, immutable
+/logo_white.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/cloud.png
+  Cache-Control: public, max-age=86400
+/cubemap/*
+  Cache-Control: public, max-age=86400
+/favicon.ico
+  Cache-Control: public, max-age=86400
+/favicon-48.png
+  Cache-Control: public, max-age=86400
+/favicon-96.png
+  Cache-Control: public, max-age=86400
+/favicon-192.png
+  Cache-Control: public, max-age=86400
+/apple-touch-icon.png
+  Cache-Control: public, max-age=86400
+/glide-logo-512.png
+  Cache-Control: public, max-age=86400
+/og-preview.png
+  Cache-Control: public, max-age=86400

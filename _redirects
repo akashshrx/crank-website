@@ -22,6 +22,32 @@
 # unaffected.
 /download/mac  https://black-yak.spcf.app/download/mac  200
 
-/community  /community.html  200
-/pricing  /pricing.html  200
+# ONE ADDRESS PER PAGE (SEO, 2026-10-18). Netlify serves faq.html at /faq on its own, which left
+# every page reachable at two addresses, with canonicals, links and the sitemap disagreeing about
+# which one was real. The clean form is now the only one: canonicals, og:url, internal links and
+# sitemap.xml all use it, and the .html form 301s here. The ! is required, because faq.html
+# exists as a file and Netlify skips unforced rules that shadow a real file. No rule may point a
+# clean path back at its .html file (the old "/community /community.html 200" rewrites were
+# removed for that reason): Netlify already resolves /community to community.html by itself.
+# /index.html is deliberately left alone: its canonical already says /, and the home page is the
+# one place a redirect mistake would take the whole site down.
+/faq.html              /faq               301!
+/privacy.html          /privacy           301!
+/creator.html          /creator           301!
+/community.html        /community         301!
+/pricing.html          /pricing           301!
+/feature-request.html  /feature-request   301!
+/compare/wispr-flow.html     /compare/wispr-flow      301!
+/compare/superwhisper.html   /compare/superwhisper    301!
+/compare/lemon.html          /compare/lemon           301!
+/compare/clicky.html         /compare/clicky          301!
+
+# Repo files that are not part of the website. The site publishes from the repo root, so these
+# were publicly downloadable. Forced 404s hide them without moving any file.
+/BRAND_MEMORY.md     /404.html  404!
+/package.json        /404.html  404!
+/package-lock.json   /404.html  404!
+/test-privacy.js     /404.html  404!
+/Glide_macOS.dmg     /404.html  404!
+
 /r/*  /r/index.html  200

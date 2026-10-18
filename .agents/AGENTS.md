@@ -23,3 +23,10 @@
 
 
 
+
+### SEO and caching rules (added 2026-10-18)
+
+- **Clean URLs only.** Link to `/faq`, `/privacy`, `/creator`, `/community`, `/pricing`, `/feature-request`, never to the `.html` file. Canonicals, `og:url` and `sitemap.xml` use the same clean form, and `_redirects` 301s every `.html` address to it. New pages follow the same pattern (for example `/compare/wispr-flow` served from `compare/wispr-flow.html`, with root-relative asset paths like `/style.css?v=70`).
+- **Bump `?v=` on every change (MANDATORY).** `_headers` lets browsers cache `style.css`, `app.js`, `sky.js`, `faq.js`, `community.js`, `ImprovedNoise.js`, `analytics.bundled.js`, `mac-only.js` and the two logos for a year. When you edit one of them, raise its `?v=` number on EVERY page that loads it, or returning visitors keep the old file.
+- **Indexable pages go in `sitemap.xml`; noindex pages never do.** `/pricing`, `/community`, `/feature-request` and `/r/*` are noindex on purpose.
+- **Structured data** lives in a JSON-LD block at the end of `index.html`'s `<head>`. Keep it true to what the page shows.

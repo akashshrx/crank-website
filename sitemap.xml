@@ -2,44 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://justglide.app/</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
-    <loc>https://justglide.app/pricing</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://justglide.app/faq</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
-    <loc>https://justglide.app/faq.html</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://justglide.app/creator</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
-    <loc>https://justglide.app/community</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://justglide.app/privacy</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
-    <loc>https://justglide.app/feature-request.html</loc>
-    <lastmod>2026-09-29</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <loc>https://justglide.app/compare/</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
-    <loc>https://justglide.app/creator.html</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://justglide.app/compare/wispr-flow</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
   <url>
-    <loc>https://justglide.app/privacy.html</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://justglide.app/compare/superwhisper</loc>
+    <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://justglide.app/compare/lemon</loc>
+    <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://justglide.app/compare/clicky</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
 </urlset>
