@@ -39,6 +39,7 @@
 /feature-request.html  /feature-request   301!
 /compare/wispr-flow.html     /compare/wispr-flow      301!
 /compare/superwhisper.html   /compare/superwhisper    301!
+/compare/willow.html         /compare/willow          301!
 /compare/lemon.html          /compare/lemon           301!
 
 # Repo files that are not part of the website. The site publishes from the repo root, so these

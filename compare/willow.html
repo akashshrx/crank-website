@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glide vs Willow: a free Willow Voice alternative for Mac</title>
+  <meta name="description" content="Glide vs Willow Voice for Mac dictation: free plans, which model you get, where your speech is processed, languages and features, side by side. Checked October 2026.">
+  <link rel="canonical" href="https://justglide.app/compare/willow">
+  <script src="/analytics.bundled.js?v=1"></script>
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://justglide.app/compare/willow">
+  <meta property="og:site_name" content="Glide">
+  <meta property="og:title" content="Glide vs Willow: a free Willow Voice alternative for Mac">
+  <meta property="og:description" content="Glide vs Willow Voice for Mac dictation: free plans, which model you get, where your speech is processed, languages and features, side by side. Checked October 2026.">
+  <meta property="og:image" content="https://justglide.app/og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Glide vs Willow: a free Willow Voice alternative for Mac">
+  <meta name="twitter:description" content="Glide vs Willow Voice for Mac dictation: free plans, which model you get, where your speech is processed, languages and features, side by side. Checked October 2026.">
+  <meta name="twitter:image" content="https://justglide.app/og-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Figtree:ital,wght@0,300..900;1,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css?v=75">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Glide",
+      "item": "https://justglide.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Compare",
+      "item": "https://justglide.app/compare/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Willow",
+      "item": "https://justglide.app/compare/willow"
+    }
+  ]
+}
+  </script>
+</head>
+<body data-cursor-color="blue" class="faq-page compare-page">
+
+  <canvas id="webgl-canvas"></canvas>
+
+  <div class="theme-switcher">
+    <button id="theme-btn-day" class="theme-btn active" title="Day Mode" aria-label="Day mode">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
+    <button id="theme-btn-night" class="theme-btn" title="Space Night Mode" aria-label="Night mode">
+      <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="6" />
+        <path d="M2.07 16.24A10 10 0 0 1 21.93 7.76" />
+        <path d="M2.07 16.24a10 10 0 0 0 19.86-8.48" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="grid-backdrop" aria-hidden="true">
+    <svg width="100%" height="100%">
+      <defs>
+        <pattern id="grid-pattern" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(18,18,16,0.025)" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid-pattern)" />
+    </svg>
+  </div>
+
+  <div class="vertical-guides" aria-hidden="true">
+    <div class="guide-line left"></div>
+    <div class="guide-line right"></div>
+  </div>
+
+  <header class="site-header">
+    <div class="header-container">
+      <a href="/" class="logo" id="header-logo">
+        <img src="/logo_dark.png?v=59" alt="Glide Logo" width="24" height="24">
+        <span>Glide</span>
+      </a>
+      <nav class="nav-links">
+        <a href="/#efficiency">How it works</a>
+        <a href="/community">Community</a>
+        <a href="/faq">FAQ</a>
+        <a href="/creator">Creators</a>
+      </nav>
+      <div class="header-actions">
+        <a href="/download/mac" download="Glide.dmg" class="btn btn-primary btn-sm btn-download">Download</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Toggle Navigation Menu">
+          <svg class="hamburger-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="20" y2="17"></line>
+          </svg>
+          <svg class="close-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container" style="padding-top: 110px; padding-bottom: 100px;">
+    <div class="compare-wrap">
+      <nav class="compare-crumbs" aria-label="Breadcrumb"><a href="/">Glide</a><span aria-hidden="true">/</span><a href="/compare/">Compare</a><span aria-hidden="true">/</span><span aria-current="page">Willow</span></nav>
+
+      <header class="compare-hero">
+        <p class="compare-eyebrow">Willow Voice alternative for Mac</p>
+        <h1 class="compare-title">Glide vs <span class="caveat-highlight">Willow</span></h1>
+        <p class="compare-lede">Both start when you hold Fn and type what you say into any app. They differ in what the free plan gives you, where your voice is processed and what else the app can do.</p>
+        <p class="compare-checked">Willow facts checked October 18, 2026 on Willow's own website. Plans and features change, so check theirs before you decide.</p>
+      </header>
+
+      <section class="compare-card compare-verdict">
+        <h2>The short answer</h2>
+        <p><strong>Choose Glide</strong> if you want your dictation turned into text on your Mac and unlimited on every plan, plus an assistant in the same app that sees your screen, answers out loud and does tasks for you.</p><p><strong>Choose Willow</strong> if you also dictate on Windows or iPhone, need more than 25 languages, want writing that learns your style and words, or your company needs SOC 2 and HIPAA.</p>
+      </section>
+
+      <section class="compare-card">
+        <h2>Side by side</h2>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead><tr><th scope="col">&nbsp;</th><th scope="col">Glide</th><th scope="col">Willow</th></tr></thead>
+            <tbody><tr><th scope="row">Platforms</th><td class="is-glide" data-label="Glide">Mac (macOS 14 or later)</td><td data-label="Willow">Mac, Windows, iPhone. Android is coming soon</td></tr><tr><th scope="row">Free dictation</th><td class="is-glide" data-label="Glide">Free and unlimited on every plan</td><td data-label="Willow">Unlimited on a smaller model (Frontier Mini). The best model is a Pro feature</td></tr><tr><th scope="row">Paid plans</th><td class="is-glide" data-label="Glide">Dictation is never a paid feature</td><td data-label="Willow">Pro $15 a month ($12 billed yearly), Business $35 a month ($28 yearly), Enterprise custom</td></tr><tr><th scope="row">Where your speech is processed</th><td class="is-glide" data-label="Glide">Dictation: on your Mac. Assistant: sent to AI providers to answer, and not stored on Glide’s servers</td><td data-label="Willow">In the cloud, on servers in the US, with an offline mode that runs on your device</td></tr><tr><th scope="row">Start dictating</th><td class="is-glide" data-label="Glide">Hold Fn</td><td data-label="Willow">Hold Fn, or double-tap it for hands-free</td></tr><tr><th scope="row">Languages</th><td class="is-glide" data-label="Glide">25 European languages</td><td data-label="Willow">100+</td></tr><tr><th scope="row">Cleanup</th><td class="is-glide" data-label="Glide">Removes filler words, fixes punctuation and casing, tidies grammar on Macs with Apple Intelligence</td><td data-label="Willow">Removes filler words, fixes punctuation and formatting, and matches your writing style</td></tr><tr><th scope="row">Personal dictionary and shortcuts</th><td class="is-glide" data-label="Glide">Not yet</td><td data-label="Willow">Yes, and it learns names and terms on its own</td></tr><tr><th scope="row">Turns rough notes into polished writing</th><td class="is-glide" data-label="Glide">Dictation types what you said, cleaned up</td><td data-label="Willow">Yes, Willow Scribe (20 uses a week on the free plan)</td></tr><tr><th scope="row">Assistant that sees your screen and answers out loud</th><td class="is-glide" data-label="Glide">Yes</td><td data-label="Willow">No</td></tr><tr><th scope="row">Points at things on screen, step by step</th><td class="is-glide" data-label="Glide">Yes</td><td data-label="Willow">No</td></tr><tr><th scope="row">Does tasks in other apps</th><td class="is-glide" data-label="Glide">Yes: Calendar, Notes, Reminders and 12 connected apps, and it asks before anything is sent</td><td data-label="Willow">No</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="compare-pair">
+        <section class="compare-card">
+          <h2>Where Glide is different</h2>
+          <ul><li><strong>The full dictation is free.</strong> Every Glide plan gets the same dictation, unlimited. Willow’s free plan runs on its smaller model, and its best model starts at $12 a month billed yearly.</li><li><strong>Your voice stays on your Mac.</strong> Glide turns speech into text with a speech model that runs on your Mac, every time. Willow processes dictation on its cloud servers, with an offline mode as the exception.</li><li><strong>More than dictation.</strong> Hold Control and Option, ask about what is on your screen, and Glide answers out loud and points at what it means. Hand it a task and it finishes it in the background.</li></ul>
+        </section>
+        <section class="compare-card">
+          <h2>Where Willow is stronger</h2>
+          <ul><li><strong>More devices:</strong> Mac, Windows and iPhone on one account, with Android on the way. Glide is Mac only.</li><li><strong>More languages:</strong> 100+, against Glide’s 25 European languages.</li><li><strong>Writing extras:</strong> style matching that learns how you write, a dictionary that learns your names and terms, saved shortcuts, and Scribe for turning rough notes into finished text.</li><li><strong>Compliance:</strong> SOC 2 Type II, HIPAA, and enforced zero data retention on its Business and Enterprise plans.</li></ul>
+        </section>
+      </div>
+
+      <section class="compare-card">
+        <h2>Switching from Willow</h2>
+        <p>Both apps dictate while you hold Fn, so the habit carries straight over. Run one at a time, or move Willow to another key in its Hotkey settings while you try Glide.</p><ul><li>If macOS has Fn set to show emoji or start Apple’s dictation, set <strong>Press fn key to</strong> to <strong>Do Nothing</strong> in Keyboard settings. Glide shows you where.</li><li>On first launch Glide downloads its speech model, about 460 MB, so dictation can run on your Mac.</li></ul>
+      </section>
+
+      <section class="compare-more" aria-labelledby="more-title">
+        <h2 id="more-title">More comparisons</h2>
+        <div class="compare-links"><a class="compare-link-card" href="/compare/wispr-flow"><span class="compare-link-name">Glide vs Wispr Flow</span><span class="compare-link-sub">Dictation for Mac, Windows and phones</span></a><a class="compare-link-card" href="/compare/superwhisper"><span class="compare-link-name">Glide vs Superwhisper</span><span class="compare-link-sub">Configurable dictation with local or cloud models</span></a><a class="compare-link-card" href="/compare/lemon"><span class="compare-link-name">Glide vs Lemon</span><span class="compare-link-sub">Voice to prompt, in the notch</span></a></div>
+      </section>
+    </div>
+
+    <section class="features-section" id="features">
+      <div class="conversion-container">
+        <h2 class="conversion-header">Try Glide on your Mac.<br> <em>Hold Fn and speak.</em></h2>
+        <div class="conversion-cta">
+          <a href="/download/mac" download="Glide.dmg" class="conversion-download-btn">
+            <span class="btn-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </span>
+            <span class="btn-text-wrapper">
+              <span class="btn-main-text">Download Glide for macOS</span>
+              <span class="btn-sub-text">Free, Secure and private</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="dock-footer">
+    <div class="dock-container">
+      <div class="dock-text dock-text-left">
+        <span>Made with 🤍</span>
+        <span>GLIDE © <span id="footer-year">2026</span></span>
+        <span>ALL RIGHTS RESERVED</span>
+      </div>
+
+      <div class="dock-icon-wrapper">
+        <a href="/download/mac" download="Glide.dmg" class="btn-download" aria-label="Download Glide app">
+          <div class="dock-icon">
+            <img src="/logo_white.png?v=59" alt="Glide Logo" class="glide-dock-img" id="faq-dock-logo">
+          </div>
+        </a>
+      </div>
+
+      <div class="dock-text dock-text-right">
+        <a href="/faq" class="footer-sublink">FAQ</a>
+        <a href="/compare/" class="footer-sublink">Compare</a>
+        <a href="/privacy" class="footer-sublink">Terms of use</a>
+        <a href="/creator" class="footer-sublink">Creator Program</a>
+        <a href="/community" class="footer-sublink">Community</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="download-toast" class="download-toast">
+    <div class="toast-content">
+      <span class="toast-icon">✈️</span>
+      <div>
+        <strong>Download started</strong>
+        <p>Open the disk image, then drag Glide into Applications.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/sky.js?v=39"></script>
+  <script src="/ImprovedNoise.js?v=1"></script>
+  <script src="/faq.js?v=7"></script>
+  <script src="/mac-only.js?v=1" defer></script>
+</body>
+</html>
