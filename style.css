@@ -3301,15 +3301,8 @@ body.dark-mode .site-header .nav-links a:hover,
 @media (max-width: 768px) {
   /* Privacy / Terms / Refunds tabs on the privacy page. */
   .privacy-page [role="tab"] { min-height: 44px; }
-  /* Comparison pages: breadcrumb links and the source list. Links inside a sentence keep
-     their text size, which the 44px guidance exempts. */
+  /* Comparison pages: breadcrumb links. */
   .compare-crumbs a { min-width: 44px; justify-content: center; }
-  .compare-sources li a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-  }
-  .compare-sources ul { gap: 0; }
 }
 
 @media (max-width: 480px) {

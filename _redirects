@@ -40,7 +40,6 @@
 /compare/wispr-flow.html     /compare/wispr-flow      301!
 /compare/superwhisper.html   /compare/superwhisper    301!
 /compare/lemon.html          /compare/lemon           301!
-/compare/clicky.html         /compare/clicky          301!
 
 # Repo files that are not part of the website. The site publishes from the repo root, so these
 # were publicly downloadable. Forced 404s hide them without moving any file.
